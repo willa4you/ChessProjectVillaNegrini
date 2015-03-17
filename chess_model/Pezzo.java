@@ -1,4 +1,4 @@
-package progettoChess;
+package chess_model;
 
 public abstract class Pezzo {
 	static enum Squadra {Squadra1, Squadra2}

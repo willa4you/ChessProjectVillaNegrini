@@ -1,4 +1,4 @@
-package progettoChess;
+package chess_model;
 
 public class mainPartita {
 

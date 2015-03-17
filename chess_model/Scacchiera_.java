@@ -1,11 +1,11 @@
-package progettoChess;
+package chess_model;
 
-public class Scacchiera {
-	private static Scacchiera scacchieraObj;
+public class Scacchiera_ {
+	private static Scacchiera_ scacchieraObj;
 	
 	private Pezzo[][] scacchiera;
 	
-	private Scacchiera(){
+	private Scacchiera_(){
 		//schiero la prima squadra
 		scacchiera[0][0] = new Torre(1);
 		scacchiera[1][0] = new Cavallo(1);
@@ -57,7 +57,7 @@ public class Scacchiera {
 		return true;
 	}
 	
-	public static Scacchiera nuovaPartita(){
-		return scacchieraObj = new Scacchiera();
+	public static Scacchiera_ nuovaPartita(){
+		return scacchieraObj = new Scacchiera_();
 	}
 }
