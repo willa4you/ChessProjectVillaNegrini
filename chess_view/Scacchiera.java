@@ -1,22 +1,21 @@
-package chessboard;
+package chess_view;
 
 import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 
-public class Scacchiera2 extends JFrame {
+public class Scacchiera extends JFrame {
 
 	public static final int WIDTH = 700;
 	public static final int HEIGHT = 700;
 	
 	public static void main(String[] args) {
 		
-		new Scacchiera2().setVisible(true);
-		new OptionWindow().setVisible(true);
+		new Scacchiera().setVisible(true);
 	}
 	
-	public Scacchiera2() {
+	public Scacchiera() {
 		
 		super("Scacchiera");
 		setSize(WIDTH, HEIGHT);
@@ -27,8 +26,7 @@ public class Scacchiera2 extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				ConfirmWindow thirdWindow = new ConfirmWindow();
-				thirdWindow.setVisible(true);
+				new ConfirmWindow().setVisible(true);
 			}
 		});
 		setLayout(new BorderLayout());
@@ -53,12 +51,12 @@ public class Scacchiera2 extends JFrame {
 		
 		add(numbersPanel(), BorderLayout.EAST);
 		
-		add(lettersPanel(), BorderLayout.NORTH);
-	
-		add(lettersPanel(), BorderLayout.SOUTH);
+		add(northPanel(), BorderLayout.NORTH);
+		
+		add(southPanel(), BorderLayout.SOUTH);
 				
 	}
-	
+
 	private JButton a8_g8_a2_g2_Grid(int i, int j) {
 		
 		JButton b = new JButton();
@@ -174,5 +172,39 @@ public class Scacchiera2 extends JFrame {
 		
 		return lettersPanel;
 	}
+	
+	private JPanel northPanel() {
+		
+		JPanel northPanel = new JPanel();
+		northPanel.setLayout(new BorderLayout());
+		
+		JPanel northLettersPanel = lettersPanel();
+		northPanel.add(northLettersPanel, BorderLayout.SOUTH);
+		
+		// DA COMPLETARE
+		
+		return northPanel;
+	}
+	
+	private JPanel southPanel() {
+		
+		JPanel southPanel = new JPanel();
+		southPanel.setLayout(new BorderLayout());
+		
+		JPanel southLettersPanel = lettersPanel();
+		southPanel.add(southLettersPanel, BorderLayout.NORTH);
+		
+		JTextField textFieldLeft = new JTextField();
+		southPanel.add(textFieldLeft, BorderLayout.WEST);
+		textFieldLeft.setPreferredSize(new Dimension(100, 0));
+		JTextField textFieldCenter = new JTextField();
+		southPanel.add(textFieldCenter, BorderLayout.CENTER);
+		JTextField textFieldRight = new JTextField();
+		textFieldRight.setPreferredSize(new Dimension(100, 0));
+		southPanel.add(textFieldRight, BorderLayout.EAST);
+		
+		return southPanel;
+	}
 
 }
+
