@@ -166,10 +166,10 @@ public class Scacchiera extends JFrame {
 	private JPanel lettersPanel() {
 		
 		JPanel lettersPanel = new JPanel();
-		lettersPanel.setLayout(new FlowLayout());
+		lettersPanel.setLayout(new GridLayout(1, 8));
 		for (int i = 0; i < 8; i++)
-			lettersPanel.add(new JLabel("         " + (char) ('A' + i) + "        "));
-		
+			//lettersPanel.add(new JLabel("         " + (char) ('A' + i) + "        "));
+			lettersPanel.add(new JLabel(Character.toString((char)('A' + i))));
 		return lettersPanel;
 	}
 	
