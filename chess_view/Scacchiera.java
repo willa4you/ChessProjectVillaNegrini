@@ -69,7 +69,7 @@ public class Scacchiera extends JFrame {
 		else if (i == 0 && j == 2)
 			b.setIcon(Icon.blackBishop());
 		else if (i == 0 && j == 4)
-			b.setIcon(Icon.blackQueen());
+			b.setIcon(Icon.blackKing());
 		else if (i == 0 && j == 6)
 			b.setIcon(Icon.blackKnight());		
 		else if (i == 6)
@@ -91,7 +91,7 @@ public class Scacchiera extends JFrame {
 		if (i == 0 && j == 1)
 			b.setIcon(Icon.blackKnight());
 		else if (i == 0 && j == 3)
-			b.setIcon(Icon.blackKing());
+			b.setIcon(Icon.blackQueen());
 		else if (i == 0 && j == 5)
 			b.setIcon(Icon.blackBishop());
 		else if (i == 0 && j == 7)
@@ -117,7 +117,7 @@ public class Scacchiera extends JFrame {
 		else if (i == 7 && j == 2)
 			b.setIcon(Icon.whiteBishop());
 		else if (i == 7 && j == 4)
-			b.setIcon(Icon.whiteQueen());
+			b.setIcon(Icon.whiteKing());
 		else if (i == 7 && j == 6)
 			b.setIcon(Icon.whiteKnight());
 		else if (i == 1)
@@ -139,7 +139,7 @@ public class Scacchiera extends JFrame {
 		if (i == 7 && j == 1)
 			b.setIcon(Icon.whiteKnight());
 		else if (i == 7 && j == 3)
-			b.setIcon(Icon.whiteKing());
+			b.setIcon(Icon.whiteQueen());
 		else if (i == 7 && j == 5)
 			b.setIcon(Icon.whiteBishop());
 		else if (i == 7 && j == 7)
