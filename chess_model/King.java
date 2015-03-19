@@ -2,9 +2,9 @@ package chess_model;
 
 import java.util.ArrayList;
 
-public class Cavallo extends Pezzo {
+public class King extends Piece {
 
-	public Cavallo(int squadra) {
+	public King(int squadra) {
 		super(squadra);
 	}
 
@@ -13,6 +13,5 @@ public class Cavallo extends Pezzo {
 		ArrayList<Integer> mosseConsentite = new ArrayList<Integer>();
 		return mosseConsentite;
 	}
-
 
 }
