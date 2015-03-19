@@ -15,14 +15,8 @@ public class ChessboardModel {
 		scacchiera[5][0] = new Bishop(1);
 		scacchiera[6][0] = new Knight(1);
 		scacchiera[7][0] = new Rook(1);
-		scacchiera[0][1] = new Pawn(1);
-		scacchiera[1][1] = new Pawn(1);
-		scacchiera[2][1] = new Pawn(1);
-		scacchiera[3][1] = new Pawn(1);
-		scacchiera[4][1] = new Pawn(1);
-		scacchiera[5][1] = new Pawn(1);
-		scacchiera[6][1] = new Pawn(1);
-		scacchiera[7][1] = new Pawn(1);
+		for (int i=0; i < 8; i++)
+			scacchiera[i][1] = new Pawn(1);
 		
 		//riempio la parte centrale della scacchiera di vuoti
 		for(int i = 0;i < 4;i++)
@@ -30,14 +24,8 @@ public class ChessboardModel {
 				scacchiera[j][i + 2] = null;
 		
 		//schiero la seconda squadra
-		scacchiera[0][6] = new Pawn(2);
-		scacchiera[1][6] = new Pawn(2);
-		scacchiera[2][6] = new Pawn(2);
-		scacchiera[3][6] = new Pawn(2);
-		scacchiera[4][6] = new Pawn(2);
-		scacchiera[5][6] = new Pawn(2);
-		scacchiera[6][6] = new Pawn(2);
-		scacchiera[7][6] = new Pawn(2);
+		for (int i=0; i < 8; i++)
+			scacchiera[i][6] = new Pawn(2);
 		scacchiera[0][7] = new Rook(2);
 		scacchiera[1][7] = new Knight(2);
 		scacchiera[2][7] = new Bishop(2);
