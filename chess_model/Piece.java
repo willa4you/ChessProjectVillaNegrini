@@ -1,10 +1,10 @@
 package chess_model;
 
-public abstract class Pezzo {
+public abstract class Piece {
 	static enum Squadra {Squadra1, Squadra2}
 	public final Squadra squadra;
 	
-	public Pezzo(int squadra){
+	public Piece(int squadra){
 		if (squadra == 1)
 			this.squadra = Squadra.Squadra1;
 		else
