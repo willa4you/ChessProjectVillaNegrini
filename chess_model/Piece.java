@@ -1,14 +1,13 @@
 package chess_model;
 
 public abstract class Piece {
-	static enum Squadra {Squadra1, Squadra2}
-	public final Squadra squadra;
+	public final Team team;
 	
-	public Piece(int squadra){
-		if (squadra == 1)
-			this.squadra = Squadra.Squadra1;
+	public Piece(int team){
+		if (team == 1)
+			this.team = Team.Team1;
 		else
-			this.squadra = Squadra.Squadra2;
+			this.team = Team.Team2;
 		
 		//il costruttore fissa la squadra del pezzo
 	}
