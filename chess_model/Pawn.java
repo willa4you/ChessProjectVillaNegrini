@@ -4,26 +4,43 @@ import java.util.ArrayList;
 
 public class Pawn extends Piece {
 
-	public Pawn(int squadra) {
-		super(squadra);
+	public Pawn(int team) {
+		super(team);
 	}
 
 	@Override
 	public Iterable<Integer> mosseConsentite(byte x, byte y) {
 		ArrayList<Integer> mosseConsentite = new ArrayList<Integer>();
-		Squadra other = null;
-	
-		//per muovermi in alto a destra non devo uscire e ci dev'essere un avversario
-		if(x + 1 <= 7 && y + 1 <= 7 && (other = ChessboardModel.getPezzoInPosizione((byte)(x + 1), (byte)(y + 1)).squadra) != squadra && other != null)
-			mosseConsentite.add((int)((x+1)*10 + y + 1));//aggiungo quella casella alle consentite
+		Piece other = null;
 		
-		//per muovermi in alto a sinistra non devo uscire e ci dev'essere un avversario
-		if(x - 1 >= 0 && y + 1 <= 7 && (other = ChessboardModel.getPezzoInPosizione((byte)(x - 1), (byte)(y + 1)).squadra) != squadra && other != null)
-			mosseConsentite.add((int)((x-1)*10 + y + 1));//aggiungo quella casella alle consentite
-		
-		//per muovermi in alto non devo uscire e dev'essere casella vuota
-		if(y + 1 <= 7 && ChessboardModel.getPezzoInPosizione((byte)(x), (byte)(y + 1)) == null)
-			mosseConsentite.add((int)(x*10 + y + 1));//aggiungo quella casella alle consentite
+		if (this.team == Team.Team1){//team1 va verso l'alto
+			
+			//per muovermi in alto a destra non devo uscire e ci dev'essere un avversario
+			if(x < 7 && y < 7 && (other = ChessboardModel.getPezzoInPosizione((byte)(x + 1), (byte)(y + 1))) != null && other.team != team)
+				mosseConsentite.add((int)((x+1)*10 + y + 1));//aggiungo quella casella alle consentite
+			
+			//per muovermi in alto non devo uscire e dev'essere casella vuota
+			if(y < 7 && ChessboardModel.getPezzoInPosizione((byte)(x), (byte)(y + 1)) == null)
+				mosseConsentite.add((int)(x*10 + y + 1));//aggiungo quella casella alle consentite
+			
+			//per muovermi in alto a sinistra non devo uscire e ci dev'essere un avversario
+			if(x > 0 && y < 7 && (other = ChessboardModel.getPezzoInPosizione((byte)(x - 1), (byte)(y + 1))) !=null && other.team != team)
+				mosseConsentite.add((int)((x-1)*10 + y + 1));//aggiungo quella casella alle consentite
+		} 
+		else {//team2 va verso il basso
+			
+			//per muovermi in basso a destra non devo uscire e ci dev'essere un avversario
+			if(x < 7 && y > 0 && (other = ChessboardModel.getPezzoInPosizione((byte)(x + 1), (byte)(y + 1))) != null && other.team != team)
+				mosseConsentite.add((int)((x+1)*10 + y - 1));//aggiungo quella casella alle consentite
+			
+			//per muovermi in basso non devo uscire e dev'essere casella vuota
+			if(y > 0 && ChessboardModel.getPezzoInPosizione((byte)(x), (byte)(y - 1)) == null)
+				mosseConsentite.add((int)(x*10 + y - 1));//aggiungo quella casella alle consentite
+			
+			//per muovermi in basso a sinistra non devo uscire e ci dev'essere un avversario
+			if(x > 0 && y > 0 && (other = ChessboardModel.getPezzoInPosizione((byte)(x - 1), (byte)(y - 1))) !=null && other.team != team)
+				mosseConsentite.add((int)((x-1)*10 + y - 1));//aggiungo quella casella alle consentite
+		}
 		
 		return mosseConsentite;
 	}

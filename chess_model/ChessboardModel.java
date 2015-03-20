@@ -3,7 +3,7 @@ package chess_model;
 public class ChessboardModel {
 	private static ChessboardModel scacchieraObj;
 	
-	private Piece[][] scacchiera;
+	private Piece scacchiera[][] = new Piece[8][8];
 	
 	private ChessboardModel(){
 		//schiero la prima squadra
@@ -45,7 +45,37 @@ public class ChessboardModel {
 		return true;
 	}
 	
-	public static ChessboardModel nuovaPartita(){
-		return scacchieraObj = new ChessboardModel();
+	public static void nuovaPartita(){
+		//nessun altra classe può fare una new ChessboardModel
+		//se viene richiamata una nuova partita per la seconda volta occorre fare pulizia...
+		scacchieraObj = new ChessboardModel();
+	}
+	
+	@Override
+	public String toString(){
+		String chessboardToPlay = "";
+		String charPiece = "";
+		chessboardToPlay += "\n   A B C D E F G H\n\n";
+		for(int y = 7; y >= 0; y--){
+			chessboardToPlay += (y + 1) + "  ";
+			for(int x = 0; x < 8; x++){
+				if(scacchiera[x][y] instanceof Rook) charPiece = "R ";
+				else if(scacchiera[x][y] instanceof Bishop) charPiece = "B ";
+				else if(scacchiera[x][y] instanceof King) charPiece = "K ";
+				else if(scacchiera[x][y] instanceof Queen)  charPiece = "Q ";
+				else if(scacchiera[x][y] instanceof Knight) charPiece = "C ";
+				else if(scacchiera[x][y] instanceof Pawn) charPiece = "P ";
+				else charPiece = "- ";
+				if(scacchiera[x][y] != null && scacchiera[x][y].team == Team.Team1) charPiece = charPiece.toLowerCase();
+				chessboardToPlay += charPiece;
+				if(x == 7) chessboardToPlay += " " + (y + 1) + "\n";
+			}
+		}
+		chessboardToPlay += "\n   A B C D E F G H";
+		return chessboardToPlay;
+	}
+	
+	public static String stringChessboard(){
+		return scacchieraObj.toString();
 	}
 }
