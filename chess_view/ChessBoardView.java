@@ -7,8 +7,13 @@ import javax.swing.*;
 
 public class ChessBoardView extends JFrame {
 
-	public static final int WIDTH = 700;
-	public static final int HEIGHT = 700;
+	private static final int WIDTH = 700;
+	private static final int HEIGHT = 700;
+	
+	private static int firstClickValue = -1;
+	private static int secondClickValue = -1;
+	
+	private Button[][] buttons = new Button[8][8];
 	
 	public static void main(String[] args) {
 		
@@ -31,21 +36,30 @@ public class ChessBoardView extends JFrame {
 		});
 		setLayout(new BorderLayout());
 		
+		for (int h = 0; h < buttons.length; h++)
+			for (int k = 0; k < buttons[h].length; k++)
+				buttons[h][k] = new Button((h * 10) + k);
+		
 		JPanel tilesPanel = new JPanel();
 		tilesPanel.setLayout(new GridLayout(10, 10));
 		
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++)		
 				if (i % 2 == 1 && j % 2 == 1)
-					tilesPanel.add(whiteGrid(i, j));
+					tilesPanel.add(firstGrid(i, j));
 				else if (i % 2 == 1 && j % 2 == 0)
-					tilesPanel.add(greenGrid(i, j));		
+					tilesPanel.add(secondGrid(i, j));		
 				else if (i % 2 == 0 && j % 2 == 1)
-					tilesPanel.add(blueGrid(i, j));
+					tilesPanel.add(thirdGrid(i, j));
 				else				
-					tilesPanel.add(redGrid(i, j));	
+					tilesPanel.add(forthGrid(i, j));	
 		
 		add(tilesPanel, BorderLayout.CENTER);
+		
+		// buttons[4][1].setIcon(Icon.returnIcon("white_pawn.png"));
+		// serve solo come test
+		System.out.println(buttons[7][6].getValue());
+		// serve solo come test
 	}
 	
 	private Component numberLabel(int i) {
@@ -60,8 +74,54 @@ public class ChessBoardView extends JFrame {
 				(new JLabel(Character.toString((char)('A' + j - 1)), SwingConstants.CENTER)) :
 					new JLabel());
 	}
+	
+	private void swapIcon(JButton a, JButton b) {
+		
+		// JButton tempButton;
+		
+		if (a.getIcon() == null) {
+			a.setIcon(b.getIcon());
+			b.setIcon(null);
+		}
+		else if (b.getIcon() == null) {
+			b.setIcon(a.getIcon());
+			a.setIcon(null);
+		} /*
+		else {
+			tempButton = new JButton();
+			tempButton.setIcon(a.getIcon());
+			a.setIcon(b.getIcon());
+			b.setIcon(tempButton.getIcon());
+		}
+		*/
+	}
+	
+	private void buttonListener(int i, int j) {
+		
+		buttons[i][j].addActionListener(event -> {
+			
+			if (firstClickValue == -1 && (buttons[i][j].getIcon() != null)) {	
+				firstClickValue = buttons[i][j].getValue();
+				return;
+			}
+			
+			if (firstClickValue != -1 && secondClickValue == -1) {
+						
+				secondClickValue = buttons[i][j].getValue();
+				
+				for (int a = 0; a < 8; a++)
+					for (int b = 0; b < 8; b++)
+						if (firstClickValue == buttons[a][b].getValue()) {
+							swapIcon(buttons[a][b], buttons[i][j]);
+							
+							firstClickValue = secondClickValue = -1;
+						}
+			}
+		});
+		
+	}
 
-	private Component whiteGrid(int i, int j) {
+	private Component firstGrid(int i, int j) {
 		
 		if (i == 0 || i == 9)
 			return letterLabel(j);
@@ -69,59 +129,51 @@ public class ChessBoardView extends JFrame {
 		if (j == 0 || j == 9)
 			return numberLabel(i);
 		
-		JButton b = new JButton();
-		b.setBackground(Color.LIGHT_GRAY);
-		b.setBorderPainted(false); // i bordi del bottone non sono più visibili
-		b.setOpaque(true); // rende il bottone trasparente
+		buttons[i - 1][j - 1].setBackground(Color.LIGHT_GRAY);
 		
 		if (i == 1 && j == 1)
-			b.setIcon(Icon.returnIcon("black_rook.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("black_rook.png"));
 		else if (i == 1 && j == 3)
-			b.setIcon(Icon.returnIcon("black_bishop.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("black_bishop.png"));
 		else if (i == 1 && j == 5)
-			b.setIcon(Icon.returnIcon("black_king.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("black_king.png"));
 		else if (i == 1 && j == 7)
-			b.setIcon(Icon.returnIcon("black_knight.png"));		
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("black_knight.png"));		
 		else if (i == 7 && j < 9)
-			b.setIcon(Icon.returnIcon("white_pawn.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("white_pawn.png"));
 		
-		b.addActionListener(event -> b.setBackground(Color.WHITE));
-		// serve solo come test
+		buttonListener(i - 1, j - 1);
 		
-		return b;
+		return buttons[i - 1][j - 1];
 	}
 	
-	private Component greenGrid(int i, int j) {
+	private Component secondGrid(int i, int j) {
 		
 		if (i == 0 || i == 9)
 			return letterLabel(j);
 		
 		if (j == 0 || j == 9)
 			return numberLabel(i);
-		
-		JButton b = new JButton();
-		b.setBackground(Color.ORANGE);
-		b.setBorderPainted(false);
-		b.setOpaque(true);
+			
+		buttons[i - 1][j - 1].setBackground(Color.ORANGE);
 		
 		if (i == 1 && j == 2)
-			b.setIcon(Icon.returnIcon("black_knight.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("black_knight.png"));
 		else if (i == 1 && j == 4)
-			b.setIcon(Icon.returnIcon("black_queen.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("black_queen.png"));
 		else if (i == 1 && j == 6)
-			b.setIcon(Icon.returnIcon("black_bishop.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("black_bishop.png"));
 		else if (i == 1 && j == 8)
-			b.setIcon(Icon.returnIcon("black_rook.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("black_rook.png"));
 		else if (i == 7  && j > 0)
-			b.setIcon(Icon.returnIcon("white_pawn.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("white_pawn.png"));
 		
-		b.addActionListener(event -> b.setBackground(Color.GREEN));
-		// serve solo come test
+		buttonListener(i - 1, j - 1);
 		
-		return b;
+		return buttons[i - 1][j - 1];
 	}
 	
-	private Component blueGrid(int i, int j) {
+	private Component thirdGrid(int i, int j) {
 		
 		if (i == 0 || i == 9)
 			return letterLabel(j);
@@ -129,29 +181,25 @@ public class ChessBoardView extends JFrame {
 		if (j == 0 || j == 9)
 			return numberLabel(i);
 		
-		JButton b = new JButton();
-		b.setBackground(Color.ORANGE);
-		b.setBorderPainted(false);
-		b.setOpaque(true);
+		buttons[i - 1][j - 1].setBackground(Color.ORANGE);
 		
 		if (i == 8 && j == 1)
-			b.setIcon(Icon.returnIcon("white_rook.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("white_rook.png"));
 		else if (i == 8 && j == 3)
-			b.setIcon(Icon.returnIcon("white_bishop.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("white_bishop.png"));
 		else if (i == 8 && j == 5)
-			b.setIcon(Icon.returnIcon("white_king.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("white_king.png"));
 		else if (i == 8 && j == 7)
-			b.setIcon(Icon.returnIcon("white_knight.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("white_knight.png"));
 		else if (i == 2 && j < 9)
-			b.setIcon(Icon.returnIcon("black_pawn.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("black_pawn.png"));
 		
-		b.addActionListener(event -> b.setBackground(Color.BLUE));
-		// serve solo come test
+		buttonListener(i - 1, j - 1);
 		
-		return b;
+		return buttons[i - 1][j - 1];
 	}
 	
-	private Component redGrid(int i, int j) {
+	private Component forthGrid(int i, int j) {
 		
 		if (i == 0 || i == 9)
 			return letterLabel(j);
@@ -159,83 +207,22 @@ public class ChessBoardView extends JFrame {
 		if (j == 0 || j == 9)
 			return numberLabel(i);
 		
-		JButton b = new JButton();
-		b.setBackground(Color.LIGHT_GRAY);
-		b.setBorderPainted(false);
-		b.setOpaque(true);
+		buttons[i - 1][j - 1].setBackground(Color.LIGHT_GRAY);
 		
 		if (i == 8 && j == 2)
-			b.setIcon(Icon.returnIcon("white_knight.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("white_knight.png"));
 		else if (i == 8 && j == 4)
-			b.setIcon(Icon.returnIcon("white_queen.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("white_queen.png"));
 		else if (i == 8 && j == 6)
-			b.setIcon(Icon.returnIcon("white_bishop.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("white_bishop.png"));
 		else if (i == 8 && j == 8)
-			b.setIcon(Icon.returnIcon("white_rook.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("white_rook.png"));
 		else if (i == 2 && j > 0)
-			b.setIcon(Icon.returnIcon("black_pawn.png"));
+			buttons[i - 1][j - 1].setIcon(Icon.returnIcon("black_pawn.png"));
 		
-		b.addActionListener(event -> b.setBackground(Color.RED));
-		// serve solo come test
+		buttonListener(i - 1, j - 1);
 		
-		return b;
+		return buttons[i - 1][j - 1];
 	}
 	
-	/*
-	private JPanel numbersPanel() {
-		
-		JPanel numbersPanel = new JPanel();
-		numbersPanel.setLayout(new GridLayout(8, 1));
-		for (int i = 0; i < 8; i++)
-			numbersPanel.add(new JLabel(" " + (8 - i) + " "), SwingConstants.CENTER);
-		
-		return numbersPanel;
-	}
-	
-	private JPanel lettersPanel() {
-		
-		JPanel lettersPanel = new JPanel();
-		lettersPanel.setLayout(new GridLayout(1, 8));
-		for (int i = 0; i < 8; i++)
-			//lettersPanel.add(new JLabel("         " + (char) ('A' + i) + "        "));
-			lettersPanel.add(new JLabel(Character.toString((char)('A' + i)), SwingConstants.CENTER));
-		
-		return lettersPanel;
-	}
-	
-	private JPanel northPanel() {
-		
-		JPanel northPanel = new JPanel();
-		northPanel.setLayout(new BorderLayout());
-		
-		JPanel northLettersPanel = lettersPanel();
-		northPanel.add(northLettersPanel, BorderLayout.SOUTH);
-		
-		// DA COMPLETARE
-		
-		return northPanel;
-	}
-	
-	private JPanel southPanel() {
-		
-		JPanel southPanel = new JPanel();
-		southPanel.setLayout(new BorderLayout());
-		
-		JPanel southLettersPanel = lettersPanel();
-		southPanel.add(southLettersPanel, BorderLayout.NORTH);
-		
-		JTextField textFieldLeft = new JTextField();
-		southPanel.add(textFieldLeft, BorderLayout.WEST);
-		textFieldLeft.setPreferredSize(new Dimension(100, 0));
-		JTextField textFieldCenter = new JTextField();
-		southPanel.add(textFieldCenter, BorderLayout.CENTER);
-		JTextField textFieldRight = new JTextField();
-		textFieldRight.setPreferredSize(new Dimension(100, 0));
-		southPanel.add(textFieldRight, BorderLayout.EAST);
-		
-		return southPanel;
-	}
-	*/
-
 }
-
