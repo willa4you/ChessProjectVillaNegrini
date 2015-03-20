@@ -14,6 +14,6 @@ public class Icon {
 	public static ImageIcon returnIcon(String name){
 		return new ImageIcon(
 				new ImageIcon(path + name).getImage().getScaledInstance(
-						WIDTH, HEIGHT, Image.SCALE_SMOOTH ));	
+						WIDTH, HEIGHT, Image.SCALE_SMOOTH));	
 	}
 }
