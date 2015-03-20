@@ -4,16 +4,16 @@ import javax.swing.JButton;
 
 public class Button extends JButton {
 	
-	private final int value;
+	private final byte value;
 	
-	public Button(int value) {
+	public Button(byte value) {
 		this.value = value;
 		
 		setBorderPainted(false);
 		setOpaque(true);
 	}
 	
-	public int getValue() {
+	public byte getValue() {
 		return this.value;
 	}
 	
