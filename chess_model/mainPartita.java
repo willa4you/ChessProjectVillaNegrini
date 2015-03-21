@@ -15,8 +15,16 @@ public class mainPartita {
 		
 		while(true){
 			System.out.println(ChessboardModel.stringChessboard());
-			if (player == Team.Team1) System.out.println("\nGIOCATORE 1");//turno del giocatore
-			else System.out.println("\nGIOCATORE 2");
+			System.out.print("\n» IL TUO TURNO "); 
+			if (player == Team.Team1) System.out.println("GIOCATORE 1");//turno del giocatore
+			else System.out.println("GIOCATORE 2");
+			if(check(player)) {
+				if(mate(player)){
+					System.out.println("SCACCO MATTO, PARTITA FINITA!");
+					break;
+				}
+				else System.out.println("ATTENZIONE, SEI SOTTO SCACCO!");
+			}
 			System.out.print("Inserisci coordinate di partenza: ");
 			partenza = new Scanner(System.in).nextLine();
 			px = (byte)(partenza.charAt(0) - 'A');//estraggo la x della coordinata scelta
@@ -65,6 +73,28 @@ public class mainPartita {
 					return true;
 		
 		return false;
+	}
+	
+	private static boolean mate(Team player){
+		Piece piece = null;
+		Piece tmp = null;
+		boolean check = true;
+		
+		for(int i = 0; i < 8; i++)
+			for(int j = 0; j < 8; j++){
+				piece = ChessboardModel.getPezzoInPosizione((byte)i, (byte)j);
+				if (piece != null && piece.team == player)
+					for (int mc : piece.mosseConsentite((byte)i, (byte)j)){
+						tmp = ChessboardModel.getPezzoInPosizione((byte)(mc/10), (byte)(mc%10));//la eseguo ma tengo l'eventuale pezzo mangiato in tmp
+						ChessboardModel.setPezzoInPosizione(piece, (byte)(mc/10), (byte)(mc%10));
+						ChessboardModel.setPezzoInPosizione(null, (byte)i, (byte)j);
+						check = check(player);
+						ChessboardModel.setPezzoInPosizione(piece, (byte)i, (byte)j);//rimetto piece dov'era
+						ChessboardModel.setPezzoInPosizione(tmp, (byte)(mc/10), (byte)(mc%10));//metto tmp dov'era
+						if(!check) return false;
+					}
+			}
+		return true;
 	}
 }
  
