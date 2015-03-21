@@ -1,4 +1,5 @@
 package chess_model;
+
 import java.util.Scanner;
 
 public class mainPartita {
@@ -6,8 +7,8 @@ public class mainPartita {
 	public static void main(String[] args) {
 		String partenza = "";
 		String arrivo = "";
-		byte py, px;
-		int a;
+		byte py, px; // partenza x e y
+		int a; // arrivo
 		Piece piece = null;
 		Piece tmp = null;
 		Team player = Team.Team1;//il primo turno
@@ -15,7 +16,7 @@ public class mainPartita {
 		
 		while(true){
 			System.out.println(ChessboardModel.stringChessboard());
-			System.out.print("\nÈ IL TUO TURNO "); 
+			System.out.print("\nE' IL TUO TURNO "); 
 			if (player == Team.Team1) System.out.println("GIOCATORE 1");//turno del giocatore
 			else System.out.println("GIOCATORE 2");
 			if(check(player)) {
@@ -46,10 +47,10 @@ public class mainPartita {
 					ChessboardModel.setPezzoInPosizione(piece, (byte)(a/10), (byte)(a%10));
 					ChessboardModel.setPezzoInPosizione(null, px, py);
 					//se il mio re va/resta sotto scacco invalido la mossa
-					if(check(player)){//se il mio re è in scacco con la mia mossa annullo
+					if(check(player)){//se il mio re ï¿½ in scacco con la mia mossa annullo
 						ChessboardModel.setPezzoInPosizione(piece, px, py);//rimetto piece dov'era
 						ChessboardModel.setPezzoInPosizione(tmp, (byte)(a/10), (byte)(a%10));//metto tmp dov'era
-						System.out.println("Questa mossa sarebbe stata valida, ma il tuo Re è sotto scacco!");
+						System.out.println("Questa mossa sarebbe stata valida, ma il tuo Re ï¿½ sotto scacco!");
 						continue;
 					}
 					if(player == Team.Team1) player = Team.Team2;
@@ -81,7 +82,7 @@ public class mainPartita {
 		boolean check = true;
 		
 		for(int i = 0; i < 8; i++)
-			for(int j = 0; j < 8; j++){
+			for(int j = 0; j < 8; j++) {
 				piece = ChessboardModel.getPezzoInPosizione((byte)i, (byte)j);
 				if (piece != null && piece.team == player)
 					for (int mc : piece.mosseConsentite((byte)i, (byte)j)){

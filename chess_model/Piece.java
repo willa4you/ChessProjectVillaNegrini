@@ -3,7 +3,7 @@ package chess_model;
 public abstract class Piece {
 	public final Team team;
 	
-	public Piece(int team){
+	public Piece(int team) {
 		if (team == 1)
 			this.team = Team.Team1;
 		else
@@ -12,11 +12,11 @@ public abstract class Piece {
 		//il costruttore fissa la squadra del pezzo
 	}
 	
-	public abstract Iterable<Integer> mosseConsentite(byte x, byte y);
-	public boolean check(byte x, byte y){
-		for(int xy : this.mosseConsentite(x, y))
-			if(ChessboardModel.getPezzoInPosizione((byte)(xy/10), (byte)(xy%10)) instanceof King)
-			//non controllo la squadra del re che sto mangiando perché mosseConsentite non me lo consente
+	public abstract Iterable<Integer> mosseConsentite(int x, int y);
+	public boolean check(int x, int y) {
+		for (int xy : this.mosseConsentite(x, y))
+			if (ChessboardModel.getPezzoInPosizione(xy / 10, xy % 10) instanceof King)
+			//non controllo la squadra del re che sto mangiando perchï¿½ mosseConsentite non me lo consente
 				return true;
 		
 		return false;
