@@ -9,15 +9,15 @@ public class Rook extends Piece {
 	}
 
 	@Override
-	public Iterable<Integer> mosseConsentite(byte x, byte y) {
+	public Iterable<Integer> mosseConsentite(int x, int y) {
 		ArrayList<Integer> mosseConsentite = new ArrayList<Integer>();
 		
-		byte i = 1;
+		int i = 1;
 		Piece other = null;
 		//vado verso destra e controllo se la colonna in cui mi sposto ha senso e se non c'è qualcosa di team mia
 		while(true){
-			if (x + i <= 7 && ((other = ChessboardModel.getPezzoInPosizione((byte)(x + i), y)) == null || other.team != this.team)){// o team avversaria o NULL vanno bene
-					mosseConsentite.add((int)( (x+i)*10 + y ));//aggiungo quella casella alle consentite
+			if (x + i <= 7 && ((other = ChessboardModel.getPezzoInPosizione(x + i, y)) == null || other.team != this.team)){// o team avversaria o NULL vanno bene
+					mosseConsentite.add((x+i) * 10 + y);//aggiungo quella casella alle consentite
 					if(other != null)//se però c'è qualcuno so che non posso andare oltre e chiudo
 						break;
 					else
@@ -29,8 +29,8 @@ public class Rook extends Piece {
 		i = 1;
 		//vado verso l'alto e controllo se la riga in cui mi sposto ha senso e se non c'è qualcosa di team mia
 		while(true){
-			if (y + i <= 7 && ((other = ChessboardModel.getPezzoInPosizione(x, (byte)(y + i))) == null || other.team != this.team)){// o team avversaria o NULL vanno bene
-					mosseConsentite.add((int)(x*10 + y + i));//aggiungo quella casella alle consentite
+			if (y + i <= 7 && ((other = ChessboardModel.getPezzoInPosizione(x, y + i)) == null || other.team != this.team)){// o team avversaria o NULL vanno bene
+					mosseConsentite.add((int)(x * 10 + (y + i)));//aggiungo quella casella alle consentite
 					if(other != null)//se però c'è qualcuno so che non posso andare oltre e chiudo
 						break;
 					else
@@ -42,8 +42,8 @@ public class Rook extends Piece {
 		i = 1;
 		//vado verso sinistra e controllo se la colonna in cui mi sposto ha senso e se non c'è qualcosa di team mia
 		while(true){
-			if (x - i >= 0 && ((other = ChessboardModel.getPezzoInPosizione((byte)(x - i), y)) == null || other.team != this.team)){// o team avversaria o NULL vanno bene
-					mosseConsentite.add((int)((x-i)*10 + y));//aggiungo quella casella alle consentite
+			if (x - i >= 0 && ((other = ChessboardModel.getPezzoInPosizione(x - i, y)) == null || other.team != this.team)){// o team avversaria o NULL vanno bene
+					mosseConsentite.add((x - i) * 10 + y);//aggiungo quella casella alle consentite
 					if(other != null)//se però c'è qualcuno so che non posso andare oltre e chiudo
 						break;
 					else
@@ -55,8 +55,8 @@ public class Rook extends Piece {
 		i = 1;
 		//vado verso il basso e controllo se la riga in cui mi sposto ha senso e se non c'è qualcosa di team mia
 		while(true){
-			if (y - i >= 0 && ((other = ChessboardModel.getPezzoInPosizione(x, (byte)(y - i))) == null || other.team != this.team)){// o team avversaria o NULL vanno bene
-					mosseConsentite.add((int)(x*10 + (y-i)));//aggiungo quella casella alle consentite
+			if (y - i >= 0 && ((other = ChessboardModel.getPezzoInPosizione(x, y - i)) == null || other.team != this.team)){// o team avversaria o NULL vanno bene
+					mosseConsentite.add(x * 10 + (y - i));//aggiungo quella casella alle consentite
 					if(other != null)//se però c'è qualcuno so che non posso andare oltre e chiudo
 						break;
 					else
