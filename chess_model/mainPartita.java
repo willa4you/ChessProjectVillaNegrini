@@ -7,7 +7,7 @@ public class mainPartita {
 		String partenza = "";
 		String arrivo = "";
 		byte py, px;
-		int a, k1, k2;
+		int a;
 		Piece piece = null;
 		Piece tmp = null;
 		Team player = Team.Team1;//il primo turno
