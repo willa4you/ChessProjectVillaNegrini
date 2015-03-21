@@ -10,8 +10,8 @@ public class ChessBoardView extends JFrame {
 	private static final int WIDTH = 700;
 	private static final int HEIGHT = 700;
 	
-	private static byte firstClickValue = -1;
-	private static byte secondClickValue = -1;
+	private static int firstClickValue = -1;
+	private static int secondClickValue = -1;
 	
 	private Button[][] buttons = new Button[8][8];
 	
@@ -23,7 +23,6 @@ public class ChessBoardView extends JFrame {
 	public ChessBoardView() {
 		
 		super("Scacchiera");
-		setSize(WIDTH, HEIGHT);
 		setMinimumSize(new Dimension(WIDTH, HEIGHT)); // la finestra non si può nè
 		setMaximumSize(new Dimension(WIDTH, HEIGHT)); // rimpicciolire nè ingrandire
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -36,9 +35,9 @@ public class ChessBoardView extends JFrame {
 		});
 		setLayout(new BorderLayout());
 		
-		for (byte h = 0; h < buttons.length; h++)
-			for (byte k = 0; k < buttons[h].length; k++)
-				buttons[h][k] = new Button((byte) ((h * 10) + k));
+		for (int h = 0; h < buttons.length; h++)
+			for (int k = 0; k < buttons[h].length; k++)
+				buttons[h][k] = new Button((h * 10) + k);
 		
 		JPanel tilesPanel = new JPanel();
 		tilesPanel.setLayout(new GridLayout(10, 10));
@@ -75,7 +74,7 @@ public class ChessBoardView extends JFrame {
 					new JLabel());
 	}
 	
-	private void swapIcon(JButton a, JButton b) {
+	private void changeIcon(JButton a, JButton b) {
 		
 		// se entrambi i bottoni cliccati danno getIcon() diverso da null,
 		// il metodo non fa nulla;
@@ -95,20 +94,24 @@ public class ChessBoardView extends JFrame {
 		buttons[i][j].addActionListener(event -> {
 			
 			if (firstClickValue == -1 && (buttons[i][j].getIcon() != null))			
-				firstClickValue = buttons[i][j].getValue();			
-			else if (firstClickValue != -1) {				
+				firstClickValue = buttons[i][j].getValue();
+			else if (firstClickValue != -1) {		
 				secondClickValue = buttons[i][j].getValue();
 				
-				// vero se clicco due volte sullo stesso bottone
+				// se clicco due volte sullo stesso bottone..
 				if (firstClickValue == secondClickValue) {
+					// ..resetto i valori delle cliccate e ritorno
 					firstClickValue = secondClickValue = -1;
 					return;
 				}
 				
 				for (int a = 0; a < 8; a++)
 					for (int b = 0; b < 8; b++)
+						// cerco il bottone che ho cliccato per primo..
 						if (firstClickValue == buttons[a][b].getValue()) {
-							swapIcon(buttons[a][b], buttons[i][j]);
+							// ..e porto la sua icona sul secondo bottone che ho cliccato
+							// (non avviene uno swap delle icone)
+							changeIcon(buttons[a][b], buttons[i][j]);
 							
 							firstClickValue = secondClickValue = -1;
 						}
