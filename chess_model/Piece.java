@@ -13,5 +13,13 @@ public abstract class Piece {
 	}
 	
 	public abstract Iterable<Integer> mosseConsentite(byte x, byte y);
+	public boolean check(byte x, byte y){
+		Piece other = null;
+		for(int xy : this.mosseConsentite(x, y))
+			if(((other = ChessboardModel.getPezzoInPosizione((byte)(xy/10), (byte)(xy%10))) instanceof King) && other.team != this.team)
+				return true;
+		
+		return false;
+	}
 	
 }
