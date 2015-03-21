@@ -1,20 +1,22 @@
-package chess_model;
+package chess_controller;
+import chess_model.*;
+import chess_view.*;
 
 import java.util.Scanner;
 
-public class mainPartita {
+public class PlayMatch {
 
 	public static void main(String[] args) {
+		//vaiabili locali al main
 		String partenza = "";
 		String arrivo = "";
-		byte py, px; // partenza x e y
-		int a; // arrivo
+		int py, px, a; // partenza x e y e arrivo
 		Piece piece = null;
 		Piece tmp = null;
-		Team player = Team.Team1;//il primo turno
-		ChessboardModel.nuovaPartita();
+		Team player = Team.Team1;//variabile del turno a cui assegno il primo turno
+		ChessboardModel.nuovaPartita();//preparo la scacchiera per una nuova partita
 		
-		while(true){
+		while (true) {
 			System.out.println(ChessboardModel.stringChessboard());
 			System.out.print("\nE' IL TUO TURNO "); 
 			if (player == Team.Team1) System.out.println("GIOCATORE 1");//turno del giocatore
@@ -76,7 +78,7 @@ public class mainPartita {
 		return false;
 	}
 	
-	private static boolean mate(Team player){
+	public static boolean mate(Team player){
 		Piece piece = null;
 		Piece tmp = null;
 		boolean check = true;
