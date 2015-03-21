@@ -14,9 +14,9 @@ public abstract class Piece {
 	
 	public abstract Iterable<Integer> mosseConsentite(byte x, byte y);
 	public boolean check(byte x, byte y){
-		Piece other = null;
 		for(int xy : this.mosseConsentite(x, y))
-			if(((other = ChessboardModel.getPezzoInPosizione((byte)(xy/10), (byte)(xy%10))) instanceof King) && other.team != this.team)
+			if(ChessboardModel.getPezzoInPosizione((byte)(xy/10), (byte)(xy%10)) instanceof King)
+			//non controllo la squadra del re che sto mangiando perché mosseConsentite non me lo consente
 				return true;
 		
 		return false;
