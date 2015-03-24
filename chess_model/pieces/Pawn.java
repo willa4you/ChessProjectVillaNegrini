@@ -1,10 +1,13 @@
-package chess_model;
+package chess_model.pieces;
 
 import java.util.ArrayList;
 
+import chess_model.ChessboardModel;
+import chess_model.Team;
+
 public class Pawn extends Piece {
 
-	public Pawn(int team) {
+	public Pawn(Team team) {
 		super(team);
 	}
 
@@ -30,7 +33,7 @@ public class Pawn extends Piece {
 		else {//team2 va verso il basso
 			
 			//per muovermi in basso a destra non devo uscire e ci dev'essere un avversario
-			if (x < 7 && y > 0 && ((other = ChessboardModel.getPezzoInPosizione(x + 1, y + 1)) != null) && other.team != team)
+			if (x < 7 && y > 0 && ((other = ChessboardModel.getPezzoInPosizione(x + 1, y - 1)) != null) && other.team != team)
 				mosseConsentite.add((x + 1) * 10 + (y - 1));//aggiungo quella casella alle consentite
 			
 			//per muovermi in basso non devo uscire e dev'essere casella vuota

@@ -1,6 +1,9 @@
 package junit;
 import chess_model.*;
-import chess_controller.PlayMatch;
+import chess_model.pieces.Bishop;
+import chess_model.pieces.King;
+import chess_model.pieces.Knight;
+import chess_model.pieces.Rook;
 
 import org.junit.*;
 
@@ -17,10 +20,10 @@ public class MateTest {
 				ChessboardModel.setPezzoInPosizione(null, i, j);
 		
 		//configuro il caso di scacco matto
-		ChessboardModel.setPezzoInPosizione(new King(1), 2, 0);
-		ChessboardModel.setPezzoInPosizione(new Knight(2), 2, 2);
-		ChessboardModel.setPezzoInPosizione(new Rook(2), 7, 1);
-		ChessboardModel.setPezzoInPosizione(new Bishop(2), 1, 2);
+		ChessboardModel.setPezzoInPosizione(new King(Team.Team1), 2, 0);
+		ChessboardModel.setPezzoInPosizione(new Knight(Team.Team2), 2, 2);
+		ChessboardModel.setPezzoInPosizione(new Rook(Team.Team2), 7, 1);
+		ChessboardModel.setPezzoInPosizione(new Bishop(Team.Team2), 1, 2);
 		
 		
 		boolean c = false;
@@ -45,7 +48,7 @@ public class MateTest {
 		//stampo a video la scacchiera
 		System.out.println(ChessboardModel.stringChessboard());
 		
-		Assert.assertTrue("NOT MATE!", PlayMatch.mate(Team.Team1));
+		Assert.assertTrue("NOT MATE!", Core.mate(Team.Team1));
 		
 	}
 }

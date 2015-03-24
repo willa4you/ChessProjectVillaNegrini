@@ -1,10 +1,13 @@
-package chess_model;
+package chess_model.pieces;
 
 import java.util.ArrayList;
 
+import chess_model.ChessboardModel;
+import chess_model.Team;
+
 public class Knight extends Piece {
 
-	public Knight(int team) {
+	public Knight(Team team) {
 		super(team);
 	}
 
