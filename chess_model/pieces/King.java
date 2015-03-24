@@ -1,10 +1,14 @@
-package chess_model;
+package chess_model.pieces;
 
 import java.util.ArrayList;
 
-public class King extends Piece {
+import chess_model.ChessboardModel;
+import chess_model.Team;
+import chess_model.Core;
 
-	public King(int team) {
+public class King extends CastlingPiece {
+
+	public King(Team team) {
 		super(team);
 	}
 
@@ -16,7 +20,10 @@ public class King extends Piece {
 		//destra
 		if (x < 7 && (((other = ChessboardModel.getPezzoInPosizione(x + 1, y)) == null) || other.team != team))
 			mosseConsentite.add((x + 1) * 10 + y);//aggiungo quella casella alle consentite
-		//alto a destra
+		//destra arrocco corto
+		if (castling(y, true))
+			mosseConsentite.add((x + 2) * 10 + y);//aggiungo quella casella alle consentite
+			//alto a destra
 		if (x < 7 && y < 7 && (((other = ChessboardModel.getPezzoInPosizione(x + 1, y + 1)) == null) || other.team != team))
 			mosseConsentite.add((x + 1) * 10 + (y + 1));//aggiungo quella casella alle consentite		
 		//alto
@@ -28,6 +35,9 @@ public class King extends Piece {
 		//sinistra
 		if (x > 0 && (((other = ChessboardModel.getPezzoInPosizione(x - 1, y)) == null) || other.team != team))
 			mosseConsentite.add((x - 1) * 10 + y);//aggiungo quella casella alle consentite	
+		//sinistra arrocco lungo
+		if (castling(y, false))
+			mosseConsentite.add((x - 2) * 10 + y);//aggiungo quella casella alle consentite		
 		//basso a sinistra
 		if (x > 0 && y > 0 && (((other = ChessboardModel.getPezzoInPosizione(x - 1, y - 1)) == null) || other.team != team))
 			mosseConsentite.add((x - 1) * 10 + (y - 1));//aggiungo quella casella alle consentite
@@ -41,4 +51,38 @@ public class King extends Piece {
 		return mosseConsentite;
 	}
 
+	private boolean castling(int y, boolean shortCastling){
+		int firstPlace, secondPlace, rookPlace;
+		
+		if(shortCastling){
+			firstPlace = 5;
+			secondPlace = 7;
+			rookPlace = 7;
+		}
+		else {
+			firstPlace = 3;
+			secondPlace = 2;
+			rookPlace = 0;
+		}
+		
+		//i controlli di un arrocco a livello di pezzo non sono esaustivi
+		//i controlli sulla presenza di uno scacco eventuale vengono svolti dal core
+		//primo controllo: se ho mosso il re una volta, non potrà mai più fare arrocco
+		if (!this.moved)
+			return false;
+		
+		//secondo controllo: devono essere vuote le due caselle alla mia sinistra
+		if (ChessboardModel.getPezzoInPosizione(firstPlace, y) != null)
+			return false;
+		if (ChessboardModel.getPezzoInPosizione(secondPlace, y) != null)
+			return false;
+		
+		//terzo controllo: dev'esserci la torre e non deve aver mai mosso
+		Piece piece = ChessboardModel.getPezzoInPosizione(rookPlace, y);
+		if (piece instanceof Rook && !(((CastlingPiece)piece).getMoved()))
+			return true;
+		else
+			return false;
+	}
+	
 }

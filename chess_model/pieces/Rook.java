@@ -1,10 +1,13 @@
-package chess_model;
+package chess_model.pieces;
 
 import java.util.ArrayList;
 
-public class Rook extends Piece {
+import chess_model.ChessboardModel;
+import chess_model.Team;
 
-	public Rook(int team) {
+public class Rook extends CastlingPiece {
+	
+	public Rook(Team team) {
 		super(team);
 	}
 
@@ -16,7 +19,7 @@ public class Rook extends Piece {
 		Piece other = null;
 		//vado verso destra e controllo se la colonna in cui mi sposto ha senso e se non c'� qualcosa di team mia
 		while (true) {
-			if (x + i <= 7 && (((other = ChessboardModel.getPezzoInPosizione(x + i, y)) == null) || other.team != this.team)) {// o team avversaria o NULL vanno bene
+			if (x + i <= 7 && ((other = ChessboardModel.getPezzoInPosizione(x + i, y)) == null || other.team != this.team)) {// o team avversaria o NULL vanno bene
 					mosseConsentite.add((x + i) * 10 + y);//aggiungo quella casella alle consentite
 					if (other != null)//se per� c'� qualcuno so che non posso andare oltre e chiudo
 						break;
@@ -30,7 +33,7 @@ public class Rook extends Piece {
 		i = 1;
 		//vado verso l'alto e controllo se la riga in cui mi sposto ha senso e se non c'� qualcosa di team mia
 		while (true) {
-			if (y + i <= 7 && (((other = ChessboardModel.getPezzoInPosizione(x, y + i)) == null) || other.team != this.team)) {// o team avversaria o NULL vanno bene
+			if (y + i <= 7 && ((other = ChessboardModel.getPezzoInPosizione(x, y + i)) == null || other.team != this.team)) {// o team avversaria o NULL vanno bene
 					mosseConsentite.add((x * 10 + (y + i)));//aggiungo quella casella alle consentite
 					if (other != null)//se per� c'� qualcuno so che non posso andare oltre e chiudo
 						break;
@@ -44,7 +47,7 @@ public class Rook extends Piece {
 		i = 1;
 		//vado verso sinistra e controllo se la colonna in cui mi sposto ha senso e se non c'� qualcosa di team mia
 		while (true) {
-			if (x - i >= 0 && (((other = ChessboardModel.getPezzoInPosizione(x - i, y)) == null) || other.team != this.team)) {// o team avversaria o NULL vanno bene
+			if (x - i >= 0 && ((other = ChessboardModel.getPezzoInPosizione(x - i, y)) == null || other.team != this.team)) {// o team avversaria o NULL vanno bene
 					mosseConsentite.add((x - i) * 10 + y);//aggiungo quella casella alle consentite
 					if (other != null)//se per� c'� qualcuno so che non posso andare oltre e chiudo
 						break;
@@ -58,7 +61,7 @@ public class Rook extends Piece {
 		i = 1;
 		//vado verso il basso e controllo se la riga in cui mi sposto ha senso e se non c'� qualcosa di team mia
 		while (true) {
-			if (y - i >= 0 && (((other = ChessboardModel.getPezzoInPosizione(x, y - i)) == null) || other.team != this.team)) {// o team avversaria o NULL vanno bene
+			if (y - i >= 0 && ((other = ChessboardModel.getPezzoInPosizione(x, y - i)) == null || other.team != this.team)) {// o team avversaria o NULL vanno bene
 					mosseConsentite.add(x * 10 + (y - i));//aggiungo quella casella alle consentite
 					if (other != null)//se per� c'� qualcuno so che non posso andare oltre e chiudo
 						break;

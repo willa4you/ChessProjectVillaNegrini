@@ -1,18 +1,23 @@
-package chess_model;
+package chess_model.pieces;
 
-public abstract class Piece {
+import chess_model.ChessboardModel;
+import chess_model.Team;
+import chess_model.Core;
+
+public abstract class Piece implements Pieces {
 	public final Team team;
 	
-	public Piece(int team) {
-		if (team == 1)
-			this.team = Team.Team1;
-		else
-			this.team = Team.Team2;
-		
+	public Piece(Team team) {
+			this.team = team;		
 		//il costruttore fissa la squadra del pezzo
 	}
 	
-	public abstract Iterable<Integer> mosseConsentite(int x, int y);
+	@Override
+	public Team getTeam(){
+		return this.team;
+	}
+	
+	@Override
 	public boolean check(int x, int y) {
 		for (int xy : this.mosseConsentite(x, y))
 			if (ChessboardModel.getPezzoInPosizione(xy / 10, xy % 10) instanceof King)
