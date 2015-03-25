@@ -39,7 +39,7 @@ public class PlayMatch {
 			input = new Scanner(System.in).nextLine();
 			sx = (int)(input.charAt(0) - 'A');//estraggo la x della coordinata scelta
 			sy = Integer.parseInt(input.substring(1, 2)) - 1;//estraggo la y della coordinata scelta
-			if( sx > 7 || sy < 0 || sx > 7 || sy < 0){
+			if( sx > 7 || sx < 0 || sy > 7 || sy < 0){
 				System.out.println("Coordinate fuori scacchiera.");
 				continue;
 			}
@@ -52,29 +52,38 @@ public class PlayMatch {
 			
 			for (int moves : Core.availableMoves(sx, sy))
 				System.out.print("" + (char)('A' + moves/10) + (moves%10 + 1) + ", ");
-			
+				
 			System.out.println("'.");
+			
+			
 			System.out.print("Inserisci coordinate di target: ");
 			input = new Scanner(System.in).nextLine();
 			tx = (int)(input.charAt(0) - 'A');//estraggo la x della coordinata scelta
 			ty = Integer.parseInt(input.substring(1, 2)) - 1;//estraggo la y della coordinata scelta
-			if( tx > 7 || ty < 0 || tx > 7 || ty < 0){
+			if( tx > 7 || tx < 0 || ty > 7 || ty < 0){
 				System.out.println("Coordinate fuori scacchiera.");
 				continue;
 			}
-			switch(Core.move(sx, sy, tx, ty)){
-				case 0:
-					System.out.println("Mossa non valida!");
-				break;
-				case 1:
-					System.out.println("Mossa effettuata!");
-					if(ty == 7) Core.upPawn(tx, ty);
-					player = (player == Team.Team1) ? Team.Team2 : Team.Team1;
-				break;
-				case 2:
-					System.out.println("Questa mossa sarebbe stata valida, ma hai il Re sotto scacco!");
-				break;
+			
+			boolean match = false;
+			for (int moves : Core.availableMoves(sx, sy)){
+				System.out.print("" + (char)('A' + moves/10) + (moves%10 + 1) + ", ");
+				if (tx == moves/10 && ty == moves%10) {
+					match = true;
+					System.out.print("match");
+				}
 			}
+			
+			System.out.println("'.");
+			if (match){
+				Core.move(sx, sy, tx, ty);
+				System.out.println("Mossa effettuata.");
+				player = (player == Team.Team1) ? Team.Team2 : Team.Team1;
+			}
+			else {
+				System.out.println("La tua mossa non è compatibile.");
+			}
+				
 		}//chiude while true
 	}//chiude il main
 	

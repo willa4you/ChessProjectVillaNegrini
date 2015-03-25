@@ -56,7 +56,7 @@ public class King extends CastlingPiece {
 		
 		if(shortCastling){
 			firstPlace = 5;
-			secondPlace = 7;
+			secondPlace = 6;
 			rookPlace = 7;
 		}
 		else {
@@ -68,7 +68,7 @@ public class King extends CastlingPiece {
 		//i controlli di un arrocco a livello di pezzo non sono esaustivi
 		//i controlli sulla presenza di uno scacco eventuale vengono svolti dal core
 		//primo controllo: se ho mosso il re una volta, non potrà mai più fare arrocco
-		if (!this.moved)
+		if (this.moved)
 			return false;
 		
 		//secondo controllo: devono essere vuote le due caselle alla mia sinistra
@@ -79,7 +79,7 @@ public class King extends CastlingPiece {
 		
 		//terzo controllo: dev'esserci la torre e non deve aver mai mosso
 		Piece piece = ChessboardModel.getPezzoInPosizione(rookPlace, y);
-		if (piece instanceof Rook && !(((CastlingPiece)piece).getMoved()))
+		if (piece instanceof Rook && !(((CastlingPiece) piece).getMoved()))
 			return true;
 		else
 			return false;
