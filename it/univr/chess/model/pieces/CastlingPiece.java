@@ -1,6 +1,6 @@
-package chess_model.pieces;
+package it.univr.chess.model.pieces;
 
-import chess_model.Team;
+import it.univr.chess.model.Team;
 
 public abstract class CastlingPiece extends Piece {
 	protected boolean moved;
@@ -8,7 +8,7 @@ public abstract class CastlingPiece extends Piece {
 	public CastlingPiece(Team team) {
 		super(team);
 		this.moved = false;		
-	//il costruttore di un pezzo che partecipa all'arrocco, fissa che inizialmente non è stato mosso
+	//il costruttore di un pezzo che partecipa all'arrocco, fissa che inizialmente non ï¿½ stato mosso
 	}
 
 	public boolean getMoved(){

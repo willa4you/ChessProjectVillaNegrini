@@ -1,10 +1,10 @@
-package chess_model.pieces;
+package it.univr.chess.model.pieces;
+
+import it.univr.chess.model.ChessboardModel;
+import it.univr.chess.model.Core;
+import it.univr.chess.model.Team;
 
 import java.util.ArrayList;
-
-import chess_model.ChessboardModel;
-import chess_model.Team;
-import chess_model.Core;
 
 public class King extends CastlingPiece {
 
@@ -67,7 +67,7 @@ public class King extends CastlingPiece {
 		
 		//i controlli di un arrocco a livello di pezzo non sono esaustivi
 		//i controlli sulla presenza di uno scacco eventuale vengono svolti dal core
-		//primo controllo: se ho mosso il re una volta, non potrà mai più fare arrocco
+		//primo controllo: se ho mosso il re una volta, non potrï¿½ mai piï¿½ fare arrocco
 		if (this.moved)
 			return false;
 		

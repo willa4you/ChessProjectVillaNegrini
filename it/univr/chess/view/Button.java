@@ -1,4 +1,4 @@
-package chess_view;
+package it.univr.chess.view;
 
 import javax.swing.JButton;
 
@@ -16,5 +16,7 @@ public class Button extends JButton {
 	public int getValue() {
 		return this.value;
 	}
+	
+	private static final long serialVersionUID = 1L;
 	
 }

@@ -1,11 +1,11 @@
-package junit;
-import chess_model.*;
-import chess_model.pieces.Bishop;
-import chess_model.pieces.King;
-import chess_model.pieces.Knight;
-import chess_model.pieces.Rook;
-
+package it.univr.chess.junit;
 import org.junit.*;
+
+import it.univr.chess.model.*;
+import it.univr.chess.model.pieces.Bishop;
+import it.univr.chess.model.pieces.King;
+import it.univr.chess.model.pieces.Knight;
+import it.univr.chess.model.pieces.Rook;
 
 import java.util.Scanner;
 

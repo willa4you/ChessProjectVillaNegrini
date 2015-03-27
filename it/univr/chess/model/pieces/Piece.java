@@ -1,8 +1,8 @@
-package chess_model.pieces;
+package it.univr.chess.model.pieces;
 
-import chess_model.ChessboardModel;
-import chess_model.Team;
-import chess_model.Core;
+import it.univr.chess.model.ChessboardModel;
+import it.univr.chess.model.Core;
+import it.univr.chess.model.Team;
 
 public abstract class Piece implements Pieces {
 	public final Team team;
