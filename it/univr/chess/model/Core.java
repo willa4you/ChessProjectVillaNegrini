@@ -1,9 +1,9 @@
-package chess_model;
+package it.univr.chess.model;
+
+import it.univr.chess.model.pieces.*;
 
 import java.util.Scanner;
 import java.util.ArrayList;
-
-import chess_model.pieces.*;
 
 public class Core {
 
@@ -59,34 +59,34 @@ public class Core {
 			tx = available/10;
 			ty = available%10;
 			System.out.print(""+(char)('A' + tx) + (ty + 1) + ", ");
-			//primi controlli: arrocco (se il pezzo è Re e la x si sposta di 2)
+			//primi controlli: arrocco (se il pezzo ï¿½ Re e la x si sposta di 2)
 			if (piece instanceof King && (x == tx + 2 || x == tx - 2)) {
 				//se mi viene suggerito un arrocco, le prime condizioni sono superate a livello pezzo
 				//manca il test se sono sotto scacco ora oppure sono sotto scacco nella casella di passaggio
-				//(il test di non dover essere sotto scacco nella casella di arrivo è lasciato alla fine perché si fa comunque)
+				//(il test di non dover essere sotto scacco nella casella di arrivo ï¿½ lasciato alla fine perchï¿½ si fa comunque)
 				if (Core.check(piece.getTeam())) //se sono sotto scacco ora non aggiungo la mossa alle consentite
 					continue;
 				if (x == tx + 2){//se mi sta venendo suggerito un arrocco sinistro
 					ChessboardModel.setPezzoInPosizione(piece, x - 1, y);
 					ChessboardModel.setPezzoInPosizione(null, x, y);
-					condition = Core.check(piece.getTeam()); //guardo se nella casella di passaggio il re è sotto scacco e lo salvo in condition
+					condition = Core.check(piece.getTeam()); //guardo se nella casella di passaggio il re ï¿½ sotto scacco e lo salvo in condition
 					ChessboardModel.setPezzoInPosizione(null, x - 1, y);
 					ChessboardModel.setPezzoInPosizione(piece, x, y); //rimetto il re dov'era
-					if(condition) //se il re è sotto scacco nella casella di transizione passo a un'altra mossa
+					if(condition) //se il re ï¿½ sotto scacco nella casella di transizione passo a un'altra mossa
 						continue;
 				}
 				else if (x == tx - 2){//se mi sta venendo suggerito un arrocco destro
 					ChessboardModel.setPezzoInPosizione(piece, x + 1, y);
 					ChessboardModel.setPezzoInPosizione(null, x, y);
-					condition = Core.check(piece.getTeam()); //guardo se nella casella di passaggio il re è sotto scacco e lo salvo in condition
+					condition = Core.check(piece.getTeam()); //guardo se nella casella di passaggio il re ï¿½ sotto scacco e lo salvo in condition
 					ChessboardModel.setPezzoInPosizione(null, x + 1, y);
 					ChessboardModel.setPezzoInPosizione(piece, x, y); //rimetto il re dov'era
-					if(condition) //se il re è sotto scacco nella casella di transizione passo a un'altra mossa
+					if(condition) //se il re ï¿½ sotto scacco nella casella di transizione passo a un'altra mossa
 						continue;
 				}
 			} // FINE CONTROLLI ARROCCO
 			//In ogni caso devo fare il controllo che muovere un pezzo qualsiasi nella casella suggerita
-			//non mi conduca ad una condizione di scacco perciò simulo la mossa e controllo
+			//non mi conduca ad una condizione di scacco perciï¿½ simulo la mossa e controllo
 			tmp = ChessboardModel.getPezzoInPosizione(tx, ty);//mi serve un tmp dove tenere l'eventuale pezzo mangiato
 			ChessboardModel.setPezzoInPosizione(piece, tx, ty);
 			ChessboardModel.setPezzoInPosizione(null, x, y);
@@ -113,7 +113,7 @@ public class Core {
 		Piece piece = ChessboardModel.getPezzoInPosizione(sx, sy);
 		
 		//primo controllo: enpassant (da fare prima che la mossa standard sia effettuata 
-		//perché controllo il pezzo in casella target prima che sia sostituito/mangiato)
+		//perchï¿½ controllo il pezzo in casella target prima che sia sostituito/mangiato)
 		//se ho mosso un pedone in diagonale (start x diversa da target x), ma in una casella vuota
 		//secondo le mosse consentite posso solamente stare procedendo ad un enpassant
 		//Essendo l'unico caso negli Scacchi in cui si mangia senza sostituirsi ad un pezzo avversario 
@@ -150,8 +150,8 @@ public class Core {
 		}
 		
 		//terzo controllo: la mossa di oggetti CastlingPiece gli preclude per sempre il partecipare all'arrocco in futuro
-		//per i pezzi Re e Torre setto moved a true così che non possano piu fare l'arrocco
-		//la loro variabile moved è messa a false solo dal costruttore
+		//per i pezzi Re e Torre setto moved a true cosï¿½ che non possano piu fare l'arrocco
+		//la loro variabile moved ï¿½ messa a false solo dal costruttore
 		//poi ad ogni mossa gia' a partire dalla prima viene sempre messa a true
 		//(un po' rindondante, ma mi costerebbe di piu' controllare ogni volta cosa vale per evitare in caso di risettarlo a true...)
 		if (piece instanceof CastlingPiece) 
@@ -177,7 +177,7 @@ public class Core {
 		if (piece instanceof Pawn){
 			//quinto controllo: la promozione di un pedone
 			//se un pedone arriva in fondo deve essere promosso
-			//attenzione: lasciare questa mossa alla fine perché fatta prima della mossa standard
+			//attenzione: lasciare questa mossa alla fine perchï¿½ fatta prima della mossa standard
 			//vedrebbe il nuovo pezzo messo in scacchiera nuovamente sostituito da un pedone (definitivamente!)
 			if(ty == 7 || ty == 0){
 				Team team = (ty == 7) ? Team.Team1 : Team.Team2; 
@@ -199,7 +199,7 @@ public class Core {
 			} //fine se Pedone ha raggiunto fondo scacchiera
 			
 			//sesto ed ultimo controllo
-			//se questo è un pedone che fa due passi, si rende vulnerabile nel turno avversario
+			//se questo ï¿½ un pedone che fa due passi, si rende vulnerabile nel turno avversario
 			//ad essere mangiato tramite enpassant, quindi setto il suo enpassant a true
 			//ATTENZIONE: lasciare questo alla fine altrimenti se si mette sopra la pulizia enpassant
 			//la variabile viene "pulita" prima di essere potenzialmente esaminata il turno successivo
@@ -217,7 +217,7 @@ public class Core {
 		int counterTeam2 = 0;
 		Piece piece;
 		//i casi di stallo sono 1)re vs. re, 2) re vs. re + cavallo 3) re vs. re + alfiere
-		//perciò se incontro un pezzo diverso da questi restituisco subito false
+		//perciï¿½ se incontro un pezzo diverso da questi restituisco subito false
 		//se incontro questi pezzi, al terzo trovato restituisco false (es. re + cavallo + cavallo non crea stallo)
 		for(int i = 0; i < 8; i++)
 			for(int j = 0; j < 8; j++) {
@@ -239,7 +239,7 @@ public class Core {
 			}
 		//finito il ciclo potrei avere un ultimo caso di non stallo non ancora considerato
 		if (counterTeam1 == 2 && counterTeam2 == 2)
-			return false; //non è ancora stallo matematico (es. re + alfiere vs. re + cavallo)
+			return false; //non ï¿½ ancora stallo matematico (es. re + alfiere vs. re + cavallo)
 		
 		//------ TUTTI I RIMANENTI SONO CASI DI STALLO (1 vs. 2 fatti di re, alfieri e/o cavalli oppure 1 vs. 1 per forza due re) ---- //
 		return true; 

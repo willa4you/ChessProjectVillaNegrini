@@ -1,6 +1,6 @@
-package chess_model;
+package it.univr.chess.model;
 
-import chess_model.pieces.*;
+import it.univr.chess.model.pieces.*;
 
 public class ChessboardModel {
 	private static ChessboardModel scacchieraObj;

@@ -1,9 +1,9 @@
-package chess_model.pieces;
+package it.univr.chess.model.pieces;
+
+import it.univr.chess.model.ChessboardModel;
+import it.univr.chess.model.Team;
 
 import java.util.ArrayList;
-
-import chess_model.ChessboardModel;
-import chess_model.Team;
 
 public class Rook extends CastlingPiece {
 	

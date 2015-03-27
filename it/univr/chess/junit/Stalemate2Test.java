@@ -1,14 +1,14 @@
-package junit;
+package it.univr.chess.junit;
+
+import it.univr.chess.model.ChessboardModel;
+import it.univr.chess.model.Core;
+import it.univr.chess.model.Team;
+import it.univr.chess.model.pieces.*;
 
 import java.util.Scanner;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import chess_model.ChessboardModel;
-import chess_model.Core;
-import chess_model.Team;
-import chess_model.pieces.*;
 
 public class Stalemate2Test {
 

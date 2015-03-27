@@ -1,9 +1,9 @@
-package chess_model.pieces;
+package it.univr.chess.model.pieces;
+
+import it.univr.chess.model.ChessboardModel;
+import it.univr.chess.model.Team;
 
 import java.util.ArrayList;
-
-import chess_model.ChessboardModel;
-import chess_model.Team;
 
 public class Pawn extends Piece {
 	private boolean enpassant; //comunica di essere mangiabile enpassant
@@ -20,7 +20,7 @@ public class Pawn extends Piece {
 		
 		if (this.team == Team.Team1) {//team1 va verso l'alto
 			
-			//per muovermi in alto a destra non devo uscire e (o c'è un avversario, o è vuoto e a destra ho un pedone che è mangiabile enpassant)
+			//per muovermi in alto a destra non devo uscire e (o c'ï¿½ un avversario, o ï¿½ vuoto e a destra ho un pedone che ï¿½ mangiabile enpassant)
 			if (x < 7 && y < 7 &&
 					( ((other = ChessboardModel.getPezzoInPosizione(x + 1, y + 1)) != null && other.team != team) || enpassant(x, y, true) ))
 				mosseConsentite.add((x + 1) * 10 + (y + 1));//aggiungo quella casella alle consentite
@@ -33,14 +33,14 @@ public class Pawn extends Piece {
 			if(y == 1 && ChessboardModel.getPezzoInPosizione(x, y + 1) == null && ChessboardModel.getPezzoInPosizione(x, y + 2) == null)
 				mosseConsentite.add(x * 10 + (y + 2));//aggiungo quella casella alle consentite
 			
-			//per muovermi in alto a sinistra non devo uscire e (o c'è un avversario, o è vuoto e a sinistra ho un pedone che è mangiabile enpassant)
+			//per muovermi in alto a sinistra non devo uscire e (o c'ï¿½ un avversario, o ï¿½ vuoto e a sinistra ho un pedone che ï¿½ mangiabile enpassant)
 			if (x > 0 && y < 7 && 
 					( ((other = ChessboardModel.getPezzoInPosizione(x - 1, y + 1)) != null && other.team != team) || enpassant(x, y, false) ))
 				mosseConsentite.add((x - 1) * 10 + (y + 1));//aggiungo quella casella alle consentite
 		} 
 		else {//team2 va verso il basso
 			
-			//per muovermi in basso a destra non devo uscire e (o c'è un avversario, o è vuoto e a destra ho un pedone che è mangiabile enpassant)
+			//per muovermi in basso a destra non devo uscire e (o c'ï¿½ un avversario, o ï¿½ vuoto e a destra ho un pedone che ï¿½ mangiabile enpassant)
 			if (x < 7 && y > 0 && 
 					( ((other = ChessboardModel.getPezzoInPosizione(x + 1, y - 1)) != null && other.team != team) || enpassant(x, y, true) ))
 				mosseConsentite.add((x + 1) * 10 + (y - 1));//aggiungo quella casella alle consentite
@@ -53,7 +53,7 @@ public class Pawn extends Piece {
 			if(y == 6 && ChessboardModel.getPezzoInPosizione(x, y - 1) == null && ChessboardModel.getPezzoInPosizione(x, y - 2) == null)
 				mosseConsentite.add(x * 10 + (y - 2));//aggiungo quella casella alle consentite
 			
-			//per muovermi in basso a sinistra non devo uscire e (o c'è un avversario, o è vuoto e a destra ho un pedone che è mangiabile enpassant)
+			//per muovermi in basso a sinistra non devo uscire e (o c'ï¿½ un avversario, o ï¿½ vuoto e a destra ho un pedone che ï¿½ mangiabile enpassant)
 			if (x > 0 && y > 0 &&
 					( ((other = ChessboardModel.getPezzoInPosizione(x - 1, y - 1)) != null && other.team != team) || enpassant(x, y, false) ))
 				mosseConsentite.add((x - 1) * 10 + (y - 1));//aggiungo quella casella alle consentite

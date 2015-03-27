@@ -1,7 +1,7 @@
-package junit;
+package it.univr.chess.junit;
 
-import chess_model.*;
-import chess_model.pieces.*;
+import it.univr.chess.model.*;
+import it.univr.chess.model.pieces.*;
 
 import org.junit.*;
 import java.util.Scanner;

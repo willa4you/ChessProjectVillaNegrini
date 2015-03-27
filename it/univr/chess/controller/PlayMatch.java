@@ -1,8 +1,8 @@
-package chess_controller;
-import chess_model.Team;
-import chess_model.ChessboardModel;
-import chess_model.Core;
-import chess_view.*;
+package it.univr.chess.controller;
+import it.univr.chess.model.ChessboardModel;
+import it.univr.chess.model.Core;
+import it.univr.chess.model.Team;
+import it.univr.chess.view.*;
 
 import java.util.Scanner;
 
@@ -19,7 +19,7 @@ public class PlayMatch {
 		while (true) {
 			System.out.println(ChessboardModel.stringChessboard());
 
-			if(Core.check(player)) {//se il re è sotto scacco
+			if(Core.check(player)) {//se il re ï¿½ sotto scacco
 				if(Core.mate(player)){
 					System.out.println("SCACCO MATTO, PARTITA FINITA!");
 					break;
@@ -44,7 +44,7 @@ public class PlayMatch {
 				continue;
 			}
 			if (Core.getTeam(sx, sy) != player) {
-				//getTeam lo chiedo a Core che fa il lavoro di restituire null anche se in quella posizione c'è null
+				//getTeam lo chiedo a Core che fa il lavoro di restituire null anche se in quella posizione c'ï¿½ null
 				//ChessboardModel mi andrebbe in errore
 				System.out.println("Non hai selezionato un tuo pezzo.");
 				continue;
@@ -81,7 +81,7 @@ public class PlayMatch {
 				player = (player == Team.Team1) ? Team.Team2 : Team.Team1;
 			}
 			else {
-				System.out.println("La tua mossa non è compatibile.");
+				System.out.println("La tua mossa non ï¿½ compatibile.");
 			}
 				
 		}//chiude while true
