@@ -2,23 +2,23 @@ package it.univr.chess.model;
 
 import it.univr.chess.model.pieces.*;
 
-public class ChessboardModel {
-	private static ChessboardModel scacchieraObj;
+public class ChessboardModel2 {
+	private static ChessboardModel2 scacchieraObj;
 	
 	private Piece scacchiera[][] = new Piece[8][8];
 	
-	private ChessboardModel() {
+	private ChessboardModel2() {
 		//schiero la prima squadra
-		scacchiera[0][0] = new Rook(Team.Team1);
-		scacchiera[1][0] = new Knight(Team.Team1);
-		scacchiera[2][0] = new Bishop(Team.Team1);
-		scacchiera[3][0] = new Queen(Team.Team1);
-		scacchiera[4][0] = new King(Team.Team1);
-		scacchiera[5][0] = new Bishop(Team.Team1);
-		scacchiera[6][0] = new Knight(Team.Team1);
-		scacchiera[7][0] = new Rook(Team.Team1);
+		scacchiera[0][0] = new Rook(Team.TEAM1);
+		scacchiera[1][0] = new Knight(Team.TEAM1);
+		scacchiera[2][0] = new Bishop(Team.TEAM1);
+		scacchiera[3][0] = new Queen(Team.TEAM1);
+		scacchiera[4][0] = new King(Team.TEAM1);
+		scacchiera[5][0] = new Bishop(Team.TEAM1);
+		scacchiera[6][0] = new Knight(Team.TEAM1);
+		scacchiera[7][0] = new Rook(Team.TEAM1);
 		for (int i = 0; i < 8; i++)
-			scacchiera[i][1] = new Pawn(Team.Team1);
+			scacchiera[i][1] = new Pawn(Team.TEAM1);
 		
 		//riempio la parte centrale della scacchiera di vuoti
 		for (int i = 0;i < 4; i++)
@@ -27,15 +27,15 @@ public class ChessboardModel {
 		
 		//schiero la seconda squadra
 		for (int i = 0; i < 8; i++)
-			scacchiera[i][6] = new Pawn(Team.Team2);
-		scacchiera[0][7] = new Rook(Team.Team2);
-		scacchiera[1][7] = new Knight(Team.Team2);
-		scacchiera[2][7] = new Bishop(Team.Team2);
-		scacchiera[3][7] = new Queen(Team.Team2);
-		scacchiera[4][7] = new King(Team.Team2);
-		scacchiera[5][7] = new Bishop(Team.Team2);
-		scacchiera[6][7] = new Knight(Team.Team2);
-		scacchiera[7][7] = new Rook(Team.Team2);
+			scacchiera[i][6] = new Pawn(Team.TEAM2);
+		scacchiera[0][7] = new Rook(Team.TEAM2);
+		scacchiera[1][7] = new Knight(Team.TEAM2);
+		scacchiera[2][7] = new Bishop(Team.TEAM2);
+		scacchiera[3][7] = new Queen(Team.TEAM2);
+		scacchiera[4][7] = new King(Team.TEAM2);
+		scacchiera[5][7] = new Bishop(Team.TEAM2);
+		scacchiera[6][7] = new Knight(Team.TEAM2);
+		scacchiera[7][7] = new Rook(Team.TEAM2);
 	}
 	
 	public static Piece getPezzoInPosizione(int x, int y) {
@@ -54,7 +54,7 @@ public class ChessboardModel {
 	public static void nuovaPartita() {
 		//nessun altra classe può fare una new ChessboardModel
 		//se viene richiamata una nuova partita per la seconda volta occorre fare pulizia...
-		scacchieraObj = new ChessboardModel();
+		scacchieraObj = new ChessboardModel2();
 	}
 	
 	@Override
@@ -80,7 +80,7 @@ public class ChessboardModel {
 					charPiece = "P ";
 				else charPiece = "- ";
 				
-				if (scacchiera[x][y] != null && scacchiera[x][y].team == Team.Team1)
+				if (scacchiera[x][y] != null && scacchiera[x][y].team == Team.TEAM1)
 					charPiece = charPiece.toLowerCase();
 				
 				chessboardToPlay += charPiece;

@@ -1,5 +1,5 @@
 package it.univr.chess.controller;
-import it.univr.chess.model.ChessboardModel;
+import it.univr.chess.model.ChessboardModel2;
 import it.univr.chess.model.Core;
 import it.univr.chess.model.Team;
 import it.univr.chess.view.*;
@@ -12,12 +12,12 @@ public class PlayMatch {
 		//vaiabili locali al main
 		String input = "";
 		int sx, sy, tx, ty; // start e target x e y
-		Team player = Team.Team1;//variabile del turno a cui assegno il primo turno
-		ChessboardModel.nuovaPartita();//preparo la scacchiera per una nuova partita
+		Team player = Team.TEAM1;//variabile del turno a cui assegno il primo turno
+		ChessboardModel2.nuovaPartita();//preparo la scacchiera per una nuova partita
 		//apre la finestra grafica
 		
 		while (true) {
-			System.out.println(ChessboardModel.stringChessboard());
+			System.out.println(ChessboardModel2.stringChessboard());
 
 			if(Core.check(player)) {//se il re � sotto scacco
 				if(Core.mate(player)){
@@ -33,7 +33,7 @@ public class PlayMatch {
 				break;
 			}
 			System.out.print("\nE' IL TUO TURNO "); 
-			if (player == Team.Team1) System.out.println("GIOCATORE 1");//turno del giocatore
+			if (player == Team.TEAM1) System.out.println("GIOCATORE 1");//turno del giocatore
 			else System.out.println("GIOCATORE 2");
 			System.out.print("Inserisci coordinate di start: ");
 			input = new Scanner(System.in).nextLine();
@@ -78,7 +78,7 @@ public class PlayMatch {
 			if (match){
 				Core.move(sx, sy, tx, ty);
 				System.out.println("Mossa effettuata.");
-				player = (player == Team.Team1) ? Team.Team2 : Team.Team1;
+				player = (player == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1;
 			}
 			else {
 				System.out.println("La tua mossa non � compatibile.");

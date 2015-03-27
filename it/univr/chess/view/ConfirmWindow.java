@@ -23,7 +23,7 @@ public class ConfirmWindow extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				ChessBoardView.confirmWindowOpen = false;
+				ChessboardView.confirmWindowOpen = false;
 			}
 		});
 		
@@ -44,7 +44,7 @@ public class ConfirmWindow extends JFrame {
 		
 		JButton cancelButton = new JButton("No");
 		cancelButton.addActionListener(event -> {
-			ChessBoardView.confirmWindowOpen = false;
+			ChessboardView.confirmWindowOpen = false;
 			dispose();
 		});
 		buttonPanel.add(cancelButton);

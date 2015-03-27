@@ -26,6 +26,6 @@ public class Icon {
 	public static ImageIcon returnIcon(String name){
 		return new ImageIcon(
 				new ImageIcon(PATH + name).getImage().getScaledInstance(
-						ChessBoardView.getWindowSide() / 10, ChessBoardView.getWindowSide() / 10, Image.SCALE_SMOOTH));	
+						ChessboardView.getWindowSide() / 10, ChessboardView.getWindowSide() / 10, Image.SCALE_SMOOTH));	
 	}
 }

@@ -1,5 +1,5 @@
 package it.univr.chess;
-import it.univr.chess.view.ChessBoardView;
+import it.univr.chess.view.ChessboardView;
 
 import java.awt.EventQueue;
 
@@ -12,7 +12,7 @@ public class Main {
 
 			@Override
 			public void run() {
-				JFrame frame = new ChessBoardView();
+				JFrame frame = new ChessboardView();
 				frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				frame.setVisible(true);
 			}
