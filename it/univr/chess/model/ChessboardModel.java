@@ -49,7 +49,7 @@ public class ChessboardModel implements Model {
 	
 	@Override
 	public void coordinates(int x, int y) {
-		
+		// TODO
 	}
 	
 	
