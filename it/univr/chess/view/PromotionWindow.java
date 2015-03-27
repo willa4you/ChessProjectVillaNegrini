@@ -13,13 +13,13 @@ public class PromotionWindow extends JFrame {
 	private Button[] promotionButtons;
 	
 	public static void main(String[] args) {
-		new PromotionWindow(Team.Team2).setVisible(true);
+		new PromotionWindow(Team.TEAM2).setVisible(true);
 	}
 	
 	public PromotionWindow(Team team) {
 		super("Promotion Window");
 		this.team = team;
-		setSize(ChessBoardView.getWindowSide() / 5 * 2, ChessBoardView.getWindowSide() / 6);
+		setSize(ChessboardView.getWindowSide() / 5 * 2, ChessboardView.getWindowSide() / 6);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -40,7 +40,7 @@ public class PromotionWindow extends JFrame {
 			promotionButtons[i] = new Button(i);
 		
 		for (int i = 0; i < 4; i++) {
-			if (team == Team.Team1)
+			if (team == Team.TEAM1)
 				if (promotionButtons[i].getValue() == 0)
 					promotionButtons[i].setIcon(Icon.returnIcon(Icon.WHITE_QUEEN));
 				else if (promotionButtons[i].getValue() == 1)

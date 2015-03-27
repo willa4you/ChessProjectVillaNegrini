@@ -1,5 +1,5 @@
 package it.univr.chess.model;
 
 public enum Team {
-	Team1, Team2
+	TEAM1, TEAM2
 }

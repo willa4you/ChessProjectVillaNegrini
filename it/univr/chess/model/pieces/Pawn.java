@@ -1,6 +1,6 @@
 package it.univr.chess.model.pieces;
 
-import it.univr.chess.model.ChessboardModel;
+import it.univr.chess.model.ChessboardModel2;
 import it.univr.chess.model.Team;
 
 import java.util.ArrayList;
@@ -18,44 +18,44 @@ public class Pawn extends Piece {
 		ArrayList<Integer> mosseConsentite = new ArrayList<Integer>();
 		Piece other = null;
 		
-		if (this.team == Team.Team1) {//team1 va verso l'alto
+		if (this.team == Team.TEAM1) {//team1 va verso l'alto
 			
 			//per muovermi in alto a destra non devo uscire e (o c'� un avversario, o � vuoto e a destra ho un pedone che � mangiabile enpassant)
 			if (x < 7 && y < 7 &&
-					( ((other = ChessboardModel.getPezzoInPosizione(x + 1, y + 1)) != null && other.team != team) || enpassant(x, y, true) ))
+					( ((other = ChessboardModel2.getPezzoInPosizione(x + 1, y + 1)) != null && other.team != team) || enpassant(x, y, true) ))
 				mosseConsentite.add((x + 1) * 10 + (y + 1));//aggiungo quella casella alle consentite
 			
 			//per muovermi in alto non devo uscire e dev'essere casella vuota
-			if (y < 7 && ChessboardModel.getPezzoInPosizione(x, y + 1) == null)
+			if (y < 7 && ChessboardModel2.getPezzoInPosizione(x, y + 1) == null)
 				mosseConsentite.add(x * 10 + (y + 1));//aggiungo quella casella alle consentite
 			
 			//per muovermi in alto di due passi devo essere nella riga di partenza e mi devono seguire due caselle vuote
-			if(y == 1 && ChessboardModel.getPezzoInPosizione(x, y + 1) == null && ChessboardModel.getPezzoInPosizione(x, y + 2) == null)
+			if(y == 1 && ChessboardModel2.getPezzoInPosizione(x, y + 1) == null && ChessboardModel2.getPezzoInPosizione(x, y + 2) == null)
 				mosseConsentite.add(x * 10 + (y + 2));//aggiungo quella casella alle consentite
 			
 			//per muovermi in alto a sinistra non devo uscire e (o c'� un avversario, o � vuoto e a sinistra ho un pedone che � mangiabile enpassant)
 			if (x > 0 && y < 7 && 
-					( ((other = ChessboardModel.getPezzoInPosizione(x - 1, y + 1)) != null && other.team != team) || enpassant(x, y, false) ))
+					( ((other = ChessboardModel2.getPezzoInPosizione(x - 1, y + 1)) != null && other.team != team) || enpassant(x, y, false) ))
 				mosseConsentite.add((x - 1) * 10 + (y + 1));//aggiungo quella casella alle consentite
 		} 
 		else {//team2 va verso il basso
 			
 			//per muovermi in basso a destra non devo uscire e (o c'� un avversario, o � vuoto e a destra ho un pedone che � mangiabile enpassant)
 			if (x < 7 && y > 0 && 
-					( ((other = ChessboardModel.getPezzoInPosizione(x + 1, y - 1)) != null && other.team != team) || enpassant(x, y, true) ))
+					( ((other = ChessboardModel2.getPezzoInPosizione(x + 1, y - 1)) != null && other.team != team) || enpassant(x, y, true) ))
 				mosseConsentite.add((x + 1) * 10 + (y - 1));//aggiungo quella casella alle consentite
 			
 			//per muovermi in basso non devo uscire e dev'essere casella vuota
-			if (y > 0 && ChessboardModel.getPezzoInPosizione(x, y - 1) == null)
+			if (y > 0 && ChessboardModel2.getPezzoInPosizione(x, y - 1) == null)
 				mosseConsentite.add(x * 10 + (y - 1));//aggiungo quella casella alle consentite
 			
 			//per muovermi in basso di due passi devo essere nella riga di partenza e mi devono seguire due caselle vuote
-			if(y == 6 && ChessboardModel.getPezzoInPosizione(x, y - 1) == null && ChessboardModel.getPezzoInPosizione(x, y - 2) == null)
+			if(y == 6 && ChessboardModel2.getPezzoInPosizione(x, y - 1) == null && ChessboardModel2.getPezzoInPosizione(x, y - 2) == null)
 				mosseConsentite.add(x * 10 + (y - 2));//aggiungo quella casella alle consentite
 			
 			//per muovermi in basso a sinistra non devo uscire e (o c'� un avversario, o � vuoto e a destra ho un pedone che � mangiabile enpassant)
 			if (x > 0 && y > 0 &&
-					( ((other = ChessboardModel.getPezzoInPosizione(x - 1, y - 1)) != null && other.team != team) || enpassant(x, y, false) ))
+					( ((other = ChessboardModel2.getPezzoInPosizione(x - 1, y - 1)) != null && other.team != team) || enpassant(x, y, false) ))
 				mosseConsentite.add((x - 1) * 10 + (y - 1));//aggiungo quella casella alle consentite
 		}
 		
@@ -72,7 +72,7 @@ public class Pawn extends Piece {
 		//controllo se a fianco ho un pawn e se e' in enpassant: non verifico che sia avversario
 		//perche' l'enpassant dura un turno e se fosse mio il turno precedente dell'avversario
 		//avrebbe rimosso il suo stato di enpassant
-		if (((other = ChessboardModel.getPezzoInPosizione(x + move, y)) instanceof Pawn) && ((Pawn)other).enpassant)
+		if (((other = ChessboardModel2.getPezzoInPosizione(x + move, y)) instanceof Pawn) && ((Pawn)other).enpassant)
 			return true;
 		else
 			return false;
