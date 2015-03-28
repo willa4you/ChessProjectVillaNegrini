@@ -12,7 +12,7 @@ public class ChessController implements Controller {
 	public ChessController(View view) {
 		this.view = view;
 		
-		view.setController(this); // view è il ChessBoardPanel
+		view.setController(this); // view e' il ChessBoardPanel
 		
 		model = new ChessboardModel(view);
 	}

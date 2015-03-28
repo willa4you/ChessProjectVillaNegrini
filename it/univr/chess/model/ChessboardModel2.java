@@ -1,4 +1,4 @@
-package it.univr.chess.model;
+/*package it.univr.chess.model;
 
 import it.univr.chess.model.pieces.*;
 
@@ -47,10 +47,6 @@ public class ChessboardModel2 {
 		return true;
 	}
 	
-	public static CastlingPiece getCastlingRook(int x, int y){
-		Piece piece = scacchieraObj.scacchiera[x][y];
-		return (piece instanceof Rook) ? (CastlingPiece) piece : null;
-	}
 	public static void nuovaPartita() {
 		//nessun altra classe può fare una new ChessboardModel
 		//se viene richiamata una nuova partita per la seconda volta occorre fare pulizia...
@@ -97,3 +93,4 @@ public class ChessboardModel2 {
 		return scacchieraObj.toString();
 	}
 }
+*/

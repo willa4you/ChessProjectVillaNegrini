@@ -34,11 +34,11 @@ public class MateTest {
 			String arrivo = new Scanner(System.in).nextLine();
 			int a = (int)(arrivo.charAt(0) - 'A')*10 + (Integer.parseInt(arrivo.substring(1, 2))-1);
 			
-			for (int b : ChessboardModel2.getPezzoInPosizione(7, 1).mosseConsentite(7, 1)){
+			for (int b : ChessboardModel2.getPiece(7, 1).mosseConsentite(7, 1)){
 				System.out.print("Potrei andare in " + (char)('A' + b/10) + (b%10 + 1) + "...");
 				if (b == a) {//la mossa che ho scelto (a) combacia con una delle possibili per il pezzo (b)
 					System.out.println(" Match!");
-					ChessboardModel2.setPezzoInPosizione(ChessboardModel2.getPezzoInPosizione(7, 1), a/10, a%10);
+					ChessboardModel2.setPezzoInPosizione(ChessboardModel2.getPiece(7, 1), a/10, a%10);
 					ChessboardModel2.setPezzoInPosizione(null, 7, 1);
 					c = true;
 				}

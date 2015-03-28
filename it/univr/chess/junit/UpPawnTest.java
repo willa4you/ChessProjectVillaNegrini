@@ -31,11 +31,11 @@ public class UpPawnTest {
 		switch (Integer.parseInt(new Scanner(System.in).nextLine())){
 		case 1:
 			Core.move(5, 6, 5, 7);
-			piece = ChessboardModel2.getPezzoInPosizione(5, 7);
+			piece = ChessboardModel2.getPiece(5, 7);
 			break;
 		case 2:
 			Core.move(4, 1, 4, 0);
-			piece = ChessboardModel2.getPezzoInPosizione(4, 0);
+			piece = ChessboardModel2.getPiece(4, 0);
 			break;
 		}
 		switch (after) {
