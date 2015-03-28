@@ -35,9 +35,13 @@ public class ChessboardPanel extends JPanel implements View {
 	}
 	
 	private void assignComponents() {
+		
+		
 		//prima riga
+
 		for (int i = 0; i < 10; i++)
 			add(letterLabel(i));
+		
 		
 		//la scacchiera ha l'oringine 0,0 in basso a sinistra
 		//mentre la griglia si riempie di elementi dall'alto
@@ -90,13 +94,15 @@ public class ChessboardPanel extends JPanel implements View {
 	private void createButtons() {
 		buttons = new Button[8][8];
 		Color color = null;
+		Color darkSquare = new Color(153, 102, 51);
+		Color lightSquare = new Color(255, 255, 204);
 		for (int y = 0; y < buttons.length; y++) {
 			for (int x = 0; x < buttons[y].length; x++) {
-				color = (color == Color.ORANGE) ? Color.LIGHT_GRAY : Color.ORANGE;
+				color = (color == darkSquare) ? lightSquare : darkSquare;
 				buttons[x][y] = new Button((x * 10) + y, color);
 				buttonListener(x, y);
 			}
-			color = (color == Color.ORANGE) ? Color.LIGHT_GRAY : Color.ORANGE;
+			color = (color == darkSquare) ? lightSquare : darkSquare;
 		}
 	}
 	
@@ -109,14 +115,23 @@ public class ChessboardPanel extends JPanel implements View {
 				//SwingConstants.CENTER);
 		JLabel a = new JLabel();
 		a.setIcon(Icon.returnIcon("" + i));
+		a.setOpaque(true);
+		a.setBackground(new Color(77, 0, 0));
 		return a;
 		
 	}
 
 	private Component letterLabel(int j) {	
-		return (j > 0 && j < 9 ?
-				(new JLabel(Character.toString((char)('A' + j - 1)), SwingConstants.CENTER)) :
-					new JLabel());
+		//return (j > 0 && j < 9 ?
+				//(new JLabel(Character.toString((char)('A' + j - 1)), SwingConstants.CENTER)) :
+					//new JLabel());
+		JLabel a = new JLabel();
+		if(j > 0 && j < 9)
+			a.setIcon(Icon.returnIcon(Character.toString((char)('A' + j - 1))));
+		
+		a.setOpaque(true);
+		a.setBackground(new Color(77, 0, 0));
+		return a;
 	}
 	
 	@Override
