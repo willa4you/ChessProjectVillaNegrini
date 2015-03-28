@@ -62,21 +62,25 @@ public class ChessboardModel implements Model {
 	public void coordinates(int x, int y) {
 		switch(step){
 		case STARTFROM:
-			if (chessboard[x][y] != null && chessboard[x][y].team == turn) {
-				view.highlightOff(sx, sy);//tolgo il giallo perche' nuova selezione
-				view.highlightOff(tx, ty);//tolgo eventuale rosso di errore precedente
+			//se non ho selezionato un elemento null E ho selezionato uno della mia squadra con ALMENO UNA MOSSA DISPONIBILE
+			if (chessboard[x][y] != null && chessboard[x][y].getTeam() == turn && availableMoves(x, y).iterator().hasNext()) {	
 				sx = x;
 				sy = y;
+				for (int moves : availableMoves(sx, sy))
+					view.highlight(moves / 10, moves % 10, Color.GREEN);
+
 				view.highlight(x, y, Color.YELLOW);
-				step = Step.GOTO;				
-			}
-			else {
-				if (tx != 0)
-					view.highlightOff(tx, ty);//tolgo eventuale rosso di errore precedente
-					tx = 0;
+				step = Step.GOTO;
 			}
 			break;
 		case GOTO:
+			if (x == sx && y == sy) { //se hai cliccato su te stesso come destinazione
+				if (tx != 9) {
+					view.highlightOff(tx, ty);
+					break;
+				}
+			}
+				
 			boolean match = false;
 			for (int moves : availableMoves(sx, sy)){
 				if (x == (moves / 10) && y == (moves % 10)) {
@@ -84,14 +88,18 @@ public class ChessboardModel implements Model {
 					break;
 				}
 			}
-			if (match) {
-				view.highlightOff(tx, ty);
-				tx = x;// le coordinate target servono per togliere l'higlight rosso al prossimo turno
-				ty = y;
+			if (match) {//se il target scelto e' permesso effettuo la mossa
+				//se la mossa va a buon fine cancello tutte le evidenziazioni
+				for (int i = 0; i < 8; i++)
+					for (int j = 0; j < 8; j++)
+						view.highlightOff(i, j);
+				tx = 9;
 				move(sx, sy, x, y);
 				step = Step.STARTFROM;
-				view.highlightOff(sx, sy);
 				turn = (turn == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1;
+				
+				// i controlli qui sotto sono idealmente le prime cose da fare al turno successivo
+				// per il giocatore di squadra opposta (infatti la variabile turn e' gia' cambiata) 
 				if (check(turn)) {//se il re e' sotto scacco
 					if (mate(turn)){
 						System.out.println("SCACCO MATTO, PARTITA FINITA!");
@@ -106,12 +114,14 @@ public class ChessboardModel implements Model {
 					break;
 				} //controlli scacco e scacco matto
 			} // end if mossa a buon fine
-			else {//se le coordinate target non fanno parte delle mosse disponibili
-				view.highlightOff(tx, ty);
+			
+			else {//se le coordinate target sono errate (neanche un match con le disponibili)
+				if (tx != 9)
+					view.highlightOff(tx, ty); //tolgo l'highlight rosso da un eventuale errore precedente
+				
 				tx = x;// le coordinate target servono per togliere l'higlight rosso al prossimo turno
 				ty = y;
 				view.highlight(x, y, Color.RED);
-				step = Step.STARTFROM;
 			}
 			break;
 		}
