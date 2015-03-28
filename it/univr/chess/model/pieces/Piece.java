@@ -4,8 +4,8 @@ import it.univr.chess.model.Model;
 import it.univr.chess.model.Team;
 
 public abstract class Piece implements Pieces {
-	public final Team team;
-	public final Model chessboard;
+	protected final Team team;
+	protected final Model chessboard;
 	
 	public Piece(Team team, Model chessboard) {
 			this.team = team;
