@@ -17,6 +17,8 @@ public class ChessboardView extends JFrame {
 	private final Controller controller;
 	public static boolean confirmWindowOpen = false;
 	
+	private Button[][] buttons;
+	
 	public ChessboardView() {	
 		super("Scacchiera");												// 20 pixel del JMenuBar
 		setSize(getWindowSide(), getWindowSide() + 20);
@@ -46,11 +48,23 @@ public class ChessboardView extends JFrame {
 	}
 	
 	private JMenuBar menuBar() {
-		JMenu optionMenu = new JMenu("Opzioni");
-
+		JMenu optionMenu = new JMenu("Options");
 		
-		JMenuItem restartChoice = new JMenuItem("Nuova Partita");
-		// da completare
+		JMenuItem resizeChoice = new JMenuItem("Resize");
+		resizeChoice.addActionListener(event -> {
+			setResizable(true);
+			setSize(getWindowSide(), getWindowSide() + 20);
+			setResizable(false);
+			setLocationRelativeTo(null);
+			for (int i = 0; i < buttons.length; i++)
+				for (int j = 0; j < buttons[i].length; j++)
+					if (buttons[i][j].getIcon() != null) {
+						// ho bisogno di sapere il pezzo associato all'immagine
+					}
+		});
+		optionMenu.add(resizeChoice);
+		
+		JMenuItem restartChoice = new JMenuItem("Restart");
 		optionMenu.add(restartChoice);
 		
 		JMenuBar menuBar = new JMenuBar();

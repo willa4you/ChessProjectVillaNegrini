@@ -4,10 +4,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 
-// import javax.swing.JButton;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import it.univr.chess.controller.Controller;
 
@@ -15,8 +14,6 @@ public class ChessboardPanel extends JPanel implements View {
 
 	private Button[][] buttons;
 	private Controller controller;
-	// private static int firstClickValue = -1;
-	// private static int secondClickValue = -1;
 	
 	public ChessboardPanel() {
 		setLayout(new GridLayout(10, 10));
@@ -111,8 +108,6 @@ public class ChessboardPanel extends JPanel implements View {
 	}
 
 	private Component numberLabel(int i) {
-		//return new JLabel(Integer.toString(i),
-				//SwingConstants.CENTER);
 		JLabel a = new JLabel();
 		a.setIcon(Icon.returnIcon("" + i));
 		a.setOpaque(true);
@@ -122,9 +117,6 @@ public class ChessboardPanel extends JPanel implements View {
 	}
 
 	private Component letterLabel(int j) {	
-		//return (j > 0 && j < 9 ?
-				//(new JLabel(Character.toString((char)('A' + j - 1)), SwingConstants.CENTER)) :
-					//new JLabel());
 		JLabel a = new JLabel();
 		if(j > 0 && j < 9)
 			a.setIcon(Icon.returnIcon(Character.toString((char)('A' + j - 1))));
@@ -136,11 +128,13 @@ public class ChessboardPanel extends JPanel implements View {
 	
 	@Override
 	public void highlight(int x, int y, Color color) {
+		buttons[x][y].setBorderPainted(true);
 		buttons[x][y].setBackground(color);		
 	}
 	
 	@Override
 	public void highlightOff(int x, int y) {
+		buttons[x][y].setBorderPainted(false);
 		buttons[x][y].setBackground(buttons[x][y].getColor());
 	}
 	
