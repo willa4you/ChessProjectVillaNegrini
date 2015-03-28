@@ -12,7 +12,7 @@ public class Icon {
 	
 	public static ImageIcon returnIcon(String name){
 		return new ImageIcon(
-				new ImageIcon(PATH + name).getImage().getScaledInstance(
+				new ImageIcon(PATH + name + ".png").getImage().getScaledInstance(
 						ChessboardView.getWindowSide() / 10, ChessboardView.getWindowSide() / 10, Image.SCALE_SMOOTH));	
 	}
 }
