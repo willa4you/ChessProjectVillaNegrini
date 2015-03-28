@@ -1,4 +1,5 @@
 package it.univr.chess;
+
 import it.univr.chess.view.ChessboardView;
 
 import java.awt.EventQueue;

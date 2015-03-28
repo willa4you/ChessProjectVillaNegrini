@@ -66,7 +66,7 @@ public class PromotionWindow extends JFrame {
 	
 	private void promotionButtonsListener(int i) {
 		promotionButtons[i].addActionListener(event -> {
-			// da completare
+			// TODO
 			dispose();
 		});
 	}

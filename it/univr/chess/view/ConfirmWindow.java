@@ -24,18 +24,13 @@ public class ConfirmWindow extends JFrame {
 			}
 		});
 		
-		
-		JLabel confirmLabel = new JLabel("Are you sure you want to exit?", SwingConstants.CENTER);
-		confirmLabel.setBackground(Color.ORANGE);
-		confirmLabel.setOpaque(true); // se non lo metto non si vede il colore sottostante
-		
-		add(confirmLabel, BorderLayout.CENTER);
+		add(new JLabel("Sicuro di voler uscire?", SwingConstants.CENTER),
+				BorderLayout.CENTER);
 		
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setBackground(Color.LIGHT_GRAY);
 		buttonPanel.setLayout(new FlowLayout());
 		
-		JButton exitButton = new JButton("Yes");
+		JButton exitButton = new JButton("Sì");
 		exitButton.addActionListener(event -> System.exit(0));
 		buttonPanel.add(exitButton);
 		
