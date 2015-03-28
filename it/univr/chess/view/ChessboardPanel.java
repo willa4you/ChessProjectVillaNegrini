@@ -41,7 +41,7 @@ public class ChessboardPanel extends JPanel implements View {
 		
 		//la scacchiera ha l'oringine 0,0 in basso a sinistra
 		//mentre la griglia si riempie di elementi dall'alto
-		//perciò il for delle x (j) cresce mentre popoliamo le celle
+		//perciï¿½ il for delle x (j) cresce mentre popoliamo le celle
 		//mentre il for delle y (i) decresce man mano che passiamo di riga in riga
 		for (int i = 7; i >= 0; i--)
 			for (int j = 0; j < 10; j++) {
@@ -58,28 +58,28 @@ public class ChessboardPanel extends JPanel implements View {
 	
 	private void assignIcons() {
 		
-		buttons[0][0].setIcon(Icon.returnIcon("white_rook.png"));
-		buttons[1][0].setIcon(Icon.returnIcon("white_knight.png"));
-		buttons[2][0].setIcon(Icon.returnIcon("white_bishop.png"));
-		buttons[3][0].setIcon(Icon.returnIcon("white_queen.png"));
-		buttons[4][0].setIcon(Icon.returnIcon("white_king.png"));
-		buttons[5][0].setIcon(Icon.returnIcon("white_bishop.png"));
-		buttons[6][0].setIcon(Icon.returnIcon("white_knight.png"));
-		buttons[7][0].setIcon(Icon.returnIcon("white_rook.png"));
+		buttons[0][0].setIcon(Icon.returnIcon("white_rook"));
+		buttons[1][0].setIcon(Icon.returnIcon("white_knight"));
+		buttons[2][0].setIcon(Icon.returnIcon("white_bishop"));
+		buttons[3][0].setIcon(Icon.returnIcon("white_queen"));
+		buttons[4][0].setIcon(Icon.returnIcon("white_king"));
+		buttons[5][0].setIcon(Icon.returnIcon("white_bishop"));
+		buttons[6][0].setIcon(Icon.returnIcon("white_knight"));
+		buttons[7][0].setIcon(Icon.returnIcon("white_rook"));
 		
 		for (int i = 0; i < 8; i++) {
-			buttons[i][1].setIcon(Icon.returnIcon("white_pawn.png"));
-			buttons[i][6].setIcon(Icon.returnIcon("black_pawn.png"));
+			buttons[i][1].setIcon(Icon.returnIcon("white_pawn"));
+			buttons[i][6].setIcon(Icon.returnIcon("black_pawn"));
 		}
 		
-		buttons[0][7].setIcon(Icon.returnIcon("black_rook.png"));
-		buttons[1][7].setIcon(Icon.returnIcon("black_knight.png"));
-		buttons[2][7].setIcon(Icon.returnIcon("black_bishop.png"));
-		buttons[3][7].setIcon(Icon.returnIcon("black_queen.png"));
-		buttons[4][7].setIcon(Icon.returnIcon("black_king.png"));
-		buttons[5][7].setIcon(Icon.returnIcon("black_bishop.png"));
-		buttons[6][7].setIcon(Icon.returnIcon("black_knight.png"));
-		buttons[7][7].setIcon(Icon.returnIcon("black_rook.png"));
+		buttons[0][7].setIcon(Icon.returnIcon("black_rook"));
+		buttons[1][7].setIcon(Icon.returnIcon("black_knight"));
+		buttons[2][7].setIcon(Icon.returnIcon("black_bishop"));
+		buttons[3][7].setIcon(Icon.returnIcon("black_queen"));
+		buttons[4][7].setIcon(Icon.returnIcon("black_king"));
+		buttons[5][7].setIcon(Icon.returnIcon("black_bishop"));
+		buttons[6][7].setIcon(Icon.returnIcon("black_knight"));
+		buttons[7][7].setIcon(Icon.returnIcon("black_rook"));
 	}
 	
 	@Override
@@ -108,7 +108,7 @@ public class ChessboardPanel extends JPanel implements View {
 		//return new JLabel(Integer.toString(i),
 				//SwingConstants.CENTER);
 		JLabel a = new JLabel();
-		a.setIcon(Icon.returnIcon("" + i + ".png"));
+		a.setIcon(Icon.returnIcon("" + i));
 		return a;
 		
 	}

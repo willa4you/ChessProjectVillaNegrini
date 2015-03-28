@@ -8,12 +8,9 @@ import javax.swing.*;
 
 public class ConfirmWindow extends JFrame {
 	
-	public static final int WIDTH = 200;
-	public static final int HEIGHT = 100;
-	
 	public ConfirmWindow() {
 		
-		setSize(WIDTH, HEIGHT);
+		setSize(ChessboardView.getWindowSide() / 5 * 2, ChessboardView.getWindowSide() / 6);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -28,7 +25,7 @@ public class ConfirmWindow extends JFrame {
 		});
 		
 		
-		JLabel confirmLabel = new JLabel("Are you sure you want to exit?");
+		JLabel confirmLabel = new JLabel("Are you sure you want to exit?", SwingConstants.CENTER);
 		confirmLabel.setBackground(Color.ORANGE);
 		confirmLabel.setOpaque(true); // se non lo metto non si vede il colore sottostante
 		
