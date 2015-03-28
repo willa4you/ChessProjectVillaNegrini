@@ -2,6 +2,7 @@ package it.univr.chess.view;
 
 import it.univr.chess.model.Team;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
@@ -37,27 +38,27 @@ public class PromotionWindow extends JFrame {
 	private void initPromotionButtons() {
 		promotionButtons = new Button[4];
 		for (int i = 0; i < 4; i++)
-			promotionButtons[i] = new Button(i);
+			promotionButtons[i] = new Button(i, Color.BLUE);
 		
 		for (int i = 0; i < 4; i++) {
 			if (team == Team.TEAM1)
 				if (promotionButtons[i].getValue() == 0)
-					promotionButtons[i].setIcon(Icon.returnIcon(Icon.WHITE_QUEEN));
+					promotionButtons[i].setIcon(Icon.returnIcon("white_queen.png"));
 				else if (promotionButtons[i].getValue() == 1)
-					promotionButtons[i].setIcon(Icon.returnIcon(Icon.WHITE_ROOK));
+					promotionButtons[i].setIcon(Icon.returnIcon("white_rook.png"));
 				else if (promotionButtons[i].getValue() == 2)
-					promotionButtons[i].setIcon(Icon.returnIcon(Icon.WHITE_BISHOP));
+					promotionButtons[i].setIcon(Icon.returnIcon("white_bishop.png"));
 				else
-					promotionButtons[i].setIcon(Icon.returnIcon(Icon.WHITE_KNIGHT));
+					promotionButtons[i].setIcon(Icon.returnIcon("white_knight.png"));
 			else
 				if (promotionButtons[i].getValue() == 0)
-					promotionButtons[i].setIcon(Icon.returnIcon(Icon.BLACK_QUEEN));
+					promotionButtons[i].setIcon(Icon.returnIcon("black_queen.png"));
 				else if (promotionButtons[i].getValue() == 1)
-					promotionButtons[i].setIcon(Icon.returnIcon(Icon.BLACK_ROOK));
+					promotionButtons[i].setIcon(Icon.returnIcon("black_rook.png"));
 				else if (promotionButtons[i].getValue() == 2)
-					promotionButtons[i].setIcon(Icon.returnIcon(Icon.BLACK_BISHOP));
+					promotionButtons[i].setIcon(Icon.returnIcon("black_bishop.png"));
 				else
-					promotionButtons[i].setIcon(Icon.returnIcon(Icon.BLACK_KNIGHT));
+					promotionButtons[i].setIcon(Icon.returnIcon("black_knight.png"));
 			
 			promotionButtonsListener(i);
 		}

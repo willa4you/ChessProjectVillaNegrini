@@ -21,18 +21,65 @@ public class ChessboardPanel extends JPanel implements View {
 	public ChessboardPanel() {
 		setLayout(new GridLayout(10, 10));
 		
+		
+		//creo i bottoni
 		createButtons();
 		
+		//assegno componenti alla griglia (buttons e labels)
+		assignComponents();
+		
+		//finito di assegnare componenti alla griglia passo a
+		//settare le icone dei buttons
+		assignIcons();
+
+	}
+	
+	private void assignComponents() {
+		//prima riga
 		for (int i = 0; i < 10; i++)
-			for (int j = 0; j < 10; j++)		
-				if (i % 2 == 1 && j % 2 == 1)
-					add(firstGrid(i, j));
-				else if (i % 2 == 1 && j % 2 == 0)
-					add(secondGrid(i, j));		
-				else if (i % 2 == 0 && j % 2 == 1)
-					add(thirdGrid(i, j));
-				else				
-					add(fourthGrid(i, j));
+			add(letterLabel(i));
+		
+		//la scacchiera ha l'oringine 0,0 in basso a sinistra
+		//mentre la griglia si riempie di elementi dall'alto
+		//perciò il for delle x (j) cresce mentre popoliamo le celle
+		//mentre il for delle y (i) decresce man mano che passiamo di riga in riga
+		for (int i = 7; i >= 0; i--)
+			for (int j = 0; j < 10; j++) {
+				if (j == 0 || j == 9)
+					add(numberLabel(i+1));
+				else
+					add(buttons[j-1][i]);
+			}
+		
+		//ultima riga (uguale alla prima)
+		for (int i = 0; i < 10; i++)
+			add(letterLabel(i));
+	}
+	
+	private void assignIcons() {
+		
+		buttons[0][0].setIcon(Icon.returnIcon("white_rook.png"));
+		buttons[1][0].setIcon(Icon.returnIcon("white_knight.png"));
+		buttons[2][0].setIcon(Icon.returnIcon("white_bishop.png"));
+		buttons[3][0].setIcon(Icon.returnIcon("white_queen.png"));
+		buttons[4][0].setIcon(Icon.returnIcon("white_king.png"));
+		buttons[5][0].setIcon(Icon.returnIcon("white_bishop.png"));
+		buttons[6][0].setIcon(Icon.returnIcon("white_knight.png"));
+		buttons[7][0].setIcon(Icon.returnIcon("white_rook.png"));
+		
+		for (int i = 0; i < 8; i++) {
+			buttons[i][1].setIcon(Icon.returnIcon("white_pawn.png"));
+			buttons[i][6].setIcon(Icon.returnIcon("black_pawn.png"));
+		}
+		
+		buttons[0][7].setIcon(Icon.returnIcon("black_rook.png"));
+		buttons[1][7].setIcon(Icon.returnIcon("black_knight.png"));
+		buttons[2][7].setIcon(Icon.returnIcon("black_bishop.png"));
+		buttons[3][7].setIcon(Icon.returnIcon("black_queen.png"));
+		buttons[4][7].setIcon(Icon.returnIcon("black_king.png"));
+		buttons[5][7].setIcon(Icon.returnIcon("black_bishop.png"));
+		buttons[6][7].setIcon(Icon.returnIcon("black_knight.png"));
+		buttons[7][7].setIcon(Icon.returnIcon("black_rook.png"));
 	}
 	
 	@Override
@@ -42,15 +89,28 @@ public class ChessboardPanel extends JPanel implements View {
 	
 	private void createButtons() {
 		buttons = new Button[8][8];
-		for (int h = 0; h < buttons.length; h++)
-			for (int k = 0; k < buttons[h].length; k++)
-				buttons[h][k] = new Button((h * 10) + k);	
+		Color color = null;
+		for (int y = 0; y < buttons.length; y++) {
+			for (int x = 0; x < buttons[y].length; x++) {
+				color = (color == Color.ORANGE) ? Color.LIGHT_GRAY : Color.ORANGE;
+				buttons[x][y] = new Button((x * 10) + y, color);
+				buttonListener(x, y);
+			}
+			color = (color == Color.ORANGE) ? Color.LIGHT_GRAY : Color.ORANGE;
+		}
 	}
 	
+	private void buttonListener(int x, int y) {	
+		buttons[x][y].addActionListener(event -> controller.onClick(buttons[x][y].getValue()));
+	}
 
 	private Component numberLabel(int i) {
-		return new JLabel(Integer.toString(8 - i + 1),
-				SwingConstants.CENTER);
+		//return new JLabel(Integer.toString(i),
+				//SwingConstants.CENTER);
+		JLabel a = new JLabel();
+		a.setIcon(Icon.returnIcon("" + i + ".png"));
+		return a;
+		
 	}
 
 	private Component letterLabel(int j) {	
@@ -59,108 +119,24 @@ public class ChessboardPanel extends JPanel implements View {
 					new JLabel());
 	}
 	
-	private void buttonListener(int i, int j) {	
-		buttons[i][j].addActionListener(event -> controller.onClick(buttons[i][j].getValue()));
-	}
-
-	private Component firstGrid(int i, int j) {	
-		if (i == 0 || i == 9)
-			return letterLabel(j);
-		
-		if (j == 0 || j == 9)
-			return numberLabel(i);
-		
-		buttons[i - 1][j - 1].setBackground(Color.LIGHT_GRAY);
-		
-		if (i == 1 && j == 1)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.BLACK_ROOK));
-		else if (i == 1 && j == 3)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.BLACK_BISHOP));
-		else if (i == 1 && j == 5)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.BLACK_KING));
-		else if (i == 1 && j == 7)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.BLACK_KNIGHT));		
-		else if (i == 7 && j < 9)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.WHITE_PAWN));
-		
-		buttonListener(i - 1, j - 1);
-		
-		return buttons[i - 1][j - 1];
+	@Override
+	public void highlight(int x, int y, Color color) {
+		buttons[x][y].setBackground(color);		
 	}
 	
-	private Component secondGrid(int i, int j) {	
-		if (i == 0 || i == 9)
-			return letterLabel(j);
-		
-		if (j == 0 || j == 9)
-			return numberLabel(i);
-			
-		buttons[i - 1][j - 1].setBackground(Color.ORANGE);
-		
-		if (i == 1 && j == 2)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.BLACK_KNIGHT));
-		else if (i == 1 && j == 4)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.BLACK_QUEEN));
-		else if (i == 1 && j == 6)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.BLACK_BISHOP));
-		else if (i == 1 && j == 8)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.BLACK_ROOK));
-		else if (i == 7  && j > 0)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.WHITE_PAWN));
-		
-		buttonListener(i - 1, j - 1);
-		
-		return buttons[i - 1][j - 1];
+	@Override
+	public void highlightOff(int x, int y) {
+		buttons[x][y].setBackground(buttons[x][y].getColor());
 	}
 	
-	private Component thirdGrid(int i, int j) {	
-		if (i == 0 || i == 9)
-			return letterLabel(j);
-		
-		if (j == 0 || j == 9)
-			return numberLabel(i);
-		
-		buttons[i - 1][j - 1].setBackground(Color.ORANGE);
-		
-		if (i == 8 && j == 1)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.WHITE_ROOK));
-		else if (i == 8 && j == 3)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.WHITE_BISHOP));
-		else if (i == 8 && j == 5)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.WHITE_KING));
-		else if (i == 8 && j == 7)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.WHITE_KNIGHT));
-		else if (i == 2 && j < 9)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.BLACK_PAWN));
-		
-		buttonListener(i - 1, j - 1);
-		
-		return buttons[i - 1][j - 1];
+	@Override
+	public void move(int sx, int sy, int tx, int ty){
+		buttons[tx][ty].setIcon(buttons[sx][sy].getIcon());		
 	}
 	
-	private Component fourthGrid(int i, int j) {	
-		if (i == 0 || i == 9)
-			return letterLabel(j);
-		
-		if (j == 0 || j == 9)
-			return numberLabel(i);
-		
-		buttons[i - 1][j - 1].setBackground(Color.LIGHT_GRAY);
-		
-		if (i == 8 && j == 2)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.WHITE_KNIGHT));
-		else if (i == 8 && j == 4)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.WHITE_QUEEN));
-		else if (i == 8 && j == 6)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.WHITE_BISHOP));
-		else if (i == 8 && j == 8)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.WHITE_ROOK));
-		else if (i == 2 && j > 0)
-			buttons[i - 1][j - 1].setIcon(Icon.returnIcon(Icon.BLACK_PAWN));
-		
-		buttonListener(i - 1, j - 1);
-		
-		return buttons[i - 1][j - 1];
+	@Override
+	public void move(int sx, int sy){
+		buttons[sx][sy].setIcon(null);
 	}
 	
 	private static final long serialVersionUID = 1L;

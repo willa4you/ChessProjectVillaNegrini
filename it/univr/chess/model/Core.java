@@ -14,7 +14,7 @@ public class Core {
 		
 		for(int i = 0; i < 8; i++)
 			for(int j = 0; j < 8; j++)
-				if((piece = ChessboardModel2.getPezzoInPosizione(i, j)) != null && piece.getTeam() == otherPlayer && piece.check(i, j))
+				if((piece = ChessboardModel2.getPiece(i, j)) != null && piece.getTeam() == otherPlayer && piece.check(i, j))
 					return true;
 		
 		return false;
@@ -27,10 +27,10 @@ public class Core {
 		
 		for(int i = 0; i < 8; i++)
 			for(int j = 0; j < 8; j++) {
-				piece = ChessboardModel2.getPezzoInPosizione(i, j);
+				piece = ChessboardModel2.getPiece(i, j);
 				if (piece != null && piece.getTeam() == player)
 					for (int mc : piece.mosseConsentite(i, j)){
-						tmp = ChessboardModel2.getPezzoInPosizione(mc/10, mc%10);//la eseguo ma tengo l'eventuale pezzo mangiato in tmp
+						tmp = ChessboardModel2.getPiece(mc/10, mc%10);//la eseguo ma tengo l'eventuale pezzo mangiato in tmp
 						ChessboardModel2.setPezzoInPosizione(piece, mc/10, mc%10);
 						ChessboardModel2.setPezzoInPosizione(null, i, j);
 						check = check(player);
@@ -43,12 +43,12 @@ public class Core {
 	}
 	
 	public static Team getTeam(int x, int y){
-		Piece piece = ChessboardModel2.getPezzoInPosizione(x, y);
+		Piece piece = ChessboardModel2.getPiece(x, y);
 		return (piece == null) ? null : piece.getTeam();
 	}
 	
 	public static Iterable<Integer> availableMoves(int x, int y){
-		Piece piece = ChessboardModel2.getPezzoInPosizione(x, y);
+		Piece piece = ChessboardModel2.getPiece(x, y);
 		Piece tmp = null;
 		ArrayList<Integer> availableMoves = new ArrayList<Integer>();
 		
@@ -87,7 +87,7 @@ public class Core {
 			} // FINE CONTROLLI ARROCCO
 			//In ogni caso devo fare il controllo che muovere un pezzo qualsiasi nella casella suggerita
 			//non mi conduca ad una condizione di scacco perci� simulo la mossa e controllo
-			tmp = ChessboardModel2.getPezzoInPosizione(tx, ty);//mi serve un tmp dove tenere l'eventuale pezzo mangiato
+			tmp = ChessboardModel2.getPiece(tx, ty);//mi serve un tmp dove tenere l'eventuale pezzo mangiato
 			ChessboardModel2.setPezzoInPosizione(piece, tx, ty);
 			ChessboardModel2.setPezzoInPosizione(null, x, y);
 			condition = Core.check(piece.getTeam());//controllo se il mio re va/resta sotto scacco
@@ -110,7 +110,7 @@ public class Core {
 		//QUESTO METODO ESEGUE LA MOSSA SENZA CONTROLLARE LA VALIDITA
 		//PERCHE CI HA GIA PENSATO AVAILABLEMOVES
 		//QUESTO METODO FA SOLO LA MOSSA E EVENTUALI CAMBIAMENTI PER ARROCCO, ENPASSANT E PROMOZIONE DEL PEDONE
-		Piece piece = ChessboardModel2.getPezzoInPosizione(sx, sy);
+		Piece piece = ChessboardModel2.getPiece(sx, sy);
 		
 		//primo controllo: enpassant (da fare prima che la mossa standard sia effettuata 
 		//perch� controllo il pezzo in casella target prima che sia sostituito/mangiato)
@@ -119,7 +119,7 @@ public class Core {
 		//Essendo l'unico caso negli Scacchi in cui si mangia senza sostituirsi ad un pezzo avversario 
 		//sulla scacchiera, il pezzo avversario sarebbe ancora presente in scacchiera a mossa avvenuta.
 		
-		if (piece instanceof Pawn && sx != tx && ChessboardModel2.getPezzoInPosizione(tx, ty) == null){
+		if (piece instanceof Pawn && sx != tx && ChessboardModel2.getPiece(tx, ty) == null){
 			//se sono un pedone di squadra 1 elimino chi sta sotto (y meno uno) la mia casella target
 			//viceversa se sono un pedone di squadra 2 elimino chi sta sopra (y piu' uno)
 			int position = (piece.getTeam() == Team.TEAM1) ? -1 : 1;
@@ -141,7 +141,7 @@ public class Core {
 		if (piece instanceof King && (sx == tx + 2 || sx == tx - 2)){
 			int rookStart = (sx == tx - 2) ? 7 : 0; //se si tratta di arrocco destro la torre parte dalla colonna 7 altrimenti dalla 0
 			int rookTarget = (sx == tx - 2) ? 5 : 3;//se si tratta di arrocco destro la torre giunge alla colonna 5 altrimenti alla 3
-			ChessboardModel2.setPezzoInPosizione(ChessboardModel2.getPezzoInPosizione(rookStart, sy), rookTarget, sy);//scelgo la riga del re (sy)
+			ChessboardModel2.setPezzoInPosizione(ChessboardModel2.getPiece(rookStart, sy), rookTarget, sy);//scelgo la riga del re (sy)
 			ChessboardModel2.setPezzoInPosizione(null, rookStart, sy);
 			//a questo punto, se il programma e' ben fatto, non ho dubbi che il pezzo che ho mosso sia una torre
 			//e in quanto CastlingPiece DOVREI mettere il suo parametro moved a true per evitare l'arrocco in futuro
@@ -165,7 +165,7 @@ public class Core {
 		Piece pawn;	
 		for(int i = 0; i < 8; i++)
 			for(int j = 0; j < 8; j++)
-				if((pawn = ChessboardModel2.getPezzoInPosizione(i, j)) instanceof Pawn)
+				if((pawn = ChessboardModel2.getPiece(i, j)) instanceof Pawn)
 					((Pawn) pawn).setEnpassant(false);
 		}
 		
@@ -221,7 +221,7 @@ public class Core {
 		//se incontro questi pezzi, al terzo trovato restituisco false (es. re + cavallo + cavallo non crea stallo)
 		for(int i = 0; i < 8; i++)
 			for(int j = 0; j < 8; j++) {
-				piece = ChessboardModel2.getPezzoInPosizione(i, j);
+				piece = ChessboardModel2.getPiece(i, j);
 				if ( piece == null)
 					continue;
 				if (piece instanceof Queen || piece instanceof Pawn || piece instanceof Rook)
