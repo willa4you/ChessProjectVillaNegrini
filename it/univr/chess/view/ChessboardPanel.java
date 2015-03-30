@@ -128,13 +128,13 @@ public class ChessboardPanel extends JPanel implements View {
 	
 	@Override
 	public void highlight(int x, int y, Color color) {
-		buttons[x][y].setBorderPainted(true);
+
 		buttons[x][y].setBackground(color);		
 	}
 	
 	@Override
 	public void highlightOff(int x, int y) {
-		buttons[x][y].setBorderPainted(false);
+
 		buttons[x][y].setBackground(buttons[x][y].getColor());
 	}
 	
