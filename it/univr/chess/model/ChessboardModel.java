@@ -66,9 +66,16 @@ public class ChessboardModel implements Model {
 			if (chessboard[x][y] != null && chessboard[x][y].getTeam() == turn && availableMoves(x, y).iterator().hasNext()) {	
 				sx = x;
 				sy = y;
-				for (int moves : availableMoves(sx, sy))
-					view.highlight(moves / 10, moves % 10, Color.GREEN);
-
+				int avX, avY; //availables x and y
+				for (int moves : availableMoves(sx, sy)) {					
+					avX = moves / 10;
+					avY = moves % 10;
+					if((avX % 2 == 0 && avY % 2 == 0) || (avX % 2 == 1 && avY % 2 == 1))
+						view.highlight(avX, avY, new Color(71, 145, 71));
+					else
+						view.highlight(avX, avY, new Color(153, 255, 102));
+				}
+				
 				view.highlight(x, y, Color.YELLOW);
 				step = Step.GOTO;
 			}
