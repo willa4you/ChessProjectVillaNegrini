@@ -90,7 +90,6 @@ public class ChessboardModel implements Model {
 					view.moved(); //comunico a view il cambio di stato								
 					break; //se trovo un match non proseguo nell'iterazione
 				}
-			System.out.println(fiftyMoves);
 			if (!match)
 				view.wrongMove(x, y);
 			break;
