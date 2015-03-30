@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import it.univr.chess.controller.Controller;
 import it.univr.chess.controller.ChessController;
@@ -15,7 +16,7 @@ import it.univr.chess.controller.ChessController;
 public class ChessboardView extends JFrame {
 
 	private final Controller controller;
-	public static boolean confirmWindowOpen = false;
+	//public static boolean confirmWindowOpen = false;
 	
 	public ChessboardView() {	
 		super("Scacchiera");												// 20 pixel del JMenuBar
@@ -26,10 +27,12 @@ public class ChessboardView extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if (!confirmWindowOpen) {
-					confirmWindowOpen = true;
-					new ConfirmWindow().setVisible(true);
-				}
+			   /*String[] options = new String[] {"Yes", "No", "Maybe", "Cancel"};
+			    int response = JOptionPane.showOptionDialog(null, "Message", "Title",
+			        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+			        null, options, options[0]);	*/
+				if (JOptionPane.showConfirmDialog(null, "Vuoi realmente abbandonare la partita?", "Abbandona partita", JOptionPane.YES_NO_OPTION) == 0)
+					System.exit(0);
 			}
 		});
 		
