@@ -1,4 +1,4 @@
-package it.univr.chess.junit;
+/*package it.univr.chess.junit;
 
 import org.junit.*;
 
@@ -49,3 +49,4 @@ public class StalemateTest {
 	}
 	
 }
+*/

@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridLayout;
 
 
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,6 +15,10 @@ public class ChessboardPanel extends JPanel implements View {
 
 	private Button[][] buttons;
 	private Controller controller;
+	
+	//wrongX e wrongY sono le coordinate dell'ultima casella errata selezionata
+	private int wrongX = -1;
+	private int wrongY;
 	
 	public ChessboardPanel() {
 		setLayout(new GridLayout(10, 10));
@@ -124,6 +129,49 @@ public class ChessboardPanel extends JPanel implements View {
 		a.setOpaque(true);
 		a.setBackground(new Color(77, 0, 0));
 		return a;
+	}
+	
+	@Override
+	public void selected(int x, int y, Iterable<Integer> availableMoves) {
+		int avX, avY; //availables x and y
+		for (int moves : availableMoves) {					
+			avX = moves / 10;
+			avY = moves % 10;
+			if((avX % 2 == 0 && avY % 2 == 0) || (avX % 2 == 1 && avY % 2 == 1))
+				highlight(avX, avY, new Color(71, 145, 71));
+			else
+				highlight(avX, avY, new Color(153, 255, 102));
+		}
+		
+		highlight(x, y, Color.YELLOW);
+		
+		
+	}
+	
+	@Override
+	public void moved() {
+		for (int i = 0; i < 8; i++)
+			for (int j = 0; j < 8; j++)
+				highlightOff(i, j);
+		//quando la mossa e' eseguita se avessi fatto prima un errore
+		//una mossa errata del mio avversario in seguito porterebbe a colorare
+		//la sua casella errata e decolorare l'ultimo mio errore per via di 
+		//wrongX e wrongY settate, percio' setto wrongX a 9 che verra' ignorato
+		wrongX = -1;
+	}
+	
+	public void wrongMove(int x, int y) {		
+		if (wrongX != -1) //se non e' il primo errore di un turno
+			highlightOff(wrongX, wrongY); //tolgo l'highlight rosso da un eventuale errore precedente
+			
+		wrongX = x;// le salvo per togliere l'higlight rosso al prossimo eventuale errore
+		wrongY = y;
+		highlight(x, y, Color.RED);
+	}
+	
+	public void selfSelect(int x, int y) {
+		if (wrongX != -1)
+			highlightOff(wrongX, wrongY);
 	}
 	
 	@Override

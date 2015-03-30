@@ -1,4 +1,4 @@
-package it.univr.chess.junit;
+/*package it.univr.chess.junit;
 import org.junit.*;
 
 import it.univr.chess.model.*;
@@ -52,3 +52,4 @@ public class MateTest {
 		
 	}
 }
+*/

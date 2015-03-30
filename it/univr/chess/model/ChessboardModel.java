@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import it.univr.chess.model.pieces.*;
 import it.univr.chess.view.View;
 
-import java.awt.Color;
-
 public class ChessboardModel implements Model {
 	
 	private enum Step {
@@ -17,7 +15,8 @@ public class ChessboardModel implements Model {
 	private Piece chessboard[][] = new Piece[8][8];
 	Team turn = Team.TEAM1;
 	Step step = Step.STARTFROM;
-	private int sx, sy, tx, ty; // start e target x e y
+	boolean staleMate = false;
+	private int sx, sy; // start x e y
 	
 	public ChessboardModel(View view) {
 		this.view = view;
@@ -64,74 +63,57 @@ public class ChessboardModel implements Model {
 		case STARTFROM:
 			//se non ho selezionato un elemento null E ho selezionato uno della mia squadra con ALMENO UNA MOSSA DISPONIBILE
 			if (chessboard[x][y] != null && chessboard[x][y].getTeam() == turn && availableMoves(x, y).iterator().hasNext()) {	
+				//setto le mie variabili d'istanza per quando il metodo viene richiamato con coordinate d'arrivo
 				sx = x;
 				sy = y;
-				int avX, avY; //availables x and y
-				for (int moves : availableMoves(sx, sy)) {					
-					avX = moves / 10;
-					avY = moves % 10;
-					if((avX % 2 == 0 && avY % 2 == 0) || (avX % 2 == 1 && avY % 2 == 1))
-						view.highlight(avX, avY, new Color(71, 145, 71));
-					else
-						view.highlight(avX, avY, new Color(153, 255, 102));
-				}
+				step = Step.GOTO; //mi preparo alla nuova modalita' quando ricevero' nuove coordinate
 				
-				view.highlight(x, y, Color.YELLOW);
-				step = Step.GOTO;
+				view.selected(x, y, availableMoves(x, y)); //avverto view che e' cambiata fase del gioco e un pezzo e' selezionato
 			}
 			break;
 		case GOTO:
-			if (x == sx && y == sy) { //se hai cliccato su te stesso come destinazione
-				if (tx != 9) {
-					view.highlightOff(tx, ty);
-					break;
-				}
+			if (x == sx && y == sy) {
+				view.selfSelect(x, y);
+				break;
 			}
-				
+			//ricevute le coordinate di arrivo, controllo se combaciano con
+			//almeno una mossa disponibile del pezzo in coordinate di partenza
 			boolean match = false;
-			for (int moves : availableMoves(sx, sy)){
-				if (x == (moves / 10) && y == (moves % 10)) {
-					match = true;
-					break;
+			for (int moves : availableMoves(sx, sy))
+				if (match = (x == (moves / 10) && y == (moves % 10))) {
+					move(sx, sy, x, y); //se c'e' il match eseguo la mossa
+					nextTurn(); //eseguo le operazioni di cambio turno
+					view.moved(); //comunico a view il cambio di stato								
+					break; //se trovo un match non proseguo nell'iterazione
 				}
-			}
-			if (match) {//se il target scelto e' permesso effettuo la mossa
-				//se la mossa va a buon fine cancello tutte le evidenziazioni
-				for (int i = 0; i < 8; i++)
-					for (int j = 0; j < 8; j++)
-						view.highlightOff(i, j);
-				tx = 9;
-				move(sx, sy, x, y);
-				step = Step.STARTFROM;
-				turn = (turn == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1;
-				
-				// i controlli qui sotto sono idealmente le prime cose da fare al turno successivo
-				// per il giocatore di squadra opposta (infatti la variabile turn e' gia' cambiata) 
-				if (check(turn)) {//se il re e' sotto scacco
-					if (mate(turn)){
-						System.out.println("SCACCO MATTO, PARTITA FINITA!");
-						break;
-					}
-					else System.out.println("ATTENZIONE, SEI SOTTO SCACCO!");
-				}
-				else if(mate(turn) || staleMate()){
-					//Tecnicamente, se non posso muovere, ma non sono in scacco, si tratta di STALLO
-					//Oppure se mi trovo in una condizione di stallo matematico (re vs. re, re vs. re+cavallo, re vs. re+alfiere)
-					System.out.println("STALLO, PARTITA FINITA!");
-					break;
-				} //controlli scacco e scacco matto
-			} // end if mossa a buon fine
 			
-			else {//se le coordinate target sono errate (neanche un match con le disponibili)
-				if (tx != 9)
-					view.highlightOff(tx, ty); //tolgo l'highlight rosso da un eventuale errore precedente
-				
-				tx = x;// le coordinate target servono per togliere l'higlight rosso al prossimo turno
-				ty = y;
-				view.highlight(x, y, Color.RED);
-			}
+			if (!match)
+				view.wrongMove(x, y);
 			break;
 		}
+	}
+	
+	private void nextTurn() {
+		//passaggio del turno e primi controlli del turno successivo
+		step = Step.STARTFROM; //le prossime coordinate che ricevero' saranno di partenza
+		turn = (turn == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1; //cambio squadra in gioco
+		
+		// i controlli qui sotto sono le prime cose da fare al turno successivo
+		// per il giocatore di squadra opposta alla mossa appena effettuata 
+		
+		if (check(turn)) {//se il re e' sotto scacco
+			if (mate(turn)){
+				System.out.println("SCACCO MATTO, PARTITA FINITA!");
+			}
+			else System.out.println("ATTENZIONE, SEI SOTTO SCACCO!");
+		}
+		else if(mate(turn) || staleMate()){
+			//Tecnicamente, se non posso muovere, ma non sono in scacco, si tratta di STALLO
+			//Oppure se mi trovo in una condizione di stallo matematico (re vs. re, re vs. re+cavallo, re vs. re+alfiere)
+			staleMate = true;
+			System.out.println("STALLO, PARTITA FINITA!");
+		} //controlli scacco e scacco matto
+		
 	}
 	
 	private Iterable<Integer> availableMoves(int x, int y){
