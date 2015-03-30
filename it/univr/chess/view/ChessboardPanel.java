@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 
-
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -196,5 +194,32 @@ public class ChessboardPanel extends JPanel implements View {
 		buttons[sx][sy].setIcon(null);
 	}
 	
+	@Override
+	public void promotion(boolean team1) {
+		new PromotionWindow(team1, controller).setVisible(true);
+		
+	}
+
+	@Override
+	public void promotion(int piece, int x, int y) {
+		String team = (y == 7) ? "white_" : "black_";
+		
+		switch(piece) {
+		case 0:
+			buttons[x][y].setIcon(Icon.returnIcon(team + "queen"));
+			break;
+		case 1:
+			buttons[x][y].setIcon(Icon.returnIcon(team + "rook"));
+			break;
+		case 2:
+			buttons[x][y].setIcon(Icon.returnIcon(team + "bishop"));
+			break;
+		case 3:
+			buttons[x][y].setIcon(Icon.returnIcon(team + "knight"));
+			break;
+		}	
+	}
+	
 	private static final long serialVersionUID = 1L;
+
 }

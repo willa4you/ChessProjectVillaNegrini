@@ -21,5 +21,11 @@ public class ChessController implements Controller {
 	public void onClick(int coordinates) {
 		model.coordinates(coordinates / 10, coordinates % 10);
 	}
+
+	@Override
+	public void promotion(int piece) {
+		model.promotion(piece);
+		
+	}
 	
 }

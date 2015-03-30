@@ -1,25 +1,22 @@
 package it.univr.chess.view;
 
-import it.univr.chess.model.Team;
-
-import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import it.univr.chess.controller.Controller;
+
 public class PromotionWindow extends JFrame {
 
-	private Team team; 
 	private Button[] promotionButtons;
+	private final boolean team1;
+	private final Controller controller;
 	
-	public static void main(String[] args) {
-		new PromotionWindow(Team.TEAM1).setVisible(true);
-	}
-	
-	public PromotionWindow(Team team) {
-		super("Promotion Window");
-		this.team = team;
+	public PromotionWindow(boolean team1, Controller controller) {
+		super("Promuovi il pedone");
+		this.team1 = team1;
+		this.controller = controller;
 		setSize(ChessboardView.getWindowSide() / 5 * 2, ChessboardView.getWindowSide() / 6);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -41,7 +38,7 @@ public class PromotionWindow extends JFrame {
 			promotionButtons[i] = new Button(i, null);
 		
 		for (int i = 0; i < 4; i++) {
-			if (team == Team.TEAM1)
+			if (team1)
 				if (promotionButtons[i].getValue() == 0)
 					promotionButtons[i].setIcon(Icon.returnIcon("white_queen"));
 				else if (promotionButtons[i].getValue() == 1)
@@ -66,7 +63,7 @@ public class PromotionWindow extends JFrame {
 	
 	private void promotionButtonsListener(int i) {
 		promotionButtons[i].addActionListener(event -> {
-			// TODO
+			controller.promotion(i);
 			dispose();
 		});
 	}

@@ -22,4 +22,8 @@ public interface View {
 	void wrongMove(int x, int y);
 	
 	void selfSelect(int x, int y);
+	
+	void promotion(boolean team1);
+	
+	void promotion(int piece, int x, int y);
 }

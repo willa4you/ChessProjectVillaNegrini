@@ -2,20 +2,21 @@ package it.univr.chess.model;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import it.univr.chess.model.pieces.*;
 import it.univr.chess.view.View;
 
 public class ChessboardModel implements Model {
 	
 	private enum Step {
-		STARTFROM, GOTO;
+		STARTFROM, GOTO, PROMOTION
 	}
 	
 	private final View view;
 	private Piece chessboard[][] = new Piece[8][8];
-	Team turn = Team.TEAM1;
-	Step step = Step.STARTFROM;
-	boolean staleMate = false;
+	private Team turn = Team.TEAM1;
+	private Step step = Step.STARTFROM;
 	private int sx, sy; // start x e y
 	
 	public ChessboardModel(View view) {
@@ -90,12 +91,20 @@ public class ChessboardModel implements Model {
 			if (!match)
 				view.wrongMove(x, y);
 			break;
+		default:
+			JOptionPane.showMessageDialog(null,
+				    "Seleziona un pezzo da sostituire al pedone!",
+				    "Errore!",
+				    JOptionPane.ERROR_MESSAGE);
+			break;
 		}
 	}
 	
 	private void nextTurn() {
 		//passaggio del turno e primi controlli del turno successivo
-		step = Step.STARTFROM; //le prossime coordinate che ricevero' saranno di partenza
+		if (step != Step.PROMOTION)
+			step = Step.STARTFROM; //le prossime coordinate che ricevero' saranno di partenza
+		
 		turn = (turn == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1; //cambio squadra in gioco
 		
 		// i controlli qui sotto sono le prime cose da fare al turno successivo
@@ -103,15 +112,25 @@ public class ChessboardModel implements Model {
 		
 		if (check(turn)) {//se il re e' sotto scacco
 			if (mate(turn)){
-				System.out.println("SCACCO MATTO, PARTITA FINITA!");
+				if (JOptionPane.showConfirmDialog(null, "<html><div align=center>SCACCO MATTO!<br>" +
+						((turn == Team.TEAM1) ? "Giocatore 2" : "Giocatore 1") + " vince.<br>Vuoi fare un'altra partita?</div></html>",
+						"SCACCO MATTO", JOptionPane.YES_NO_OPTION) == 1)
+					System.exit(0);
+				//else
+					//nuova partita
 			}
 			else System.out.println("ATTENZIONE, SEI SOTTO SCACCO!");
 		}
 		else if(mate(turn) || staleMate()){
 			//Tecnicamente, se non posso muovere, ma non sono in scacco, si tratta di STALLO
 			//Oppure se mi trovo in una condizione di stallo matematico (re vs. re, re vs. re+cavallo, re vs. re+alfiere)
-			staleMate = true;
-			System.out.println("STALLO, PARTITA FINITA!");
+			if (JOptionPane.showConfirmDialog(null, "<html><div align=center>PATTA!<br>" +
+					"Vuoi fare un'altra partita?</div></html>",
+					"PATTA", JOptionPane.YES_NO_OPTION) == 1)
+				System.exit(0);
+			//else
+				//nuova partita
+			
 		} //controlli scacco e scacco matto
 		
 	}
@@ -372,24 +391,17 @@ public class ChessboardModel implements Model {
 			// attenzione: lasciare questa mossa alla fine perche' se fatta prima della mossa standard
 			// vedrebbe il pezzo forte appena messo in scacchiera sostituito nuovamente dalla mossa deL pedone (definitivamente!)
 			if(ty == 7 || ty == 0){
-				Team team = (ty == 7) ? Team.TEAM1 : Team.TEAM2; 
-				/*
-				System.out.println("Il pedone va sostituito. Scegli: 1- Regina; 2- Torre; 3- Alfiere; 4- Cavallo:");
-				int a = 1;
-				switch(a){
-				case 1:
-					ChessboardModel2.setPezzoInPosizione(new Queen(team), tx, ty);
-					break;
-				case 2:
-					ChessboardModel2.setPezzoInPosizione(new Rook(team), tx, ty);
-					break;
-				case 3:
-					ChessboardModel2.setPezzoInPosizione(new Bishop(team), tx, ty);
-					break;
-				case 4:
-					ChessboardModel2.setPezzoInPosizione(new Knight(team), tx, ty);
-				}//fine switch
-				*/
+				
+				// chiamo la promotion window passando true se Team1 e false se Team2
+				this.sx = tx;
+				this.sy = ty;
+				//ATTENZIONE: solo in questo caso uso le coordinate di start per sapere
+				//in un momento successivo dove posizionare il nuovo pezzo
+				
+				view.promotion((ty == 7));//(se y e' 7 puo' solo essere squadra 1)
+				step = Step.PROMOTION; //senza un valore di step valido ogni coordinata ricevuta viene ignorata
+				//solo una selezione nella promotionWindow riattivera' step in STARTFROM
+				
 			} 
 			// ------------ FINE QUINTO CONTROLLO
 			
@@ -408,6 +420,28 @@ public class ChessboardModel implements Model {
 		} //chiude il controllo instanceof Pawn per i controlli 5 e 6
 		
 		// ---------- FINE CONTROLLI E FINE MOSSA
+	}
+
+	@Override
+	public void promotion(int piece) {
+		step = Step.STARTFROM;
+		Team team = (turn == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1;
+		
+		switch(piece){
+		case 0:
+			chessboard[sx][sy] = new Queen(team, this);
+			break;
+		case 1:
+			chessboard[sx][sy] = new Rook(team, this);
+			break;
+		case 2:
+			chessboard[sx][sy] = new Bishop(team, this);
+			break;
+		case 3:
+			chessboard[sx][sy] = new Knight(team, this);
+		}//fine switch
+		view.promotion(piece, sx, sy);
+		
 	}
 	
 
