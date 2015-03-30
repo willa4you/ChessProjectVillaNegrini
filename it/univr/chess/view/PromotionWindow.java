@@ -14,7 +14,7 @@ public class PromotionWindow extends JFrame {
 	private Button[] promotionButtons;
 	
 	public static void main(String[] args) {
-		new PromotionWindow(Team.TEAM2).setVisible(true);
+		new PromotionWindow(Team.TEAM1).setVisible(true);
 	}
 	
 	public PromotionWindow(Team team) {
@@ -27,38 +27,38 @@ public class PromotionWindow extends JFrame {
 		
 		initPromotionButtons();
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1, 4));
+		JPanel promotionPanel = new JPanel();
+		promotionPanel.setLayout(new GridLayout(1, 4));
 		for (int i = 0; i < 4; i++)
-			panel.add(promotionButtons[i]);
+			promotionPanel.add(promotionButtons[i]);
 		
-		add(panel);
+		add(promotionPanel);
 	}
 
 	private void initPromotionButtons() {
 		promotionButtons = new Button[4];
 		for (int i = 0; i < 4; i++)
-			promotionButtons[i] = new Button(i, Color.BLUE);
+			promotionButtons[i] = new Button(i, null);
 		
 		for (int i = 0; i < 4; i++) {
 			if (team == Team.TEAM1)
 				if (promotionButtons[i].getValue() == 0)
-					promotionButtons[i].setIcon(Icon.returnIcon("white_queen.png"));
+					promotionButtons[i].setIcon(Icon.returnIcon("white_queen"));
 				else if (promotionButtons[i].getValue() == 1)
-					promotionButtons[i].setIcon(Icon.returnIcon("white_rook.png"));
+					promotionButtons[i].setIcon(Icon.returnIcon("white_rook"));
 				else if (promotionButtons[i].getValue() == 2)
-					promotionButtons[i].setIcon(Icon.returnIcon("white_bishop.png"));
+					promotionButtons[i].setIcon(Icon.returnIcon("white_bishop"));
 				else
-					promotionButtons[i].setIcon(Icon.returnIcon("white_knight.png"));
+					promotionButtons[i].setIcon(Icon.returnIcon("white_knight"));
 			else
 				if (promotionButtons[i].getValue() == 0)
-					promotionButtons[i].setIcon(Icon.returnIcon("black_queen.png"));
+					promotionButtons[i].setIcon(Icon.returnIcon("black_queen"));
 				else if (promotionButtons[i].getValue() == 1)
-					promotionButtons[i].setIcon(Icon.returnIcon("black_rook.png"));
+					promotionButtons[i].setIcon(Icon.returnIcon("black_rook"));
 				else if (promotionButtons[i].getValue() == 2)
-					promotionButtons[i].setIcon(Icon.returnIcon("black_bishop.png"));
+					promotionButtons[i].setIcon(Icon.returnIcon("black_bishop"));
 				else
-					promotionButtons[i].setIcon(Icon.returnIcon("black_knight.png"));
+					promotionButtons[i].setIcon(Icon.returnIcon("black_knight"));
 			
 			promotionButtonsListener(i);
 		}

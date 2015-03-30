@@ -30,7 +30,7 @@ public class ConfirmWindow extends JFrame {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 		
-		JButton exitButton = new JButton("Sì");
+		JButton exitButton = new JButton("Si");
 		exitButton.addActionListener(event -> System.exit(0));
 		buttonPanel.add(exitButton);
 		

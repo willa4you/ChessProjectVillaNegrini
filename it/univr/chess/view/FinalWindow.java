@@ -13,15 +13,17 @@ import javax.swing.SwingConstants;
 
 public class FinalWindow extends JFrame {
 	
-	public static void main(String[] args) {
-		new FinalWindow(true, Team.TEAM2).setVisible(true);
-	}
-	
+	// true = matto, false = patta
 	private boolean mate;
 	private Team player;
+	// se mate = true, devo sapere chi dei due
+	// player ha vinto
 	
-	public FinalWindow(boolean mate) {
+	// in caso patta passo al costruttore: false, null
+	public FinalWindow(boolean mate, Team player) {
 		this.mate = mate;
+		this.player = player;
+		
 		setSize(ChessboardView.getWindowSide() / 3 * 2, ChessboardView.getWindowSide() / 3);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -30,13 +32,13 @@ public class FinalWindow extends JFrame {
 		
 		add(messageLabel(), BorderLayout.NORTH);
 		
-		add(new JLabel("Vuoi cominciare una nuova partita?", SwingConstants.CENTER),
+		add(new JLabel("<html><font size=4>Vuoi cominciare una nuova partita?</font></html>", SwingConstants.CENTER),
 				BorderLayout.CENTER);
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 		
-		JButton newMatch = new JButton("Sì");
+		JButton newMatch = new JButton("Si");
 		newMatch.addActionListener(event -> {
 			// nuova partita
 			// TODO
@@ -51,25 +53,16 @@ public class FinalWindow extends JFrame {
 		
 	}
 	
-	public FinalWindow(boolean mate, Team player) {
-		this(mate);
-		this.player = player;
-	}
-	
 	private JLabel messageLabel() {
 		JLabel messageLabel;
-		if (mate && (player == Team.TEAM1)) {
-			messageLabel = new JLabel("<html><b><font size=15>SCACCO MATTO</font></b><br>"
-					+ "<br><font size=10>Giocatore1 vince</font></html>", SwingConstants.CENTER);
-			return messageLabel;
-		}
-		else if (mate && (player == Team.TEAM2)) { 
-			messageLabel = new JLabel("<html><b><font size=15>SCACCO MATTO</font></b><br>"
-					+ "<br><font size=10>Giocatore2 vince</font></html>", SwingConstants.CENTER);
+		if (mate) {
+			messageLabel = new JLabel("<html><p align=center><b><font size=8>SCACCO MATTO</font></b>"
+					+ "<br><font size=6>" + ((player == Team.TEAM1) ? "Giocatore1" : "Giocatore2")
+					+ " vince</font></p></html>", SwingConstants.CENTER);
 			return messageLabel;
 		}
 		else {
-			messageLabel = new JLabel("<html><b><font size=15>PATTA</font></b></html>", SwingConstants.CENTER);
+			messageLabel = new JLabel("<html><b><font size=8>PATTA</font></b></html>", SwingConstants.CENTER);
 			return messageLabel;
 		}
 			
