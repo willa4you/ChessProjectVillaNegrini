@@ -14,4 +14,12 @@ public interface View {
 	void move(int sx, int sy, int tx, int ty);
 	
 	void move(int sx, int sy);
+	
+	void selected(int x, int y, Iterable<Integer> availableMoves);
+	
+	void moved();
+	
+	void wrongMove(int x, int y);
+	
+	void selfSelect(int x, int y);
 }

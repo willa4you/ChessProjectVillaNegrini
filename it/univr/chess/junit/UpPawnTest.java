@@ -1,4 +1,4 @@
-package it.univr.chess.junit;
+/*package it.univr.chess.junit;
 
 import it.univr.chess.model.*;
 import it.univr.chess.model.pieces.*;
@@ -59,3 +59,4 @@ public class UpPawnTest {
 		
 	}
 }
+*/

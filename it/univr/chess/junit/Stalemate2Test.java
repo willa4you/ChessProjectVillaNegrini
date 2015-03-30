@@ -1,4 +1,4 @@
-package it.univr.chess.junit;
+/*package it.univr.chess.junit;
 
 import it.univr.chess.model.ChessboardModel2;
 import it.univr.chess.model.Core;
@@ -51,3 +51,4 @@ public class Stalemate2Test {
 		Assert.assertTrue("NESSUNO STALLO!", Core.staleMate());
 	}
 }
+*/
