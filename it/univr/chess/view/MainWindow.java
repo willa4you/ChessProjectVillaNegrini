@@ -12,12 +12,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
 
-import it.univr.chess.controller.Controller;
 import it.univr.chess.controller.ChessController;
 
 public class MainWindow extends JFrame {
 
-	private final Controller controller;
 	private static JTextField textField = new JTextField();
 	
 	
@@ -37,7 +35,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		
-		controller = new ChessController(addPanel());	
+		new ChessController(addPanel());	
 		
 		setJMenuBar(menuBar());
 		
@@ -45,7 +43,6 @@ public class MainWindow extends JFrame {
 		textField.setHorizontalAlignment(JTextField.CENTER);
 		
 		add(textField, BorderLayout.SOUTH);
-
 	}
 	
 	private ChessboardView addPanel() {

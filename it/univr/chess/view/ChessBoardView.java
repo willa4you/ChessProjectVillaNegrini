@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.util.ArrayList;
@@ -194,7 +195,42 @@ public class ChessboardView extends JPanel implements View {
 			break;
 		}	
 	}
+
+	@Override
+	public void mate(boolean team1) {
+		if (JOptionPane.showConfirmDialog(null, "<html><div align=center>SCACCO MATTO!<br>" +
+				((team1) ? "Giocatore 2" : "Giocatore 1") + " vince.<br>Vuoi fare un'altra partita?</div></html>",
+				"SCACCO MATTO", JOptionPane.YES_NO_OPTION) == 1)
+			System.exit(0);
+		//else
+			//nuova partita
+		
+	}
+	
+	@Override
+	public void staleMate() {
+		if (JOptionPane.showConfirmDialog(null, "<html><div align=center>PATTA!<br>" +
+				"Vuoi fare un'altra partita?</div></html>",
+				"PATTA", JOptionPane.YES_NO_OPTION) == 1)
+			System.exit(0);
+		//else
+			//nuova partita
+	}
+	
+	@Override
+	public void noThanks() {
+		JOptionPane.showMessageDialog(null,
+			    "Seleziona un pezzo da sostituire al pedone!",
+			    "Errore!",
+			    JOptionPane.ERROR_MESSAGE);	
+	}
 	
 	private static final long serialVersionUID = 1L;
+
+	@Override
+	public void sendMessage(boolean team1, boolean check) {
+		MainWindow.setText("E IL TUO TURNO SQUADRA " + ((team1) ? "BIANCA." : "NERA.")
+				+ ((check) ? " ATTENZIONE, SEI SOTTO SCACCO!" : ""));		
+	}
 
 }

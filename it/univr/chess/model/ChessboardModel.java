@@ -2,8 +2,6 @@ package it.univr.chess.model;
 
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import it.univr.chess.model.pieces.*;
 import it.univr.chess.view.View;
 
@@ -19,6 +17,7 @@ public class ChessboardModel implements Model {
 	private Step step = Step.STARTFROM;
 	// start x e y (tranne in caso di promotion che sono usate per conservare coordinate dove posizionare nuovo pezzo)
 	private int sx, sy; 
+	private boolean check;
 	private int fiftyMoves; //dopo 50 mosse senza muovere un pedone o catturare, la partita termina in patta
 	
 	public ChessboardModel(View view) {
@@ -53,6 +52,8 @@ public class ChessboardModel implements Model {
 		chessboard[5][7] = new Bishop(Team.TEAM2, this);
 		chessboard[6][7] = new Knight(Team.TEAM2, this);
 		chessboard[7][7] = new Rook(Team.TEAM2, this);
+		
+		view.sendMessage(turn == Team.TEAM1, false);
 	}
 	
 	@Override
@@ -62,7 +63,7 @@ public class ChessboardModel implements Model {
 	
 	@Override
 	public void coordinates(int x, int y) {
-		switch(step){
+		switch (step) {
 		case STARTFROM:
 			//se non ho selezionato un elemento null E ho selezionato uno della mia squadra con ALMENO UNA MOSSA DISPONIBILE
 			if (chessboard[x][y] != null && chessboard[x][y].getTeam() == turn && availableMoves(x, y).iterator().hasNext()) {	
@@ -94,47 +95,31 @@ public class ChessboardModel implements Model {
 				view.wrongMove(x, y);
 			break;
 		case PROMOTION:
-			JOptionPane.showMessageDialog(null,
-				    "Seleziona un pezzo da sostituire al pedone!",
-				    "Errore!",
-				    JOptionPane.ERROR_MESSAGE);
+			view.noThanks();
 			break;
 		}
 	}
 	
 	private void nextTurn() {
 		//passaggio del turno e primi controlli del turno successivo
-			step = Step.STARTFROM; //le prossime coordinate che ricevero' saranno di partenza
+		step = Step.STARTFROM; //le prossime coordinate che ricevero' saranno di partenza
 		
 		turn = (turn == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1; //cambio squadra in gioco
 		
 		// i controlli qui sotto sono le prime cose da fare al turno successivo
 		// per il giocatore di squadra opposta alla mossa appena effettuata 
 		
-		if (check(turn)) {//se il re e' sotto scacco
-			if (mate(turn)){
-				if (JOptionPane.showConfirmDialog(null, "<html><div align=center>SCACCO MATTO!<br>" +
-						((turn == Team.TEAM1) ? "Giocatore 2" : "Giocatore 1") + " vince.<br>Vuoi fare un'altra partita?</div></html>",
-						"SCACCO MATTO", JOptionPane.YES_NO_OPTION) == 1)
-					System.exit(0);
-				//else
-					//nuova partita
-			}
-			else System.out.println("ATTENZIONE, SEI SOTTO SCACCO!");
+		if (check = check(turn)) {//se il re e' sotto scacco
+			if (mate(turn))
+				view.mate(turn == Team.TEAM1);
 		}
-		else if(mate(turn) || staleMate() || fiftyMoves >= 50){
+		else if (mate(turn) || staleMate() || fiftyMoves >= 50)
 			//Tecnicamente, se non posso muovere, ma non sono in scacco, si tratta di STALLO
 			//Oppure se mi trovo in una condizione di stallo matematico (re vs. re, re vs. re+cavallo, re vs. re+alfiere)
 			//Oppure ancora per la regola delle 50 mosse senza muovere un pedone o catturare
-			if (JOptionPane.showConfirmDialog(null, "<html><div align=center>PATTA!<br>" +
-					"Vuoi fare un'altra partita?</div></html>",
-					"PATTA", JOptionPane.YES_NO_OPTION) == 1)
-				System.exit(0);
-			//else
-				//nuova partita
-			
-		} //controlli scacco e scacco matto
+			view.staleMate();
 		
+		view.sendMessage(turn == Team.TEAM1, check);
 	}
 	
 	private ArrayList<Integer> availableMoves(int x, int y){
