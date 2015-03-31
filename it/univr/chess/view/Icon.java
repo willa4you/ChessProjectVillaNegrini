@@ -13,6 +13,6 @@ public class Icon {
 	public static ImageIcon returnIcon(String name){
 		return new ImageIcon(
 				new ImageIcon(PATH + name + ".png").getImage().getScaledInstance(
-						ChessboardView.getWindowSide() / 10, ChessboardView.getWindowSide() / 10, Image.SCALE_SMOOTH));	
+						MainWindow.getWindowSide() / 10, MainWindow.getWindowSide() / 10, Image.SCALE_SMOOTH));	
 	}
 }

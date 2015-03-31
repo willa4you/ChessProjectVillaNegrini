@@ -137,7 +137,7 @@ public class ChessboardModel implements Model {
 		
 	}
 	
-	private Iterable<Integer> availableMoves(int x, int y){
+	private ArrayList<Integer> availableMoves(int x, int y){
 		//questo metodo restituisce un iterabile di cooridnate espresse in numeri interi
 		//delle mosse realmente effettuabili dal pezzo selezionato in coordinate x ed y
 		//per fare questo chiede al pezzo stesso quali sono le sue mosse disponibili
