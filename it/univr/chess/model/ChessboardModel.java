@@ -17,7 +17,9 @@ public class ChessboardModel implements Model {
 	private Piece chessboard[][] = new Piece[8][8];
 	private Team turn = Team.TEAM1;
 	private Step step = Step.STARTFROM;
-	private int sx, sy; // start x e y
+	// start x e y (tranne in caso di promotion che sono usate per conservare coordinate dove posizionare nuovo pezzo)
+	private int sx, sy; 
+	private int fiftyMoves; //dopo 50 mosse senza muovere un pedone o catturare, la partita termina in patta
 	
 	public ChessboardModel(View view) {
 		this.view = view;
@@ -83,15 +85,15 @@ public class ChessboardModel implements Model {
 			for (int moves : availableMoves(sx, sy))
 				if (match = (x == (moves / 10) && y == (moves % 10))) {
 					move(sx, sy, x, y); //se c'e' il match eseguo la mossa
-					nextTurn(); //eseguo le operazioni di cambio turno
+					if (step != Step.PROMOTION) //in caso stia per promuovere un pedone rimando i controlli di fine turno
+						nextTurn(); //eseguo le operazioni di cambio turno
 					view.moved(); //comunico a view il cambio di stato								
 					break; //se trovo un match non proseguo nell'iterazione
 				}
-			
 			if (!match)
 				view.wrongMove(x, y);
 			break;
-		default:
+		case PROMOTION:
 			JOptionPane.showMessageDialog(null,
 				    "Seleziona un pezzo da sostituire al pedone!",
 				    "Errore!",
@@ -102,7 +104,6 @@ public class ChessboardModel implements Model {
 	
 	private void nextTurn() {
 		//passaggio del turno e primi controlli del turno successivo
-		if (step != Step.PROMOTION)
 			step = Step.STARTFROM; //le prossime coordinate che ricevero' saranno di partenza
 		
 		turn = (turn == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1; //cambio squadra in gioco
@@ -121,9 +122,10 @@ public class ChessboardModel implements Model {
 			}
 			else System.out.println("ATTENZIONE, SEI SOTTO SCACCO!");
 		}
-		else if(mate(turn) || staleMate()){
+		else if(mate(turn) || staleMate() || fiftyMoves >= 50){
 			//Tecnicamente, se non posso muovere, ma non sono in scacco, si tratta di STALLO
 			//Oppure se mi trovo in una condizione di stallo matematico (re vs. re, re vs. re+cavallo, re vs. re+alfiere)
+			//Oppure ancora per la regola delle 50 mosse senza muovere un pedone o catturare
 			if (JOptionPane.showConfirmDialog(null, "<html><div align=center>PATTA!<br>" +
 					"Vuoi fare un'altra partita?</div></html>",
 					"PATTA", JOptionPane.YES_NO_OPTION) == 1)
@@ -135,7 +137,7 @@ public class ChessboardModel implements Model {
 		
 	}
 	
-	private Iterable<Integer> availableMoves(int x, int y){
+	private ArrayList<Integer> availableMoves(int x, int y){
 		//questo metodo restituisce un iterabile di cooridnate espresse in numeri interi
 		//delle mosse realmente effettuabili dal pezzo selezionato in coordinate x ed y
 		//per fare questo chiede al pezzo stesso quali sono le sue mosse disponibili
@@ -292,10 +294,18 @@ public class ChessboardModel implements Model {
 	}
 	private void move(int sx, int sy, int tx, int ty){
 		
-		//QUESTO METODO ESEGUE LA MOSSA SENZA CONTROLLARE LA VALIDITA
-		//PERCHE CI HA GIA PENSATO AVAILABLEMOVES
-		//QUESTO METODO FA SOLO LA MOSSA E EVENTUALI CAMBIAMENTI PER ARROCCO, ENPASSANT E PROMOZIONE DEL PEDONE
+		// QUESTO METODO ESEGUE LA MOSSA SENZA CONTROLLARE LA VALIDITA PERCHE' CI HA GIA'
+		// PENSATO AVAILABLEMOVES; QUESTO METODO FA SOLO LA MOSSA, GESTISCE IL CONTATORE 50 MOSSE ED 
+		// EVENTUALI CAMBIAMENTI PER ARROCCO, ENPASSANT E PROMOZIONE DEL PEDONE
+		
 		Piece piece = chessboard[sx][sy];
+		
+		
+		// ----------------- PRIMO CONTROLLO: 50 mosse
+		if (chessboard[tx][ty] != null || piece instanceof Pawn)
+			fiftyMoves = 0;
+		else
+			fiftyMoves++;
 		
 		// ----------------- PRIMO CONTROLLO: CATTURA IN ENPASSANT
 		//(da fare prima che la mossa standard sia effettuata perche' devo controllare
@@ -392,12 +402,13 @@ public class ChessboardModel implements Model {
 			// vedrebbe il pezzo forte appena messo in scacchiera sostituito nuovamente dalla mossa deL pedone (definitivamente!)
 			if(ty == 7 || ty == 0){
 				
-				// chiamo la promotion window passando true se Team1 e false se Team2
+				
 				this.sx = tx;
 				this.sy = ty;
 				//ATTENZIONE: solo in questo caso uso le coordinate di start per sapere
 				//in un momento successivo dove posizionare il nuovo pezzo
 				
+				// dico a view di chiamare la promotion window e gli passo true se si tratta del giocatore 1
 				view.promotion((ty == 7));//(se y e' 7 puo' solo essere squadra 1)
 				step = Step.PROMOTION; //senza un valore di step valido ogni coordinata ricevuta viene ignorata
 				//solo una selezione nella promotionWindow riattivera' step in STARTFROM
@@ -424,23 +435,22 @@ public class ChessboardModel implements Model {
 
 	@Override
 	public void promotion(int piece) {
-		step = Step.STARTFROM;
-		Team team = (turn == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1;
 		
 		switch(piece){
 		case 0:
-			chessboard[sx][sy] = new Queen(team, this);
+			chessboard[sx][sy] = new Queen(turn, this);
 			break;
 		case 1:
-			chessboard[sx][sy] = new Rook(team, this);
+			chessboard[sx][sy] = new Rook(turn, this);
 			break;
 		case 2:
-			chessboard[sx][sy] = new Bishop(team, this);
+			chessboard[sx][sy] = new Bishop(turn, this);
 			break;
 		case 3:
-			chessboard[sx][sy] = new Knight(team, this);
+			chessboard[sx][sy] = new Knight(turn, this);
 		}//fine switch
-		view.promotion(piece, sx, sy);
+		this.nextTurn(); //adesso posso passare al turno successivo
+		view.promotion(piece, sx, sy); //avviso la view di aggiornarsi
 		
 	}
 	
