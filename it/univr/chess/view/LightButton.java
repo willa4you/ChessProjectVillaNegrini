@@ -9,7 +9,7 @@ public class LightButton extends Button {
 		//				colore di default delle caselle chiare (panna)
 		//				colore delle caselle chiare non disponibili (bianco)
 		//				colore delle caselle chiare di mossa disponibile (verde chiaro)
-		super(new Color(255, 255, 204), new Color(153, 255, 102));		
+		super(new Color(255, 255, 204));		
 	}
 
 	private static final long serialVersionUID = 1L;

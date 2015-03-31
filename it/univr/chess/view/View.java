@@ -22,4 +22,12 @@ public interface View {
 	void promotion(boolean team1);
 	
 	void promotion(int piece, int x, int y);
+	
+	void noThanks();
+	
+	void mate(boolean team1);
+	
+	void staleMate();
+	
+	void sendMessage(boolean team1, boolean check);
 }

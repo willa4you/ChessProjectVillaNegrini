@@ -9,7 +9,8 @@ public class DarkButton extends Button {
 		//				colore di default delle caselle scure (marrone)
 		//				colore delle caselle scure non disponibili (grigio scuro)
 		//				colore delle caselle scure di mossa disponibile (verde scuro)
-		super(new Color(153, 102, 51), new Color(71, 145, 71));		
+		super(new Color(153, 102, 51));
+		
 	}
 	
 	private static final long serialVersionUID = 1L;
