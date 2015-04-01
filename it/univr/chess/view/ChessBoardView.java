@@ -1,9 +1,11 @@
 package it.univr.chess.view;
 
 import java.awt.Component;
+import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Color;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,13 +18,16 @@ public class ChessboardView extends JPanel implements View {
 
 	private final Button[][] buttons = new Button[8][8];
 	private Controller controller;
+	private final MainWindow mainWindow;
 	private final Color labelBackground = new Color(77, 0, 0);
 	
 	//wrongX e wrongY sono le coordinate dell'ultima casella errata selezionata
 	private int wrongX = -1;
 	private int wrongY;
 	
-	public ChessboardView() {
+	public ChessboardView(MainWindow mainWindow) {
+		this.mainWindow = mainWindow;
+		
 		setLayout(new GridLayout(10, 10));
 		
 		//creo i bottoni (caselle della scacchiera)
@@ -202,8 +207,19 @@ public class ChessboardView extends JPanel implements View {
 				((team1) ? "Giocatore 2" : "Giocatore 1") + " vince.<br>Vuoi fare un'altra partita?</div></html>",
 				"SCACCO MATTO", JOptionPane.YES_NO_OPTION) == 1)
 			System.exit(0);
-		//else
-			//nuova partita
+		else {
+			EventQueue.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+					JFrame frame = new MainWindow();
+					frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+					frame.setVisible(true);
+				}
+			});
+			
+			mainWindow.dispose();
+		}
 		
 	}
 	
@@ -213,8 +229,19 @@ public class ChessboardView extends JPanel implements View {
 				"Vuoi fare un'altra partita?</div></html>",
 				"PATTA", JOptionPane.YES_NO_OPTION) == 1)
 			System.exit(0);
-		//else
-			//nuova partita
+		else {
+			EventQueue.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+					JFrame frame = new MainWindow();
+					frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+					frame.setVisible(true);
+				}
+			});
+			
+			mainWindow.dispose();
+		}
 	}
 	
 	@Override
