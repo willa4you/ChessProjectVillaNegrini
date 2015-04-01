@@ -1,6 +1,7 @@
 package it.univr.chess.view;
 
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -46,7 +47,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private ChessboardView addPanel() {
-		ChessboardView panel = new ChessboardView();
+		ChessboardView panel = new ChessboardView(this);
 		add(panel, BorderLayout.CENTER);
 		
 		return panel;
@@ -56,9 +57,21 @@ public class MainWindow extends JFrame {
 		JMenu optionMenu = new JMenu("Opzioni");
 
 		
-		JMenuItem restartChoice = new JMenuItem("Nuova Partita");
-		// da completare
-		optionMenu.add(restartChoice);
+		JMenuItem restart = new JMenuItem("Nuova Partita");
+		restart.addActionListener(event -> {
+			EventQueue.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+					JFrame frame = new MainWindow();
+					frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+					frame.setVisible(true);
+				}
+			});
+			
+			this.dispose();
+		});
+		optionMenu.add(restart);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(optionMenu);
