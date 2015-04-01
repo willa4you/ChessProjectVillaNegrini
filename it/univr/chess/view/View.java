@@ -1,33 +1,34 @@
 package it.univr.chess.view;
 
-import it.univr.chess.controller.Controller;
 import java.util.ArrayList;
 
 public interface View {
 
-	void setController(Controller controller);
+	public void move(int sx, int sy, int tx, int ty);
 	
-	void move(int sx, int sy, int tx, int ty);
+	public void move(int sx, int sy);
 	
-	void move(int sx, int sy);
+	public void selected(int x, int y, ArrayList<Integer> availableMoves);
 	
-	void selected(int x, int y, ArrayList<Integer> availableMoves);
+	public void moved();
 	
-	void moved();
+	public void wrongMove(int x, int y);
 	
-	void wrongMove(int x, int y);
+	public void selfSelect(int x, int y);
 	
-	void selfSelect(int x, int y);
+	public void promotion(boolean team1);
 	
-	void promotion(boolean team1);
+	public void promotion(int piece, int x, int y);
 	
-	void promotion(int piece, int x, int y);
+	public void noThanks();
 	
-	void noThanks();
+	public void mate(boolean team1);
 	
-	void mate(boolean team1);
+	public void draw(int draw);
 	
-	void staleMate();
+	public void sendMessage(boolean team1, boolean check);
 	
-	void sendMessage(boolean team1, boolean check);
+	public void newMatch();
+	
+	public void setSuggestions();
 }

@@ -32,17 +32,17 @@ public class ChessboardModel implements Model {
 		chessboard[6][0] = new Knight(Team.TEAM1, this);
 		chessboard[7][0] = new Rook(Team.TEAM1, this);
 		
-		for (int i = 0; i < 8; i++)
-			chessboard[i][1] = new Pawn(Team.TEAM1, this);
+		for (int x = 0; x < 8; x++)
+			chessboard[x][1] = new Pawn(Team.TEAM1, this);
 		
 		//riempio la parte centrale della chessboard di vuoti
-		for (int i = 0;i < 4; i++)
-			for (int j = 0; j <= 7; j++)
-				chessboard[j][i + 2] = null;
+		for (int x = 0; x <= 7; x++)
+			for (int y = 2; y < 6; y++)
+				chessboard[x][y] = null;
 		
 		//schiero la seconda squadra
-		for (int i = 0; i < 8; i++)
-			chessboard[i][6] = new Pawn(Team.TEAM2, this);
+		for (int x = 0; x < 8; x++)
+			chessboard[x][6] = new Pawn(Team.TEAM2, this);
 		
 		chessboard[0][7] = new Rook(Team.TEAM2, this);
 		chessboard[1][7] = new Knight(Team.TEAM2, this);
@@ -85,7 +85,7 @@ public class ChessboardModel implements Model {
 			boolean match = false;
 			for (int moves : availableMoves(sx, sy))
 				if (match = (x == (moves / 10) && y == (moves % 10))) {
-					move(sx, sy, x, y); //se c'e' il match eseguo la mossa
+					move(x, y); //se c'e' il match eseguo la mossa
 					if (step != Step.PROMOTION) //in caso stia per promuovere un pedone rimando i controlli di fine turno
 						nextTurn(); //eseguo le operazioni di cambio turno
 					view.moved(); //comunico a view il cambio di stato								
@@ -113,11 +113,20 @@ public class ChessboardModel implements Model {
 			if (mate(turn))
 				view.mate(turn == Team.TEAM1);
 		}
-		else if (mate(turn) || staleMate() || fiftyMoves >= 50)
+		else {
+			int draw = 0;
+			if (mate(turn))
+				draw = 1;
+			else if (impossibleMate())
+				draw = 2;
+			else if (fiftyMoves >= 50)
+				draw = 3;
 			//Tecnicamente, se non posso muovere, ma non sono in scacco, si tratta di STALLO
 			//Oppure se mi trovo in una condizione di stallo matematico (re vs. re, re vs. re+cavallo, re vs. re+alfiere)
 			//Oppure ancora per la regola delle 50 mosse senza muovere un pedone o catturare
-			view.staleMate();
+			if (draw != 0)
+				view.draw(draw);
+		}
 		
 		view.sendMessage(turn == Team.TEAM1, check);
 	}
@@ -242,7 +251,7 @@ public class ChessboardModel implements Model {
 		return true;
 	}
 	
-	private boolean staleMate(){
+	private boolean impossibleMate(){
 		//controllo di stallo per impossibilita' certa di dare scacco in questa partita
 		//da parte di entrambe le squadre
 		
@@ -277,7 +286,7 @@ public class ChessboardModel implements Model {
 		//------ TUTTI I RIMANENTI SONO CASI DI STALLO (1 vs. 2 fatti di re, alfieri e/o cavalli oppure 1 vs. 1 per forza due re) ---- //
 		return true; 		
 	}
-	private void move(int sx, int sy, int tx, int ty){
+	private void move(int tx, int ty){
 		
 		// QUESTO METODO ESEGUE LA MOSSA SENZA CONTROLLARE LA VALIDITA PERCHE' CI HA GIA'
 		// PENSATO AVAILABLEMOVES; QUESTO METODO FA SOLO LA MOSSA, GESTISCE IL CONTATORE 50 MOSSE ED 
@@ -388,8 +397,8 @@ public class ChessboardModel implements Model {
 			if(ty == 7 || ty == 0){
 				
 				
-				this.sx = tx;
-				this.sy = ty;
+				sx = tx;
+				sy = ty;
 				//ATTENZIONE: solo in questo caso uso le coordinate di start per sapere
 				//in un momento successivo dove posizionare il nuovo pezzo
 				

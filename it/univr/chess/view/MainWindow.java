@@ -1,7 +1,6 @@
 package it.univr.chess.view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -13,15 +12,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
 
-import it.univr.chess.controller.ChessController;
-
 public class MainWindow extends JFrame {
 
 	private static JTextField textField = new JTextField();
-	
+	private final View view;
 	
 	public MainWindow() {	
-		super("Scacchiera");					// 70 pixel per compensare il JMenuBar e il JTextField
+		super("Scacchi");					// 70 pixel per compensare il JMenuBar e il JTextField
 		setSize(getWindowSide(), getWindowSide() + 70);
 		setResizable(false);
 		setLocationRelativeTo(null); // fa apparire la finestra al centro dello schermo
@@ -36,7 +33,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		
-		new ChessController(addPanel());	
+		this.view = addPanel();
 		
 		setJMenuBar(menuBar());
 		
@@ -47,7 +44,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private ChessboardView addPanel() {
-		ChessboardView panel = new ChessboardView(this);
+		ChessboardView panel = new ChessboardView();
 		add(panel, BorderLayout.CENTER);
 		
 		return panel;
@@ -59,22 +56,31 @@ public class MainWindow extends JFrame {
 		
 		JMenuItem restart = new JMenuItem("Nuova Partita");
 		restart.addActionListener(event -> {
-			EventQueue.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					JFrame frame = new MainWindow();
-					frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-					frame.setVisible(true);
-				}
-			});
-			
-			this.dispose();
+			if (JOptionPane.showConfirmDialog(null, "<html><div align=center>Abbandonare la partita?</div></html>",
+					"ABBANDONA", JOptionPane.YES_NO_OPTION) == 0)
+				view.newMatch();			
 		});
 		optionMenu.add(restart);
 		
+		JMenuItem suggestions = new JMenuItem("Abilita/Disabilita suggerimenti");
+		suggestions.addActionListener(event -> {
+			view.setSuggestions();	
+		});
+		
+		optionMenu.add(suggestions);
+		
+		JMenuItem exit = new JMenuItem("Esci dal gioco");
+		exit.addActionListener(event -> {
+			if (JOptionPane.showConfirmDialog(null, "<html><div align=center>Uscire dal gioco?</div></html>",
+					"ESCI", JOptionPane.YES_NO_OPTION) == 0)
+				System.exit(0);			
+		});
+		optionMenu.add(exit);
+		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(optionMenu);
+		
+		
 		
 		return menuBar;
 	}
