@@ -7,12 +7,10 @@ import it.univr.chess.view.View;
 public class ChessController implements Controller {
 
 	private final View view;
-	private final Model model;
+	private Model model;
 	
 	public ChessController(View view) {
 		this.view = view;
-		
-		view.setController(this); // view e' ChessboardView
 		
 		model = new ChessboardModel(view);
 	}
@@ -26,6 +24,11 @@ public class ChessController implements Controller {
 	public void promotion(int piece) {
 		model.promotion(piece);
 		
+	}
+	
+	@Override
+	public void newMatch() {
+		model = new ChessboardModel(view);
 	}
 	
 }

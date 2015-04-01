@@ -2,11 +2,11 @@ package it.univr.chess.view;
 
 interface Buttons {
 
-	void selected();
+	public void selected(); //setta background giallo
 	
-	void wrong();
+	public void wrong(); //setta background rosso
 	
-	void highlightOff();
+	public void highlightOff(); //setta background colore default
 	
-	void available();
+	public void available(); //setta background verde e bordi
 }

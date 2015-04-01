@@ -1,11 +1,9 @@
 package it.univr.chess.view;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Color;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -13,20 +11,23 @@ import javax.swing.JPanel;
 import java.util.ArrayList;
 
 import it.univr.chess.controller.Controller;
+import it.univr.chess.controller.ChessController;
 
 public class ChessboardView extends JPanel implements View {
 
 	private final Button[][] buttons = new Button[8][8];
-	private Controller controller;
-	private final MainWindow mainWindow;
+	private final Controller controller;
 	private final Color labelBackground = new Color(77, 0, 0);
+	private boolean suggestions = false;
+	private ArrayList<Integer> availableMoves;
 	
 	//wrongX e wrongY sono le coordinate dell'ultima casella errata selezionata
 	private int wrongX = -1;
 	private int wrongY;
 	
-	public ChessboardView(MainWindow mainWindow) {
-		this.mainWindow = mainWindow;
+	public ChessboardView() {
+		
+		controller = new ChessController(this);
 		
 		setLayout(new GridLayout(10, 10));
 		
@@ -35,6 +36,23 @@ public class ChessboardView extends JPanel implements View {
 		
 		//assegno componenti alla griglia (buttons e labels)
 		assignComponents();
+	}
+	
+	@Override
+	public void setSuggestions() {
+		suggestions = !suggestions;
+		
+		if (suggestions && availableMoves != null) {		
+			for (int i = 0; i < 8; i++)
+				for (int j = 0; j < 8; j++)
+					if(availableMoves.contains(new Integer((i * 10) + j)))
+						buttons[i][j].available();
+		}
+		else
+			for (int i = 0; i < 8; i++)
+				for (int j = 0; j < 8; j++)
+					if (buttons[i][j].getBackground() != Color.YELLOW)
+						buttons[i][j].highlightOff();
 	}
 	
 	private void createButtons() {
@@ -48,14 +66,14 @@ public class ChessboardView extends JPanel implements View {
 				buttonListener(x, y);
 			}
 			
-			assignButtonsIcons();
+			initButtonIcons();
 	}
 	
 	private void buttonListener(int x, int y) {	
 		buttons[x][y].addActionListener(event -> controller.onClick((x * 10) + y));
 	}
 	
-	private void assignButtonsIcons() {
+	private void initButtonIcons() {
 		
 		buttons[0][0].setIcon(Icon.returnIcon("white_rook"));
 		buttons[1][0].setIcon(Icon.returnIcon("white_knight"));
@@ -65,6 +83,10 @@ public class ChessboardView extends JPanel implements View {
 		buttons[5][0].setIcon(Icon.returnIcon("white_bishop"));
 		buttons[6][0].setIcon(Icon.returnIcon("white_knight"));
 		buttons[7][0].setIcon(Icon.returnIcon("white_rook"));
+		
+		for (int x = 0; x <= 7; x++)
+			for (int y = 2; y < 6; y++)
+				buttons[x][y].setIcon(null);
 		
 		for (int i = 0; i < 8; i++) {
 			buttons[i][1].setIcon(Icon.returnIcon("white_pawn"));
@@ -79,6 +101,13 @@ public class ChessboardView extends JPanel implements View {
 		buttons[5][7].setIcon(Icon.returnIcon("black_bishop"));
 		buttons[6][7].setIcon(Icon.returnIcon("black_knight"));
 		buttons[7][7].setIcon(Icon.returnIcon("black_rook"));
+	}
+	
+	@Override
+	public void newMatch() {
+		controller.newMatch();
+		moved();
+		initButtonIcons();
 	}
 	
 	private void assignComponents() {
@@ -124,18 +153,15 @@ public class ChessboardView extends JPanel implements View {
 	}
 	
 	@Override
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
-	
-	@Override
 	public void selected(int x, int y, ArrayList<Integer> availableMoves) {
-		buttons[x][y].selected();
+		buttons[x][y].selected(); //la casella selezionata diventa gialla
+		this.availableMoves = availableMoves;
 		
-		for (int i = 0; i < 8; i++)
-			for (int j = 0; j < 8; j++)
-				if(availableMoves.contains(new Integer((i * 10) + j)))
-					buttons[i][j].available();	
+		if (suggestions)		
+			for (int i = 0; i < 8; i++)
+				for (int j = 0; j < 8; j++)
+					if(availableMoves.contains(new Integer((i * 10) + j)))
+						buttons[i][j].available();
 	}
 	
 	@Override
@@ -146,8 +172,9 @@ public class ChessboardView extends JPanel implements View {
 		//quando la mossa e' eseguita se avessi fatto prima un errore
 		//una mossa errata del mio avversario in seguito porterebbe a colorare
 		//la sua casella errata e decolorare l'ultimo mio errore per via di 
-		//wrongX e wrongY settate, percio' setto wrongX a 9 che verra' ignorato
+		//wrongX e wrongY settate, percio' setto wrongX a -1 che verra' ignorato
 		wrongX = -1;
+		availableMoves = null;
 	}
 	
 	public void wrongMove(int x, int y) {		
@@ -207,41 +234,31 @@ public class ChessboardView extends JPanel implements View {
 				((team1) ? "Giocatore 2" : "Giocatore 1") + " vince.<br>Vuoi fare un'altra partita?</div></html>",
 				"SCACCO MATTO", JOptionPane.YES_NO_OPTION) == 1)
 			System.exit(0);
-		else {
-			EventQueue.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					JFrame frame = new MainWindow();
-					frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-					frame.setVisible(true);
-				}
-			});
-			
-			mainWindow.dispose();
-		}
+		else
+			newMatch();
 		
 	}
 	
 	@Override
-	public void staleMate() {
-		if (JOptionPane.showConfirmDialog(null, "<html><div align=center>PATTA!<br>" +
-				"Vuoi fare un'altra partita?</div></html>",
-				"PATTA", JOptionPane.YES_NO_OPTION) == 1)
-			System.exit(0);
-		else {
-			EventQueue.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					JFrame frame = new MainWindow();
-					frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-					frame.setVisible(true);
-				}
-			});
-			
-			mainWindow.dispose();
+	public void draw(int draw) {
+		String message = "";
+		switch (draw) {
+		case 1:
+			message = "STALLO";
+			break;
+		case 2:
+			message = "POSIZIONE MORTA";
+			break;
+		case 3:
+			message = "REGOLA DELLE 50 MOSSE";
+			break;
 		}
+		if (JOptionPane.showConfirmDialog(null, "<html><div align=center>PATTA PER " + message + "!<br>" +
+				"Vuoi fare un'altra partita?</div></html>",
+				"PATTA!", JOptionPane.YES_NO_OPTION) == 1)
+			System.exit(0);
+		else
+			newMatch();
 	}
 	
 	@Override
