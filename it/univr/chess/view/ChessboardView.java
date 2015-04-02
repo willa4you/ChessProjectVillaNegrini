@@ -70,7 +70,7 @@ public class ChessboardView extends JPanel implements View {
 	}
 	
 	private void buttonListener(int x, int y) {	
-		buttons[x][y].addActionListener(event -> controller.onClick((x * 10) + y));
+		buttons[x][y].addActionListener(event -> controller.onClick(x, y));
 	}
 	
 	private void initButtonIcons() {
@@ -269,12 +269,16 @@ public class ChessboardView extends JPanel implements View {
 			    JOptionPane.ERROR_MESSAGE);	
 	}
 	
-	private static final long serialVersionUID = 1L;
-
 	@Override
 	public void sendMessage(boolean team1, boolean check) {
 		MainWindow.setText("E IL TUO TURNO SQUADRA " + ((team1) ? "BIANCA." : "NERA.")
 				+ ((check) ? " ATTENZIONE, SEI SOTTO SCACCO!" : ""));		
 	}
+	
+	public Controller getController() {
+		return controller;
+	}
+	
+	private static final long serialVersionUID = 1L;
 
 }
