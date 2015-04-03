@@ -12,12 +12,11 @@ public class ChessboardModel implements Model {
 	}
 	
 	private final View view;
-	private Piece chessboard[][] = new Piece[8][8];
+	private final Piece chessboard[][] = new Piece[8][8];
 	private Team turn = Team.TEAM1;
 	private Step step = Step.STARTFROM;
 	// start x e y (tranne in caso di promotion che sono usate per conservare coordinate dove posizionare nuovo pezzo)
 	private int sx, sy; 
-	private boolean check;
 	private int fiftyMoves; //dopo 50 mosse senza muovere un pedone o catturare, la partita termina in patta
 	
 	public ChessboardModel(View view) {
@@ -108,25 +107,20 @@ public class ChessboardModel implements Model {
 		
 		// i controlli qui sotto sono le prime cose da fare al turno successivo
 		// per il giocatore di squadra opposta alla mossa appena effettuata 
+		boolean check = check(turn); //true se sono sotto scacco
+		boolean mate = mate(turn); //true se sono sotto scacco in ogni possibile mossa
 		
-		if (check = check(turn)) {//se il re e' sotto scacco
-			if (mate(turn))
-				view.mate(turn == Team.TEAM1);
-		}
-		else {
-			int draw = 0;
-			if (mate(turn))
-				draw = 1;
-			else if (impossibleMate())
-				draw = 2;
-			else if (fiftyMoves >= 50)
-				draw = 3;
+		if (check && mate) //controllo scacco matto
+			view.mate(turn == Team.TEAM1);
+		else if (!check && mate) //controlo stallo
+			view.draw(1);
+		else if (impossibleMate()) //controllo scacco matto impossibile
+			view.draw(2);
+		else if (fiftyMoves >= 50) //controllo 50 mosse
+			view.draw(3);
 			//Tecnicamente, se non posso muovere, ma non sono in scacco, si tratta di STALLO
 			//Oppure se mi trovo in una condizione di stallo matematico (re vs. re, re vs. re+cavallo, re vs. re+alfiere)
-			//Oppure ancora per la regola delle 50 mosse senza muovere un pedone o catturare
-			if (draw != 0)
-				view.draw(draw);
-		}
+			//Oppure ancora per la regola delle 50 mosse senza muovere un pedone o catturare			
 		
 		view.sendMessage(turn == Team.TEAM1, check);
 	}
@@ -217,7 +211,7 @@ public class ChessboardModel implements Model {
 		return condition;
 	}
 	
-	private boolean check(Team player){
+	public boolean check(Team player){
 		Piece piece = null;
 		Team otherPlayer;
 		otherPlayer = (player == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1;
@@ -230,7 +224,7 @@ public class ChessboardModel implements Model {
 		return false;
 	}
 	
-	private boolean mate(Team player){
+	public boolean mate(Team player){
 		//controllo di SCACCO MATTO
 		//(oltre che per lo scacco matto viene usato anche per controllare un particolare caso di stallo:
 		//infatti in particolari configurazioni capita che il re non sia sotto scacco, ma ogni mossa rimasta
@@ -251,40 +245,37 @@ public class ChessboardModel implements Model {
 		return true;
 	}
 	
-	private boolean impossibleMate(){
+	public boolean impossibleMate() {
 		//controllo di stallo per impossibilita' certa di dare scacco in questa partita
 		//da parte di entrambe le squadre
 		
-		int counterTeam1 = 0;
-		int counterTeam2 = 0;
+		int counter[] = new int[2];
+		int team;
 		Piece piece;
 		//i casi di stallo sono 1)re vs. re, 2) re vs. re + cavallo 3) re vs. re + alfiere
 		//percio' se incontro un pezzo diverso da questi restituisco subito false
 		//se incontro questi pezzi, al terzo trovato restituisco false (es. re + cavallo + cavallo non crea stallo)
-		for(int i = 0; i < 8; i++)
-			for(int j = 0; j < 8; j++) {
+		for (int i = 0; i < 8; i++)
+			for (int j = 0; j < 8; j++) {
 				piece = chessboard[i][j];
-				if ( piece == null)
+				if (piece == null)
 					continue;
 				if (piece instanceof Queen || piece instanceof Pawn || piece instanceof Rook)
 					return false;
-				if (piece.getTeam() == Team.TEAM1)
-					if(counterTeam1 == 2)
-						return false;
-					else
-						counterTeam1++;
+				team = (piece.getTeam() == Team.TEAM1) ? 0 : 1;
+				
+				if (counter[team] == 2)
+					return false;
 				else
-					if(counterTeam2 == 2)
-						return false;
-					else
-						counterTeam2++;
+					counter[team]++;
+
 			}
 		//finito il ciclo potrei avere un ultimo caso di non stallo non ancora considerato
-		if (counterTeam1 == 2 && counterTeam2 == 2)
+		if (counter[0] == 2 && counter[1] == 2)
 			return false; //non e' ancora stallo matematico (es. re + alfiere vs. re + cavallo)
 		
 		//------ TUTTI I RIMANENTI SONO CASI DI STALLO (1 vs. 2 fatti di re, alfieri e/o cavalli oppure 1 vs. 1 per forza due re) ---- //
-		return true; 		
+		return true;
 	}
 	private void move(int tx, int ty){
 		
@@ -448,5 +439,14 @@ public class ChessboardModel implements Model {
 		
 	}
 	
-
+	public void setChessboard(Piece chessboard[][]) {
+		
+		for (int i = 0; i < 8; i++)
+			for (int j = 0; j < 8; j++)
+				this.chessboard[i][j] = chessboard[i][j];
+	}
+	
+	public View getView() {
+		return view;
+	}
 }

@@ -1,55 +1,44 @@
-/*package it.univr.chess.junit;
+package it.univr.chess.junit;
+
 import org.junit.*;
 
 import it.univr.chess.model.*;
-import it.univr.chess.model.pieces.Bishop;
-import it.univr.chess.model.pieces.King;
-import it.univr.chess.model.pieces.Knight;
-import it.univr.chess.model.pieces.Rook;
-
-import java.util.Scanner;
+import it.univr.chess.model.pieces.*;
+import it.univr.chess.view.*;
 
 public class MateTest {
 
 	@Test
 	public void mateTest(){
-		ChessboardModel2.nuovaPartita();//preparo la scacchiera per una nuova partita
 		
-		for(int i = 0; i < 8; i++)//la svuoto di ogni pezzo
-			for(int j = 0; j < 8; j++)
-				ChessboardModel2.setPezzoInPosizione(null, i, j);
+		ChessboardModel model = new ChessboardModel(new ChessboardView());
+		Piece chessboard[][] = new Piece[8][8];
 		
-		//configuro il caso di scacco matto
-		ChessboardModel2.setPezzoInPosizione(new King(Team.TEAM1), 2, 0);
-		ChessboardModel2.setPezzoInPosizione(new Knight(Team.TEAM2), 2, 2);
-		ChessboardModel2.setPezzoInPosizione(new Rook(Team.TEAM2), 7, 1);
-		ChessboardModel2.setPezzoInPosizione(new Bishop(Team.TEAM2), 1, 2);
+		chessboard[0][7] = new King(Team.TEAM2, model);
+		chessboard[2][5] = new Bishop(Team.TEAM1, model);
+		chessboard[4][4] = new Bishop(Team.TEAM1, model);
+		chessboard[0][5] = new King(Team.TEAM1, model);
 		
+		model.setChessboard(chessboard);
 		
-		boolean c = false;
-		while(!c){
-			//stampo a video la scacchiera
-			System.out.println(ChessboardModel2.stringChessboard());
-			System.out.print("Scrivi la casella in cui vuoi muovere la torre (A2, C2, E2, F2, G2 per scacco matto): ");
-			String arrivo = new Scanner(System.in).nextLine();
-			int a = (int)(arrivo.charAt(0) - 'A')*10 + (Integer.parseInt(arrivo.substring(1, 2))-1);
-			
-			for (int b : ChessboardModel2.getPiece(7, 1).mosseConsentite(7, 1)){
-				System.out.print("Potrei andare in " + (char)('A' + b/10) + (b%10 + 1) + "...");
-				if (b == a) {//la mossa che ho scelto (a) combacia con una delle possibili per il pezzo (b)
-					System.out.println(" Match!");
-					ChessboardModel2.setPezzoInPosizione(ChessboardModel2.getPiece(7, 1), a/10, a%10);
-					ChessboardModel2.setPezzoInPosizione(null, 7, 1);
-					c = true;
-				}
-				else System.out.println(" Not match!");
-			}//chiude for each
-		}
-		//stampo a video la scacchiera
-		System.out.println(ChessboardModel2.stringChessboard());
+		Assert.assertTrue("ERROR!", (model.check(Team.TEAM2) && model.mate(Team.TEAM2)));
 		
-		Assert.assertTrue("NOT MATE!", Core.mate(Team.TEAM1));
+	}
+	
+	@Test
+	public void mateTest2(){
+		
+		ChessboardModel model = new ChessboardModel(new ChessboardView());
+		Piece chessboard[][] = new Piece[8][8];
+		
+		chessboard[0][7] = new King(Team.TEAM2, model);
+		chessboard[2][5] = new Bishop(Team.TEAM1, model);
+		chessboard[4][4] = new Bishop(Team.TEAM1, model);
+		chessboard[0][4] = new King(Team.TEAM1, model);
+		
+		model.setChessboard(chessboard);
+		
+		Assert.assertFalse("ERROR!", (model.check(Team.TEAM2) && model.mate(Team.TEAM2)));
 		
 	}
 }
-*/
