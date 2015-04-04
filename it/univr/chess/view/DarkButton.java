@@ -2,15 +2,25 @@ package it.univr.chess.view;
 
 import java.awt.Color;
 
+/**
+ * Classe che estende la classe Button, il cui unico
+ * scopo e` quello di dire alla superclasse il suo colore
+ * di default
+ * 
+ * @author Alessandro Villa
+ * @author Matteo Negrini
+ * @see Button
+ * @see Buttons
+ */
 public class DarkButton extends Button {
 
-	public DarkButton(){
-		// in ordine: 	valore intero di riferimento coordinate
-		//				colore di default delle caselle scure (marrone)
-		//				colore delle caselle scure non disponibili (grigio scuro)
-		//				colore delle caselle scure di mossa disponibile (verde scuro)
-		super(new Color(153, 102, 51));
-		
+	/**
+	 * Invoca il costruttore della superclasse Button
+	 * la quale settera il color marrone come colore di default
+	 * della casella (bottone)
+	 */
+	public DarkButton() {
+		super(new Color(153, 102, 51));	// (marrone)
 	}
 	
 	private static final long serialVersionUID = 1L;

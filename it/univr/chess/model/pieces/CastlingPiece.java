@@ -15,19 +15,22 @@ import it.univr.chess.model.Team;
  * 
  */
 public abstract class CastlingPiece extends Piece {
+	
 	protected boolean moved;
+	
 	/**
 	 * Il costruttore riceve la squadra e la scacchiera dalla sottoclasse e le gira alla
 	 * classe padre Piece. Inoltre setta a false il parametro moved specificando che appena
 	 * creato, l'oggetto non ha ancora mosso.
 	 * 
-	 * @param team
-	 * @param chessboard
+	 * @param team la squadra cui il pezzo appartiene
+	 * @param chessboard la scacchiera (ChessboardModel)
 	 */
 	public CastlingPiece(Team team, ModelPieces chessboard) {
 		super(team, chessboard);
 		this.moved = false;		
 	}
+	
 	/**
 	 * Questo metodo, specifico per gli oggetti CastlingPiece, prende il valore della
 	 * variabile d'istanza booleana moved e lo ritorna.
@@ -36,6 +39,7 @@ public abstract class CastlingPiece extends Piece {
 	public boolean getMoved(){
 		return this.moved;
 	}
+	
 	/**
 	 * Questo metodo, specifico per gli oggetti CastlingPiece, viene invocato ad ogni
 	 * mossa di un oggetto di una sottoclasse. Esso setta la variabile moved a true.
@@ -43,4 +47,5 @@ public abstract class CastlingPiece extends Piece {
 	public void setMoved(){
 		this.moved = true;
 	}
+	
 }

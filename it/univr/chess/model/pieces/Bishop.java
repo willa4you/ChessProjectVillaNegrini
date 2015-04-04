@@ -4,6 +4,7 @@ import it.univr.chess.model.ModelPieces;
 import it.univr.chess.model.Team;
 
 import java.util.ArrayList;
+
 /**
  * Questa classe implementa le caratteristiche di un oggetto pezzo degli scacchi (estende infatti Piece) e nello specifico
  * l'alfiere. Come le altre classi concrete che implementano un pezzo, ha il compito di definire in maniera unica e coerente
@@ -14,17 +15,22 @@ import java.util.ArrayList;
  * 
  */
 public class Bishop extends Piece {
+	
 	/**
 	 * Il costruttore riceve la squadra e la scacchiera di appartenenza e le gira al costruttore della
 	 * classe padre, essendo essi attributi comuni a tutti gli oggetti che estendono la classe Piece (la
 	 * quale gestisce come vengono memorizzati e restituiti).
-	 * @param team
-	 * @param chessboard
+	 * 
+	 * @param team la squadra cui il pezzo appartiene
+	 * @param chessboard la scacchiera (ChessboardModel)
 	 */
 	public Bishop(Team team, ModelPieces chessboard) {
 		super(team, chessboard);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Iterable<Integer> availableMoves(int x, int y) {
 		ArrayList<Integer> availableMoves = new ArrayList<Integer>();
@@ -100,6 +106,5 @@ public class Bishop extends Piece {
 		
 		return availableMoves;
 	}
-
 	
 }

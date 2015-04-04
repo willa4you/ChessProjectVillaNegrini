@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import it.univr.chess.model.pieces.*;
 import it.univr.chess.view.View;
+
 /**
  * La classe implementa una scacchiera attraverso un array bidimensionale di
  * dimensione 8x8 e le principali fasi e regole del gioco ad eccezione di quelle
@@ -11,12 +12,17 @@ import it.univr.chess.view.View;
  * Ogni partita alterna turni di una squadra a quelli dell'altra ed ogni turno
  * alterna fasi di attesa di coordinate di partenza a fasi di attesa di coordinate
  * di arrivo (con l'unica eccezione dell'attesa di un pezzo che promuova il pedone
- * giunto all'ultima traversa, fase nella quale ogni coordinata e` rifiutata).
+ * giunto all'ultima traversa, fase nella quale ogni coordinata e` rifiutata).<br><br>
+ * 
  * Le variabili di istanza sx ed sy salvano le coordinate di partenza per poterle
  * utilizzare alla ricezione delle coordinate di arrivo.
  * La variabile fiftyMoves serve per implementare la regola delle 50 mosse.
+ * 
  * @author Alessandro Villa
  * @author Matteo Negrini
+ * @see View
+ * @see Pieces
+ * @see Team
  */
 public class ChessboardModel implements Model, ModelPieces {
 	// Le tre fasi di un turno
@@ -34,7 +40,8 @@ public class ChessboardModel implements Model, ModelPieces {
 	private Step step = Step.STARTFROM; //la variabile che memorizza l'attuale fase del turno
 	
 	private int sx, sy; // start x e y (vedi commento della classe)
-	private int fiftyMoves; //dopo 50 mosse senza muovere un pedone o catturare, la partita termina in patta
+	private int fiftyMoves; // dopo 50 mosse senza muovere un pedone o catturare, la partita termina in patta
+	
 	/**
 	 * Il costruttore popola la scacchiera creando e posizionando
 	 * gli oggetti di tipo Piece secondo la conformazione iniziale.
@@ -45,7 +52,7 @@ public class ChessboardModel implements Model, ModelPieces {
 	 */
 	public ChessboardModel(View view) {
 		this.view = view;
-		//schiero la prima squadra
+		// schiero la prima squadra
 		chessboard[0][0] = new Rook(Team.TEAM1, this);
 		chessboard[1][0] = new Knight(Team.TEAM1, this);
 		chessboard[2][0] = new Bishop(Team.TEAM1, this);
@@ -58,12 +65,12 @@ public class ChessboardModel implements Model, ModelPieces {
 		for (int x = 0; x < 8; x++)
 			chessboard[x][1] = new Pawn(Team.TEAM1, this);
 		
-		//riempio la parte centrale della chessboard di vuoti
+		// riempio la parte centrale della chessboard di vuoti
 		for (int x = 0; x <= 7; x++)
 			for (int y = 2; y < 6; y++)
 				chessboard[x][y] = null;
 		
-		//schiero la seconda squadra
+		// schiero la seconda squadra
 		for (int x = 0; x < 8; x++)
 			chessboard[x][6] = new Pawn(Team.TEAM2, this);
 		
@@ -79,11 +86,17 @@ public class ChessboardModel implements Model, ModelPieces {
 		view.sendMessage(turn == Team.TEAM1, false);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Pieces getPiece(int x, int y) {
 		return chessboard[x][y];
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void coordinates(int x, int y) {
 		// controllo a che fase del turno mi trovo
@@ -91,10 +104,10 @@ public class ChessboardModel implements Model, ModelPieces {
 		case STARTFROM: //caso attesa coordinate di partenza
 			//se ho selezionato una casella NON vuota E ho selezionato un pezzp della mia squadra con ALMENO UNA MOSSA DISPONIBILE
 			if (chessboard[x][y] != null && chessboard[x][y].getTeam() == turn && availableMoves(x, y).iterator().hasNext()) {	
-				//setto le mie variabili d'istanza per quando il metodo viene richiamato con coordinate d'arrivo
+				// setto le mie variabili d'istanza per quando il metodo viene richiamato con coordinate d'arrivo
 				sx = x;
 				sy = y;
-				step = Step.GOTO; //mi preparo alla nuova modalita' quando ricevero' nuove coordinate
+				step = Step.GOTO; // mi preparo alla nuova modalita' quando ricevero' nuove coordinate
 				
 				view.selected(x, y, availableMoves(x, y)); //avverto view che e' cambiata fase del gioco e un pezzo e' selezionato
 			}
@@ -119,7 +132,7 @@ public class ChessboardModel implements Model, ModelPieces {
 				view.wrongMove(x, y); // comunica alla view uno stato di coordinate errate
 			break;
 		case PROMOTION:
-			view.noThanks(); // se aspetto un pezzo da sostituire ad un pedone promosso rifiuto ogni coordinata
+			view.noCoordinatesThanks(); // se aspetto un pezzo da sostituire ad un pedone promosso rifiuto ogni coordinata
 			break;
 		}
 	}
@@ -129,7 +142,7 @@ public class ChessboardModel implements Model, ModelPieces {
 	 */
 	private void nextTurn() {
 		
-		step = Step.STARTFROM; //le prossime coordinate che ricevero' saranno di partenza
+		step = Step.STARTFROM; // le prossime coordinate che ricevero' saranno di partenza
 		
 		turn = (turn == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1; //cambio turno della squadra
 		
@@ -141,13 +154,13 @@ public class ChessboardModel implements Model, ModelPieces {
 		if (check && mate) //controllo scacco matto
 			view.mate(turn == Team.TEAM1);
 		// Se non posso muovere, ma non sono sotto scacco, si tratta di STALLO
-		else if (!check && mate) //controlo stallo
-			view.draw(1);
+		else if (!check && mate) // controlo stallo
+			view.draw(0);
 		else if (impossibleMate()) //controllo scacco matto impossibile
-			view.draw(2);
+			view.draw(1);
 		// Se passano 50 mosse senza muovere un pedone o catturare la partita finisce in patta	
-		else if (fiftyMoves >= 50) //controllo 50 mosse
-			view.draw(3);
+		else if (fiftyMoves >= 50) // controllo 50 mosse
+			view.draw(2);
 	
 		view.sendMessage(turn == Team.TEAM1, check);
 	}
@@ -156,10 +169,11 @@ public class ChessboardModel implements Model, ModelPieces {
 	 * Per conoscerle esso riceve ed itera dal pezzo stesso le mosse che esso ritiene possibili
 	 * secondo i suoi canoni di movimento. Per ognuna di esse esegue dei controlli aggiuntivi
 	 * relativi a restrizioni aggiuntive proprie del gioco degli scacchi delle quali il pezzo non 
-	 * conosce i dettagli (non ha visione di gioco).
+	 * conosce i dettagli (non ha visione di gioco).<br>
 	 * Restituisce un ArrayList iterabile di cardinalita' uguale o minore di quello ricevuto.
-	 * @param x
-	 * @param y
+	 * 
+	 * @param x la coordinata x del pezzo
+	 * @param y la coordinata y del pezzo
 	 * @return un arrayList di interi con le mosse a disposizione di un pezzo in coordinate x, y.
 	 */
 	private ArrayList<Integer> availableMoves(int x, int y) {
@@ -225,7 +239,7 @@ public class ChessboardModel implements Model, ModelPieces {
 			/* Se ho superato tutta questa serie di controlli senza incappare in un continue
 			 * e sono arrivato qui, posso aggiungere la mossa a quelle consentite. */
 			availableMoves.add(available);
-		}//FINE FOR EACH delle mosse disponibili suggerite dal pezzo
+		}// FINE FOR EACH delle mosse disponibili suggerite dal pezzo
 
 		return availableMoves;
 	}
@@ -233,10 +247,11 @@ public class ChessboardModel implements Model, ModelPieces {
 	 * Il metodo prova a simulare una mossa da sx, sy a tx, ty e controllare se il re della squadra
 	 * che muove e` sotto scacco al termine della stessa. Ritorna true o false sulla base di questo
 	 * controllo.
-	 * @param sx
-	 * @param sy
-	 * @param tx
-	 * @param ty
+	 * 
+	 * @param sx la coordinata x della casella (bottone) di partenza
+	 * @param sy la coordinata y della casella (bottone) di partenza
+	 * @param tx la coordinata x della casella (bottone) di arrivo
+	 * @param ty la coordinata y della casella (bottone) di arrivo
 	 * @return se il re e` sotto scacco al termine di una mossa simulata.
 	 */
 	private boolean tryCheck(int sx, int sy, int tx, int ty) {
@@ -249,6 +264,7 @@ public class ChessboardModel implements Model, ModelPieces {
 		
 		return condition;
 	}
+	
 	/**
 	 * Il metodo riceve una squadra e controlla se nello stato attuale della scacchiera,
 	 * il re di quella squadra e` minacciato da almeno un pezzo avversario (ovvero e` sotto scacco).
@@ -261,9 +277,9 @@ public class ChessboardModel implements Model, ModelPieces {
 		Team otherPlayer = (player == Team.TEAM1) ? Team.TEAM2 : Team.TEAM1; // la squadra avversaria
 		
 		// Scorro tutta la scacchiera in cerca di pezzi avversari e chiedo loro se minacciano il mio re.
-		for(int i = 0; i < 8; i++)
-			for(int j = 0; j < 8; j++)
-				if(chessboard[i][j] != null && chessboard[i][j].getTeam() == otherPlayer && chessboard[i][j].check(i, j))
+		for (int i = 0; i < 8; i++)
+			for (int j = 0; j < 8; j++)
+				if (chessboard[i][j] != null && chessboard[i][j].getTeam() == otherPlayer && chessboard[i][j].check(i, j))
 					return true; // appena uno restituisce true, tutto il metodo restituisce true all'istante
 		
 		return false; // se concludo la scacchiera senza che nessuno minacci il mio re, restituisco false
@@ -274,7 +290,8 @@ public class ChessboardModel implements Model, ModelPieces {
 	 * nella quale il re e` minacciato dall'avversario (cioe` e` sotto scacco), ovvero la squadra non ha alcuna mossa disponibile.
 	 * Questa e` condizione necessaria ma NON SUFFICIENTE per determinare uno scacco matto (per questo occorre che il re sia sotto
 	 * scacco anche nella situazione attuale).
-	 * @param player
+	 * 
+	 * @param player la squadra
 	 * @return true se, ogni mossa a me concessa, mi porta ad essere minacciato dall'avversario (condizione di scacco),
 	 * false altrimenti (esiste almeno una mossa in cui non sono minacciato).
 	 */
@@ -288,13 +305,14 @@ public class ChessboardModel implements Model, ModelPieces {
 				if (chessboard[i][j] != null && chessboard[i][j].getTeam() == player && availableMoves(i, j).iterator().hasNext())
 					return false; // basta trovare una mossa disponibile per ritornare false e terminare il metodo
 		
-		//se non ho nemmeno una mossa disponibile
+		// se non ho nemmeno una mossa disponibile
 		return true;
 	}
 	/**
 	 * Il metodo controlla se ci si trova in una situazione morta conosciuta, ovvero casi
 	 * nei quali e` matematicamente impossibile dare scacco matto in qualsiasi modo per entrambe le squadre.
-	 * I casi considerati sono: 1)re vs. re, 2) re vs. re + cavallo 3) re vs. re + alfiere.
+	 * I casi considerati sono:<br> 1)re vs. re,<br> 2) re vs. re + cavallo <br>3) re vs. re + alfiere.
+	 * 
 	 * @return true se ci si trova in qualcuna delle situazioni morte previste.
 	 */
 	public boolean impossibleMate() {		
@@ -335,13 +353,14 @@ public class ChessboardModel implements Model, ModelPieces {
 	 * occupa anche di eventi particolari dovuti alle regole di Arrocco, Enpassant e promozione del pedone.
 	 * Infine il metodo si occupa di incrementare o azzerare il contatore relativo alla regola delle 50 mosse, 
      * a seconda delle condizioni che si verificano. 
+     * 
 	 * @param tx
 	 * @param ty
 	 */
 	private void move(int tx, int ty) {
 		
 		/* ----------------- CONTROLLO 50 MOSSE
-		 * Se c'è una cattura, ovvero la casella target e` occupata, oppure ho mosso un pedone,
+		 * Se c'e` una cattura, ovvero la casella target e` occupata, oppure ho mosso un pedone,
 		 * la regola delle 50 mosse prevede che il contatore si azzeri, altrimenti si incrementi.
 		 * ATTENZIONE: esiste un'unico caso nel quale la cattura si esegue senza che la casella
 		 * target sia occupata e si tratta della cattura in enpassant: anche se non e` considerato
@@ -448,7 +467,6 @@ public class ChessboardModel implements Model, ModelPieces {
 			
 		} // -------- FINE CASI RELATIVI ALLA MOSSA DI UN PEDONE
 		
-		
 		/* ------------------- MOSSA STANDARD
 		 * La mossa sposta il pezzo selezionato dalla casella di partenza alla casella target:
 		 * se c'era qualcuno avversario, la cattura si compie come naturale conseguenza del fatto che
@@ -462,10 +480,12 @@ public class ChessboardModel implements Model, ModelPieces {
 		chessboard[sx][sy] = null;
 		view.move(sx, sy);//COMANDI VIEW
 		
-		// --------------------- FINE MOSSA STANDARD
-		
+		// --------------------- FINE MOSSA STANDARD	
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void promotion(int piece) {
 		/* per sapere in quali coordinate mettere il pezzo
@@ -486,7 +506,7 @@ public class ChessboardModel implements Model, ModelPieces {
 		}
 		/* sostituisco un nuovo pezzo al pedone in base alla scelta
 		 * ricevuta da promotionWindow attraverso un intero tra 0 e 3 */
-		switch(piece) {
+		switch (piece) {
 		case 0:
 			chessboard[x][y] = new Queen(turn, this);
 			break;
@@ -498,21 +518,21 @@ public class ChessboardModel implements Model, ModelPieces {
 			break;
 		case 3:
 			chessboard[x][y] = new Knight(turn, this);
-		}//fine switch
+		}// fine switch
 		
 		nextTurn(); // adesso posso passare al turno successivo
-		view.promotion(piece, x, y); // avviso la view di aggiornarsi
-		
+		view.promotion(piece, x, y); // avviso la view di aggiornarsi		
 	}
+	
 	/**
 	 * Questo metodo viene utilizzato solamente in fase di test JUnit per settare istantaneamente
 	 * la scacchiera in uno stato di interesse raggiungibile altrimenti solo attraverso un numero
 	 * elevato di singole mosse. Riceve un array bidimensionale di oggetti Piece gia` pronto, non
 	 * lo sostituisce a quello attuale perche` final, ma sostituisce tutte le singole celle.
-	 * @param chessboard
+	 * 
+	 * @param chessboard l'array bidimensionale di tipo Piece
 	 */
 	public void setChessboard(Piece chessboard[][]) {
-		
 		for (int i = 0; i < 8; i++)
 			for (int j = 0; j < 8; j++)
 				this.chessboard[i][j] = chessboard[i][j];
@@ -520,7 +540,8 @@ public class ChessboardModel implements Model, ModelPieces {
 	/**
 	 * Questo metodo viene utilizzato solamente in fase di test JUnit per verificare che tutti gli
 	 * oggetti di tipo Model e Controller puntino sempre alla stessa view a partita avviata.
-	 * @return
+	 * 
+	 * @return una reference ad un oggetto che implementa l'interfaccia view
 	 */
 	public View getView() {
 		return view;

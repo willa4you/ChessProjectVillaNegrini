@@ -2,14 +2,25 @@ package it.univr.chess.view;
 
 import java.awt.Color;
 
+/**
+ * Classe che estende la classe Button, il cui unico
+ * scopo e` quello di dire alla superclasse il suo colore
+ * di default
+ * 
+ * @author Alessandro Villa
+ * @author Matteo Negrini
+ * @see Button
+ * @see Buttons
+ */
 public class LightButton extends Button {
 
-	public LightButton(){
-		// in ordine: 	valore intero di riferimento coordinate
-		//				colore di default delle caselle chiare (panna)
-		//				colore delle caselle chiare non disponibili (bianco)
-		//				colore delle caselle chiare di mossa disponibile (verde chiaro)
-		super(new Color(255, 255, 204));		
+	/**
+	 * Invoca il costruttore della superclasse Button
+	 * la quale settera il color panna come colore di default
+	 * della casella (bottone)
+	 */
+	public LightButton() {
+		super(new Color(255, 255, 204)); // (panna)
 	}
 
 	private static final long serialVersionUID = 1L;
