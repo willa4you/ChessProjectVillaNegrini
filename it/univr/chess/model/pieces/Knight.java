@@ -14,17 +14,22 @@ import java.util.ArrayList;
  * 
  */
 public class Knight extends Piece {
+	
 	/**
 	 * Il costruttore riceve la squadra e la scacchiera di appartenenza e le gira al costruttore della
 	 * classe padre, essendo essi attributi comuni a tutti gli oggetti che estendono la classe Piece (la
 	 * quale gestisce come vengono memorizzati e restituiti).
-	 * @param team
-	 * @param chessboard
+	 * 
+	 * @param team la squadra cui il pezzo appartiene
+	 * @param chessboard la scacchiera (ChessboardModel)
 	 */
 	public Knight(Team team, ModelPieces chessboard) {
 		super(team, chessboard);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Iterable<Integer> availableMoves(int x, int y) {
 		ArrayList<Integer> availableMoves = new ArrayList<Integer>();
@@ -91,6 +96,5 @@ public class Knight extends Piece {
 		
 		return availableMoves;
 	}
-
 
 }

@@ -4,6 +4,7 @@ import it.univr.chess.model.ModelPieces;
 import it.univr.chess.model.Team;
 
 import java.util.ArrayList;
+
 /**
  * Questa classe implementa le caratteristiche di un oggetto pezzo degli scacchi (estende infatti Piece) e nello specifico
  * il pedone. Come le altre classi concrete che implementano un pezzo, ha il compito di definire in maniera unica e coerente
@@ -18,21 +19,27 @@ import java.util.ArrayList;
  * 
  */
 public class Pawn extends Piece {
+	
 	private boolean enpassant;
+	
 	/**
 	 * Il costruttore riceve la squadra e la scacchiera di appartenenza e le gira al costruttore della
 	 * classe padre, essendo essi attributi comuni a tutti gli oggetti che estendono la classe Piece (la
 	 * quale gestisce come vengono memorizzati e restituiti).
 	 * Inoltre setta il proprio attributo esclusivo enpassant a false in quanto all'inizio non ha ancora
 	 * mosso, tantomento di due caselle.
-	 * @param team
-	 * @param chessboard
+	 * 
+	 * @param team la squadra cui il pezzo appartiene
+	 * @param chessboard la scacchiera (ChessboardModel)
 	 */
 	public Pawn(Team team, ModelPieces chessboard) {
 		super(team, chessboard);
 		enpassant = false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Iterable<Integer> availableMoves(int x, int y) {
 		ArrayList<Integer> availableMoves = new ArrayList<Integer>();
@@ -67,7 +74,7 @@ public class Pawn extends Piece {
 			/* Per andare in alto di due caselle controllo se mi trovo nella traversa di partenza (y uguale ad 1)
 			 * ed in caso affermativo controllo che le due caselle del tragitto contengano null e solo null: in tali
 			 * condizioni posso muovermi su di essa. */
-			if(y == 1 && chessboard.getPiece(x, y + 1) == null && chessboard.getPiece(x, y + 2) == null)
+			if (y == 1 && chessboard.getPiece(x, y + 1) == null && chessboard.getPiece(x, y + 2) == null)
 				availableMoves.add(x * 10 + (y + 2)); // aggiungo quella casella alle consentite
 			
 			/* Per andare in alto a sinistra controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
@@ -115,11 +122,13 @@ public class Pawn extends Piece {
 		
 		return availableMoves;
 	}
+	
 	/**
 	 * Questo metodo e` specifico per i pezzi pedone i quali possono talvolta catturare un pedone avversario
 	 * tramite la regola dell'enpassant, ovvero il pedone avversario ha appena mosso di due passi lasciando
 	 * la traversa di partenza e si e` con quella mossa posizionato al mio fianco.
 	 * Il metodo controlla se ho a fianco pedoni vulnerabili a questa cattura.
+	 * 
 	 * @param x
 	 * @param y
 	 * @param right
@@ -141,13 +150,16 @@ public class Pawn extends Piece {
 		else
 			return false;
 	}
+	
 	/**
 	 * Questo metodo viene usato dalla scacchiera per dire al pezzo pedone che si trova o non si
 	 * trova vulnerabile all'enpassant. Il metodo setta la variabile d'istanza del pedone di 
 	 * conseguenza.
+	 * 
 	 * @param enpassant
 	 */
 	public void setEnpassant(boolean enpassant) {
 		this.enpassant = enpassant;
 	}
+	
 }

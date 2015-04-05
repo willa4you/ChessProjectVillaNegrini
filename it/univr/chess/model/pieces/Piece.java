@@ -2,6 +2,7 @@ package it.univr.chess.model.pieces;
 
 import it.univr.chess.model.ModelPieces;
 import it.univr.chess.model.Team;
+
 /**
  * Classe astratta che implementa l'interfaccia Pieces e descrive due dei suoi
  * tre metodi (alle sottoclassi sara` solo chiesto di implementare il metodo
@@ -16,24 +17,33 @@ import it.univr.chess.model.Team;
  *
  */
 public abstract class Piece implements Pieces {
+	
 	protected final Team team;
 	protected final ModelPieces chessboard;
+	
 	/**
 	 * Il costruttore fissa la squadra di appartenenza e la scacchiera, ovvero l'oggetto
-	 * Model che gestisce la partita. Vengono ricevuti come argomenti.
-	 * @param team
-	 * @param chessboard
+	 * ChessboardModel che gestisce la partita. Vengono ricevuti come argomenti.
+	 * 
+	 * @param team la squadra cui il pezzo appartiene
+	 * @param chessboard la scacchiera (ChessboardModel)
 	 */
 	public Piece(Team team, ModelPieces chessboard) {
 			this.team = team;
 			this.chessboard = chessboard;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Team getTeam() {
 		return this.team;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean check(int x, int y) {
 		for (int xy : this.availableMoves(x, y))
