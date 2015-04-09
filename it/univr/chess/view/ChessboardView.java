@@ -87,8 +87,8 @@ public class ChessboardView extends JPanel implements View {
 	 * @see #buttonListener(int x, int y)
 	 */
 	private void createButtons() {
-		for (int y = 0; y < buttons.length; y++)
-			for (int x = 0; x < buttons[y].length; x++) {
+		for (int x = 0; x < buttons.length; x++)
+			for (int y = 0; y < buttons[x].length; y++) {
 				if ((x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1))
 					buttons[x][y] = new DarkButton();
 				else
@@ -304,15 +304,15 @@ public class ChessboardView extends JPanel implements View {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void move(int sx, int sy, int tx, int ty){
-		buttons[tx][ty].setIcon(buttons[sx][sy].getIcon());		
+	public void move(int sx, int sy, int tx, int ty) {
+		buttons[tx][ty].setIcon(buttons[sx][sy].getIcon());
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void move(int sx, int sy){
+	public void move(int sx, int sy) {
 		buttons[sx][sy].setIcon(null);
 	}
 	

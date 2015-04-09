@@ -480,7 +480,7 @@ public class ChessboardModel implements Model, ModelPieces {
 		chessboard[sx][sy] = null;
 		view.move(sx, sy);//COMANDI VIEW
 		
-		// --------------------- FINE MOSSA STANDARD	
+		// --------------------- FINE MOSSA STANDARD
 	}
 
 	/**
