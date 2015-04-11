@@ -30,7 +30,7 @@ public interface ModelController {
 	 * 2- alfiere;<br>
 	 * 3- cavallo.
 	 * 
-	 * @param piece
+	 * @param piece 0 == regina, 1 == torre, 2 == alfiere, 3 == cavallo
 	 */
 	public void promotion(int piece);
 	

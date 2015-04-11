@@ -269,7 +269,7 @@ public class ChessboardModel implements ModelController, ModelPieces {
 	 * Il metodo riceve una squadra e controlla se nello stato attuale della scacchiera,
 	 * il re di quella squadra e` minacciato da almeno un pezzo avversario (ovvero e` sotto scacco).
 	 * 
-	 * @param player
+	 * @param player la squadra cui il te appartiene.
 	 * @return true se l'attuale stato della scacchiera vede il re della squadra passata come parametro
 	 * minacciato da qualche pezzo avversario, false altrimenti.
 	 */
@@ -354,8 +354,8 @@ public class ChessboardModel implements ModelController, ModelPieces {
 	 * Infine il metodo si occupa di incrementare o azzerare il contatore relativo alla regola delle 50 mosse, 
      * a seconda delle condizioni che si verificano. 
      * 
-	 * @param tx
-	 * @param ty
+	 * @param tx coordinate di arrivo del pezzo
+	 * @param ty coordinate di arrivo del pezzo
 	 */
 	private void move(int tx, int ty) {
 		

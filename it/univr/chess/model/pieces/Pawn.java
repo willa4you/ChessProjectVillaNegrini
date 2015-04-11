@@ -157,7 +157,7 @@ public class Pawn extends Piece {
 	 * trova vulnerabile all'enpassant. Il metodo setta la variabile d'istanza del pedone di 
 	 * conseguenza.
 	 * 
-	 * @param enpassant
+	 * @param enpassant ..
 	 */
 	public void setEnpassant(boolean enpassant) {
 		this.enpassant = enpassant;

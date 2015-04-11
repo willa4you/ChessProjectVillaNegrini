@@ -107,7 +107,7 @@ public class King extends CastlingPiece {
 	 * certi stati di minaccia al re, sono delegate alla scacchiera che ha visione di gioco completa.
 	 *  
 	 * @param y La traversa in cui si cerca di eseguirlo (definisce anche la squadra)
-	 * @param shortCastling
+	 * @param shortCastling true == arrocco corto, arrocco lungo altrimenti
 	 * @return true se l'arrocco e` possibile rispetto alle regole base.
 	 */
 	private boolean castling(int y, boolean shortCastling) {
