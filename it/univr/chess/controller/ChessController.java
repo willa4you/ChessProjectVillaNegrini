@@ -1,7 +1,7 @@
 package it.univr.chess.controller;
 
 import it.univr.chess.model.ChessboardModel;
-import it.univr.chess.model.Model;
+import it.univr.chess.model.ModelController;
 import it.univr.chess.view.View;
 
 /**
@@ -17,12 +17,12 @@ import it.univr.chess.view.View;
  * @author Alessandro Villa
  * @author Matteo Negrini
  * @see View
- * @see Model
+ * @see ModelController
  */
 public class ChessController implements Controller {
 
 	private final View view;
-	private Model model;
+	private ModelController model;
 	
 	/**
 	 * Viene creato un nuovo oggetto ChessboardModel che gestisce la logica del gioco.
@@ -67,7 +67,7 @@ public class ChessController implements Controller {
 	 * 
 	 * @return l'oggetto di interfaccia Model associato.
 	 */
-	public Model getModel() {
+	public ModelController getModel() {
 		return model;
 	}
 	

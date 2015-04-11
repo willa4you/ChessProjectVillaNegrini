@@ -170,9 +170,9 @@ public class ChessboardView extends JPanel implements View {
 		for (int i = 7; i >= 0; i--)
 			for (int j = 0; j < 10; j++) {
 				if (j == 0 || j == 9)
-					add(numberLabel(i+1));
+					add(numberLabel(i + 1));
 				else
-					add(buttons[j-1][i]);
+					add(buttons[j - 1][i]);
 			}
 		
 		// ultima riga (uguale alla prima)

@@ -24,7 +24,7 @@ import it.univr.chess.view.View;
  * @see Pieces
  * @see Team
  */
-public class ChessboardModel implements Model, ModelPieces {
+public class ChessboardModel implements ModelController, ModelPieces {
 	// Le tre fasi di un turno
 	private enum Step {
 		STARTFROM, GOTO, PROMOTION
@@ -102,7 +102,7 @@ public class ChessboardModel implements Model, ModelPieces {
 		// controllo a che fase del turno mi trovo
 		switch (step) {
 		case STARTFROM: //caso attesa coordinate di partenza
-			//se ho selezionato una casella NON vuota E ho selezionato un pezzp della mia squadra con ALMENO UNA MOSSA DISPONIBILE
+			//se ho selezionato una casella NON vuota E ho selezionato un pezzo della mia squadra con ALMENO UNA MOSSA DISPONIBILE
 			if (chessboard[x][y] != null && chessboard[x][y].getTeam() == turn && availableMoves(x, y).iterator().hasNext()) {	
 				// setto le mie variabili d'istanza per quando il metodo viene richiamato con coordinate d'arrivo
 				sx = x;

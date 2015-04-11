@@ -40,7 +40,7 @@ public class King extends CastlingPiece {
 		/* vado verso destra e controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 		 * (x diversa dall'ultima colonna) ed in caso affermativo controllo che quella casella contenga o null
 		 * o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (x < 7 && (((other = chessboard.getPiece(x + 1, y)) == null) || other.getTeam() != team))
+		if (x < 7 && (((other = chessboard.getPiece(x + 1, y)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x + 1) * 10 + y); // aggiungo quella casella alle consentite
 		
 		/* Eseguo i controlli per un eventuale arrocco verso destra (arrocco corto) passando al metodo 
@@ -51,25 +51,25 @@ public class King extends CastlingPiece {
 		/* vado in alto a destra e controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 		 * (x diversa dall'ultima colonna e y diversa dall'ultima traversa) ed in caso affermativo controllo che
 		 * quella casella contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (x < 7 && y < 7 && (((other = chessboard.getPiece(x + 1, y + 1)) == null) || other.getTeam() != team))
+		if (x < 7 && y < 7 && (((other = chessboard.getPiece(x + 1, y + 1)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x + 1) * 10 + (y + 1)); // aggiungo quella casella alle consentite	
 		
 		/* vado in alto e controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 		 * (y diversa dall'ultima traversa) ed in caso affermativo controllo che
 		 * quella casella contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (y < 7 && (((other = chessboard.getPiece(x, y + 1)) == null) || other.getTeam() != team))
+		if (y < 7 && (((other = chessboard.getPiece(x, y + 1)) == null) || other.getTeam() != this.team))
 			availableMoves.add(x * 10 + (y + 1)); // aggiungo quella casella alle consentite
 		
 		/* vado in alto a sinistra e controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 		 * (x diversa dalla prima colonna e y diversa dall'ultima traversa) ed in caso affermativo controllo che
 		 * quella casella contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (x > 0 && y < 7 && (((other = chessboard.getPiece(x - 1, y + 1)) == null) || other.getTeam() != team))
+		if (x > 0 && y < 7 && (((other = chessboard.getPiece(x - 1, y + 1)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x - 1) * 10 + (y + 1)); // aggiungo quella casella alle consentite	
 		
 		/* vado a sinistra e controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 		 * (x diversa dalla prima colonna) ed in caso affermativo controllo che
 		 * quella casella contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (x > 0 && (((other = chessboard.getPiece(x - 1, y)) == null) || other.getTeam() != team))
+		if (x > 0 && (((other = chessboard.getPiece(x - 1, y)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x - 1) * 10 + y); // aggiungo quella casella alle consentite
 		
 		/* Eseguo i controlli per un eventuale arrocco verso sinistra (arrocco lungo) passando al metodo 
@@ -80,19 +80,19 @@ public class King extends CastlingPiece {
 		/* vado in basso a sinistra e controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 		 * (x diversa dalla prima colonna e y diversa dalla prima traversa) ed in caso affermativo controllo che
 		 * quella casella contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (x > 0 && y > 0 && (((other = chessboard.getPiece(x - 1, y - 1)) == null) || other.getTeam() != team))
+		if (x > 0 && y > 0 && (((other = chessboard.getPiece(x - 1, y - 1)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x - 1) * 10 + (y - 1)); // aggiungo quella casella alle consentite
 		
 		/* vado in basso e controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 		 * (y diversa dalla prima traversa) ed in caso affermativo controllo che
 		 * quella casella contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (y > 0 && (((other = chessboard.getPiece(x, y - 1)) == null) || other.getTeam() != team))
+		if (y > 0 && (((other = chessboard.getPiece(x, y - 1)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x * 10) + (y - 1)); // aggiungo quella casella alle consentite
 		
 		/* vado in basso a destra e controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 		 * (x diversa dall'ultima colonna e y diversa dalla prima traversa) ed in caso affermativo controllo che
 		 * quella casella contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (x < 7 && y > 0  && (((other = chessboard.getPiece(x + 1, y - 1)) == null) || other.getTeam() != team))
+		if (x < 7 && y > 0  && (((other = chessboard.getPiece(x + 1, y - 1)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x + 1) * 10 + (y - 1)); // aggiungo quella casella alle consentite	
 		
 		return availableMoves;
@@ -101,48 +101,40 @@ public class King extends CastlingPiece {
 	/**
 	 * Questo metodo e` previsto solo ed esclusivamente per i pezzi di tipo King. Nonostante infatti anche le
 	 * torri partecipino all'arrocco, la decisione di eseguirlo parte esclusivamente muovendo il re di due caselle.
-	 * Questo metodo valuta se e` possibile farlo alla luce delle regole base dell'arrocco ovvero 1- il re non deve
-	 * aver mai mosso; 2- la torre in direzione in cui si cerca un arrocco non deve aver mai mosso; 3- le due caselle
-	 * che li separano devono essere vuote (contengono null). Le regole di grado superiore che prevedono non sussistano
+	 * Questo metodo valuta se e` possibile farlo alla luce delle regole base dell'arrocco ovvero:<br>1- il re non deve
+	 * aver mai mosso;<br>2- la torre in direzione in cui si cerca un arrocco non deve aver mai mosso;<br>3- le due caselle
+	 * che li separano devono essere vuote (contengono null).<br>Le regole di grado superiore che prevedono non sussistano
 	 * certi stati di minaccia al re, sono delegate alla scacchiera che ha visione di gioco completa.
 	 *  
-	 * @param y
+	 * @param y La traversa in cui si cerca di eseguirlo (definisce anche la squadra)
 	 * @param shortCastling
 	 * @return true se l'arrocco e` possibile rispetto alle regole base.
 	 */
 	private boolean castling(int y, boolean shortCastling) {
-		int firstPlace, secondPlace, rookPlace;
-		
-		/* Scelgo le colonne in cui cercare la torre che partecipera` e
-		 * le due caselle che devono essere vuote nel tragitto, a seconda
-		 * che si tratti di un arrocco corto o lungo. */
-		if (shortCastling) {
-			firstPlace = 5;
-			secondPlace = 6;
-			rookPlace = 7;
-		}
-		else {
-			firstPlace = 3;
-			secondPlace = 2;
-			rookPlace = 0;
-		}
 		
 		// Primo controllo: se ho mosso il re almeno una volta, l'arrocco e` vietato
 		if (this.moved)
 			return false;
 		
-		// Secondo controllo: devono essere vuote le prossime due caselle nel tragitto
-		if (chessboard.getPiece(firstPlace, y) != null || chessboard.getPiece(secondPlace, y) != null)
+		// Secondo controllo: se ho mosso la torre almeno una volta, l'arrocco e` vietato
+		int rookPlace = (shortCastling) ? 7 : 0; //la colonna in cui cercare la torre
+		Pieces rook = chessboard.getPiece(rookPlace, y);
+		if ( !(rook instanceof Rook) || ((CastlingPiece) rook).getMoved())
 			return false;
 		
-		// Terzo controllo: dev'esserci la torre e non deve aver mai mosso
-		Pieces rook = chessboard.getPiece(rookPlace, y);
-		if (rook instanceof Rook && !(((CastlingPiece) rook).getMoved()))
-			/* Se sono arrivato fino qui senza ritornare false e questa condizione e` vera
-			 * allora posso tornare true, altrimenti false */
-			return true;
+		// Terzo controllo: se le caselle tra re e torre non sono tutte vuote l'arrocco e` vietato	
+		if (shortCastling) {
+			if ( (chessboard.getPiece(5, y) != null) || (chessboard.getPiece(6, y) != null) )
+				return false;
+		}
 		else
-			return false;
+			if ( (chessboard.getPiece(3, y) != null) || (chessboard.getPiece(2, y) != null) || (chessboard.getPiece(1, y) != null) )
+				return false;
+		
+		
+		/* Se sono arrivato fino qui senza ritornare false
+		 * allora posso tornare true.*/
+		return true;
 	}
 	
 }

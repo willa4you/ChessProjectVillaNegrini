@@ -2,12 +2,12 @@ package it.univr.chess.model;
 
 /**
  * Implementata per limitare l'accesso ai metodi di oggetti ChessboardModel.<br>
- * Specifica per gli accessi da parte di oggetti di tipo View.
+ * Specifica per gli accessi da parte di oggetti di tipo Controller.
  * 
  * @author Alessandro Villa
  * @author Matteo Negrini
  */
-public interface Model {
+public interface ModelController {
 	
 	/**
 	 * Il metodo riceve le coordinate di una casella ed e` istruito ad eseguire 
