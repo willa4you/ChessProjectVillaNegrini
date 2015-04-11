@@ -11,7 +11,8 @@ public interface Controller {
 	/**
 	 * Il metodo riceve una coordinata e la gira al model.
 	 * 
-	 * @param coordinates
+	 * @param x la coordinata x
+	 * @param y la coordinata y
 	 */
 	public void onClick(int x, int y);
 	
@@ -24,7 +25,7 @@ public interface Controller {
 	 * 2- alfiere;<br>
 	 * 3- cavallo. 
 	 * 
-	 * @param piece
+	 * @param piece il pezzo
 	 */
 	public void promotion(int piece);
 	
