@@ -57,11 +57,11 @@ public class Pawn extends Piece {
 			
 			/* Per andare in alto a destra controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 			 * (x diversa dall'ultima colonna e y diversa dall'ultima traversa, quest'ultimo controllo forse inutile a causa
-			 * della promozione obbligatoria) ed in caso affermativo controllo che
-			 * quella casella contenga o null o un pezzo avversario o possa andarci per enpassant (passo al metodo le mie
-			 * coordinate e true se sto andando a destra) : in tali condizioni posso muovermi su di essa. */
+			 * della promozione obbligatoria) ed in caso affermativo controllo che quella casella contenga un pezzo avversario
+			 * oppure, se e solo se mi trovo in quinta traversa, possa andarci per enpassant (passo al metodo le mie
+			 * coordinate e true se sto andando a destra): in tali condizioni posso muovermi su di essa. */
 			if (x < 7 && y < 7 &&
-					( ((other = chessboard.getPiece(x + 1, y + 1)) != null && other.getTeam() != team) || enpassant(x, y, true) ))
+					( ((other = chessboard.getPiece(x + 1, y + 1)) != null && other.getTeam() != this.team) || (y == 4 && enpassant(x, y, true)) ))
 				availableMoves.add((x + 1) * 10 + (y + 1)); // aggiungo quella casella alle consentite
 			
 			/* Per andare in alto di una casella controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
@@ -79,22 +79,23 @@ public class Pawn extends Piece {
 			
 			/* Per andare in alto a sinistra controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 			 * (x diversa dalla prima colonna e y diversa dall'ultima traversa, quest'ultimo controllo forse inutile a causa
-			 * della promozione obbligatoria) ed in caso affermativo controllo che
-			 * quella casella contenga o null o un pezzo avversario o possa andarci per enpassant (passo al metodo le mie
-			 * coordinate e true se sto andando a destra, percio` false) : in tali condizioni posso muovermi su di essa. */
+			 * della promozione obbligatoria) ed in caso affermativo controllo che quella casella contenga un pezzo avversario
+			 * oppure, se e solo se mi trovo in quinta traversa, possa andarci per enpassant (passo al metodo le mie
+			 * coordinate e true se sto andando a destra, percio` gli passo false): in tali condizioni posso muovermi su di essa. */
 			if (x > 0 && y < 7 && 
-					( ((other = chessboard.getPiece(x - 1, y + 1)) != null && other.getTeam() != team) || enpassant(x, y, false) ))
+					( ((other = chessboard.getPiece(x - 1, y + 1)) != null && other.getTeam() != this.team) || (y == 4 && enpassant(x, y, false)) ))
 				availableMoves.add((x - 1) * 10 + (y + 1)); // aggiungo quella casella alle consentite
+		
 		} 
 		else { // Se il pedone appartiene alla squadra 2 procede verso il basso
 			
 			/* Per andare in basso a destra controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 			 * (x diversa dall'ultima colonna e y diversa dalla prima traversa, quest'ultimo controllo forse inutile a causa
-			 * della promozione obbligatoria) ed in caso affermativo controllo che
-			 * quella casella contenga o null o un pezzo avversario o possa andarci per enpassant (passo al metodo le mie
-			 * coordinate e true se sto andando a destra) : in tali condizioni posso muovermi su di essa. */
+			 * della promozione obbligatoria) ed in caso affermativo controllo che quella casella contenga un pezzo avversario
+			 * oppure, se e solo se mi trovo in quarta traversa, possa andarci per enpassant (passo al metodo le mie
+			 * coordinate e true se sto andando a destra): in tali condizioni posso muovermi su di essa. */
 			if (x < 7 && y > 0 && 
-					( ((other = chessboard.getPiece(x + 1, y - 1)) != null && other.getTeam() != team) || enpassant(x, y, true) ))
+					( ((other = chessboard.getPiece(x + 1, y - 1)) != null && other.getTeam() != this.team) || (y == 3 && enpassant(x, y, true)) ))
 				availableMoves.add((x + 1) * 10 + (y - 1)); // aggiungo quella casella alle consentite
 			
 			/* Per andare in basso di una casella controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
@@ -112,11 +113,11 @@ public class Pawn extends Piece {
 			
 			/* Per andare in basso a sinistra controllo se la casella in cui mi sposto esiste all'interno della scacchiera 
 			 * (x diversa dalla prima colonna e y diversa dalla prima traversa, quest'ultimo controllo forse inutile a causa
-			 * della promozione obbligatoria) ed in caso affermativo controllo che
-			 * quella casella contenga o null o un pezzo avversario o possa andarci per enpassant (passo al metodo le mie
-			 * coordinate e true se sto andando a destra, percio` false) : in tali condizioni posso muovermi su di essa. */
+			 * della promozione obbligatoria) ed in caso affermativo controllo che quella casella contenga un pezzo avversario
+			 * oppure, se e solo se mi trovo in quarta traversa, possa andarci per enpassant (passo al metodo le mie
+			 * coordinate e true se sto andando a destra, percio` gli passo false): in tali condizioni posso muovermi su di essa. */
 			if (x > 0 && y > 0 &&
-					( ((other = chessboard.getPiece(x - 1, y - 1)) != null && other.getTeam() != team) || enpassant(x, y, false) ))
+					( ((other = chessboard.getPiece(x - 1, y - 1)) != null && other.getTeam() != this.team) || (y == 3 && enpassant(x, y, false)) ))
 				availableMoves.add((x - 1) * 10 + (y - 1)); // aggiungo quella casella alle consentite
 		}
 		
@@ -129,10 +130,10 @@ public class Pawn extends Piece {
 	 * la traversa di partenza e si e` con quella mossa posizionato al mio fianco.
 	 * Il metodo controlla se ho a fianco pedoni vulnerabili a questa cattura.
 	 * 
-	 * @param x
-	 * @param y
-	 * @param right
-	 * @return true se ho pedoni a fianco vulnerabili alla cattura in enpassant, false altrimenti.
+	 * @param x Coordinata x del pezzo.
+	 * @param y Coordinata y del pezzo.
+	 * @param right Se true sto verificando un possibile enpassant verso destra, se false verso sinistra.
+	 * @return true Se ho pedoni a fianco vulnerabili alla cattura in enpassant, false altrimenti.
 	 */
 	private boolean enpassant(int x, int y, boolean right) {
 		/* Attenzione: il fatto che a fianco abbia un pedone in stato di enpassant

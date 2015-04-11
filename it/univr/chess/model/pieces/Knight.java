@@ -49,49 +49,49 @@ public class Knight extends Piece {
 		/* Per eseguire la mossa numero 1 e restare all'interno della scacchiera devo trovarmi all'interno dell'ultima
 		 * traversa esclusa e all'interno della penultima colonna esclusa: in caso affermativo controllo che quella casella
 		 * contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (y < 7 && x < 6 && (((other = chessboard.getPiece(x + 2, y + 1)) == null) || other.getTeam() != team))
+		if (y < 7 && x < 6 && (((other = chessboard.getPiece(x + 2, y + 1)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x + 2) * 10 + (y + 1)); // aggiungo quella casella alle consentite
 		
 		/* Per eseguire la mossa numero 2 e restare all'interno della scacchiera devo trovarmi all'interno della penultima
 		 * traversa esclusa e all'interno dell'ultima colonna esclusa: in caso affermativo controllo che quella casella
 		 * contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (y < 6 && x < 7 && (((other = chessboard.getPiece(x + 1, y + 2)) == null) || other.getTeam() != team))
+		if (y < 6 && x < 7 && (((other = chessboard.getPiece(x + 1, y + 2)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x + 1) * 10 + (y + 2)); // aggiungo quella casella alle consentite
 		
 		/* Per eseguire la mossa numero 3 e restare all'interno della scacchiera devo trovarmi all'interno della penultima
 		 * traversa esclusa e all'interno della prima colonna esclusa: in caso affermativo controllo che quella casella
 		 * contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (y < 6 && x > 0 && (((other = chessboard.getPiece(x - 1, y + 2)) == null) || other.getTeam() != team))
+		if (y < 6 && x > 0 && (((other = chessboard.getPiece(x - 1, y + 2)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x - 1) * 10 + (y + 2)); // aggiungo quella casella alle consentite
 		
 		/* Per eseguire la mossa numero 4 e restare all'interno della scacchiera devo trovarmi all'interno dell'ultima
 		 * traversa esclusa e all'interno della seconda colonna esclusa: in caso affermativo controllo che quella casella
 		 * contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (y < 7 && x > 1 && (((other = chessboard.getPiece(x - 2, y + 1)) == null) || other.getTeam() != team))
+		if (y < 7 && x > 1 && (((other = chessboard.getPiece(x - 2, y + 1)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x - 2) * 10 + (y + 1)); // aggiungo quella casella alle consentite	
 		
 		/* Per eseguire la mossa numero 5 e restare all'interno della scacchiera devo trovarmi all'interno della prima
 		 * traversa esclusa e all'interno della seconda colonna esclusa: in caso affermativo controllo che quella casella
 		 * contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (y > 0 && x > 1 && (((other = chessboard.getPiece(x - 2, y - 1)) == null) || other.getTeam() != team))
+		if (y > 0 && x > 1 && (((other = chessboard.getPiece(x - 2, y - 1)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x - 2) * 10 + (y - 1)); // aggiungo quella casella alle consentite
 		
 		/* Per eseguire la mossa numero 6 e restare all'interno della scacchiera devo trovarmi all'interno della seconda
 		 * traversa esclusa e all'interno della prima colonna esclusa: in caso affermativo controllo che quella casella
 		 * contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (y > 1 && x > 0 && (((other = chessboard.getPiece(x - 1, y - 2)) == null) || other.getTeam() != team))
+		if (y > 1 && x > 0 && (((other = chessboard.getPiece(x - 1, y - 2)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x - 1) * 10 + (y - 2)); // aggiungo quella casella alle consentite
 		
 		/* Per eseguire la mossa numero 7 e restare all'interno della scacchiera devo trovarmi all'interno della seconda
 		 * traversa esclusa e all'interno dell'ultima colonna esclusa: in caso affermativo controllo che quella casella
 		 * contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (y > 1 && x < 7 && (((other = chessboard.getPiece(x + 1, y - 2)) == null) || other.getTeam() != team))
+		if (y > 1 && x < 7 && (((other = chessboard.getPiece(x + 1, y - 2)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x + 1) * 10 + (y - 2)); // aggiungo quella casella alle consentite
 		
 		/* Per eseguire la mossa numero 8 e restare all'interno della scacchiera devo trovarmi all'interno della prima
 		 * traversa esclusa e all'interno della penultima colonna esclusa: in caso affermativo controllo che quella casella
 		 * contenga o null o un pezzo avversario: in tali condizioni posso muovermi su di essa. */
-		if (y > 0 && x < 6 && (((other = chessboard.getPiece(x + 2, y - 1)) == null) || other.getTeam() != team))
+		if (y > 0 && x < 6 && (((other = chessboard.getPiece(x + 2, y - 1)) == null) || other.getTeam() != this.team))
 			availableMoves.add((x + 2) * 10 + (y - 1)); // aggiungo quella casella alle consentite
 		
 		return availableMoves;

@@ -36,7 +36,7 @@ public abstract class CastlingPiece extends Piece {
 	 * variabile d'istanza booleana moved e lo ritorna.
 	 * @return true se l'oggetto ha mosso almeno una volta, false altrimenti.
 	 */
-	public boolean getMoved(){
+	public boolean getMoved() {
 		return this.moved;
 	}
 	
@@ -44,7 +44,7 @@ public abstract class CastlingPiece extends Piece {
 	 * Questo metodo, specifico per gli oggetti CastlingPiece, viene invocato ad ogni
 	 * mossa di un oggetto di una sottoclasse. Esso setta la variabile moved a true.
 	 */
-	public void setMoved(){
+	public void setMoved() {
 		this.moved = true;
 	}
 	
