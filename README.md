@@ -20,6 +20,4 @@ Tolta tutta la sfilza di classpath. Da rivedere, ma era troppo lunga.
 
 01/10/2014 - 06/04/2015
 Progetto di Programmazione 2, Corso di Laurea in Informatica Università di Verona, anno accademico 2014/15, studenti A. Villa - M. Negrini
-
-NOTA
-Il progetto cerca di rispecchiare il più possibile il gioco degli scacchi reale, pertanto, quando si tocca (clicca) una pedina, si è costretti a muovere quella.
+Consegnato dopo pasquetta 2015.
